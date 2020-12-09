@@ -1,0 +1,12 @@
+---
+- name: Ping all Ansible hosts connected to target interface
+  hosts: all
+  gather_facts: true
+  vars:
+    target_interface: GigabitEthernet0/1
+  tasks:
+  - cisco.ios.ios_ping:
+      dest: "{{ hostvars[item].ansible_net_interfaces[target_interface]
+                .ipv4[0].address }}"
+      count: 3
+    loop: "{{ groups['all'] }}"

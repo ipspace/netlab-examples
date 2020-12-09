@@ -1,0 +1,19 @@
+defaults:
+  device: iosv
+  lan: 10.0.0.0/24
+  mac: 08-4F-A9-00-00-%02d
+  mgmt: 192.168.121.1%02d
+  p2p: 10.1.0.0/30
+nodes_list:
+- id: 1
+  mgmt_ip: 192.168.121.101
+  mgmt_mac: 08-4F-A9-00-00-01
+  name: c1
+- id: 2
+  mgmt_ip: 192.168.121.102
+  mgmt_mac: 08-4F-A9-00-00-02
+  name: c2
+- id: 3
+  mgmt_ip: 192.168.121.103
+  mgmt_mac: 08-4F-A9-00-00-03
+  name: c3

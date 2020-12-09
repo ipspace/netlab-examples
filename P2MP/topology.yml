@@ -1,0 +1,21 @@
+defaults:
+  device: iosv
+  mgmt: 192.168.121.1%02d
+  mac: 08-4F-A9-00-00-%02d
+  lan: 10.0.0.0/16
+  lan_subnet: 24
+  p2p: 10.1.0.0/16
+  p2p_subnet: 30
+
+nodes:
+- name: c1
+- name: c2
+- name: c3
+
+links:
+- c1:
+  c2:
+    isolated: true
+  c3:
+    isolated: true
+  bridge: PVLAN

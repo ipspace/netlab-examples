@@ -1,0 +1,16 @@
+# Ignore Vagrant directories
+.vagrant
+.DS_Store
+
+# Ignore text files
+*.txt
+
+# Ignore everything that should be ignored ;)
+*.ignore.*
+
+# Ignore Ansible retry and log files
+*.retry
+ansible.log
+
+# Don't publish SFTP configuration
+sftp-config.json

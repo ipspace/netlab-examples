@@ -1,0 +1,10 @@
+!
+router bgp {{ as }}
+ network 192.168.0.{{ id }} mask 255.255.255.255
+{% for n in bgp %}
+{% set ndata = hostvars[n] %}
+{% set n_ip = "10.0.0."+(ndata.id|string()) %}
+ neighbor {{ n_ip }} remote-as {{ ndata.as }}
+ neighbor {{ n_ip }} description BGP sesssion to {{ n }}
+ neighbor {{ n_ip }} next-hop-self
+{% endfor %}
