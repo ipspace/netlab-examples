@@ -1,0 +1,17 @@
+defaults:
+  device: iosv
+
+nodes:
+- name: pe1
+  as: 65000
+  device: csr
+- p1
+- p2
+- name: pe2
+  as: 65000
+
+links:
+- pe1-p1
+- pe1-p2
+- pe2-p1
+- pe2-p2

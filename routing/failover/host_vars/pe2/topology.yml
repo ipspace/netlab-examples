@@ -1,0 +1,27 @@
+# Ansible inventory created from ['topology.yml', '../../tools/topology-defaults.yml']
+#
+---
+as: 65000
+links:
+- ifindex: 1
+  ifname: GigabitEthernet0/1
+  ip: 10.1.0.9/30
+  neighbors:
+    p1:
+      ifname: GigabitEthernet0/2
+      ip: 10.1.0.10/30
+  remote_id: 2
+  remote_ifindex: 2
+- ifindex: 2
+  ifname: GigabitEthernet0/2
+  ip: 10.1.0.13/30
+  neighbors:
+    p2:
+      ifname: GigabitEthernet0/2
+      ip: 10.1.0.14/30
+  remote_id: 3
+  remote_ifindex: 2
+loopback: 10.0.0.4
+mgmt_if: GigabitEthernet0/0
+mgmt_ip: 192.168.121.104
+mgmt_mac: 08-4F-A9-00-00-04
