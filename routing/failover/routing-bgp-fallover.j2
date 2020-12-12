@@ -1,0 +1,10 @@
+{% if as is defined %}
+router bgp {{ as }}
+ network {{ loopback }} mask 255.255.255.255
+{%   for n in groups['all'] if hostvars[n].as is defined %}
+{%     set neighbor = hostvars[n] %}
+ neighbor {{ neighbor.loopback }} remote-as {{ neighbor.as }}
+ neighbor {{ neighbor.loopback }} update-source Loopback0
+ neighbor {{ neighbor.loopback }} fall-over
+{%   endfor %}
+{% endif %}

@@ -1,0 +1,17 @@
+feature ospf
+!
+router ospf 1
+!
+interface Loopback0
+ ip router ospf 1 area 0
+!
+{% for l in links %}
+interface {{ l.ifname }}
+ ip router ospf 1 area 0
+ {% if as is defined and loop.index > 1 %}
+ ip ospf cost 1000
+ {% else %}
+ ip ospf cost 10
+ {% endif %}
+!
+{% endfor %}
