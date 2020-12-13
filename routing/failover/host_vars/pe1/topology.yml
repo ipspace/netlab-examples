@@ -12,6 +12,7 @@ links:
       ip: 10.1.0.2/30
   remote_id: 2
   remote_ifindex: 1
+  type: p2p
 - cost: 1000
   ifindex: 3
   ifname: GigabitEthernet3
@@ -22,6 +23,7 @@ links:
       ip: 10.1.0.6/30
   remote_id: 3
   remote_ifindex: 1
+  type: p2p
 loopback: 10.0.0.1
 mgmt_if: GigabitEthernet1
 mgmt_ip: 192.168.121.101

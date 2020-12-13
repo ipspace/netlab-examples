@@ -11,5 +11,8 @@ interface {{ l.ifname }}
  {% if l.cost is defined %}
  ip ospf cost {{ l.cost }}
  {% endif %}
+ {% if l.type == 'p2p' %}
+ ip ospf network point-to-point
+ {% endif %}
 !
 {% endfor %}
