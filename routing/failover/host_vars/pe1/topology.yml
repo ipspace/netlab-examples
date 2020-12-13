@@ -12,7 +12,8 @@ links:
       ip: 10.1.0.2/30
   remote_id: 2
   remote_ifindex: 1
-- ifindex: 3
+- cost: 1000
+  ifindex: 3
   ifname: GigabitEthernet3
   ip: 10.1.0.5/30
   neighbors:

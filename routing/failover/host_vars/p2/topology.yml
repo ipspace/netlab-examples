@@ -2,7 +2,8 @@
 #
 ---
 links:
-- ifindex: 1
+- cost: 1000
+  ifindex: 1
   ifname: GigabitEthernet0/1
   ip: 10.1.0.6/30
   neighbors:
@@ -11,7 +12,8 @@ links:
       ip: 10.1.0.5/30
   remote_id: 1
   remote_ifindex: 3
-- ifindex: 2
+- cost: 1000
+  ifindex: 2
   ifname: GigabitEthernet0/2
   ip: 10.1.0.14/30
   neighbors:

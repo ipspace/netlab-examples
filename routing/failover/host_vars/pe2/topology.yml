@@ -12,7 +12,8 @@ links:
       ip: 10.1.0.10/30
   remote_id: 2
   remote_ifindex: 2
-- ifindex: 2
+- cost: 1000
+  ifindex: 2
   ifname: GigabitEthernet0/2
   ip: 10.1.0.13/30
   neighbors:
