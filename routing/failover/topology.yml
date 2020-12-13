@@ -1,5 +1,6 @@
 defaults:
   device: iosv
+  link_attr: [ cost ]
 
 nodes:
 - name: pe1
@@ -12,6 +13,10 @@ nodes:
 
 links:
 - pe1-p1
-- pe1-p2
+- pe1:
+  p2:
+  cost: 1000
 - pe2-p1
-- pe2-p2
+- pe2:
+  p2:
+  cost: 1000

@@ -8,10 +8,8 @@ interface Loopback0
 {% for l in links %}
 interface {{ l.ifname }}
  ip router ospf 1 area 0
- {% if as is defined and loop.index > 1 %}
- ip ospf cost 1000
- {% else %}
- ip ospf cost 10
+ {% if l.cost is defined %}
+ ip ospf cost {{ l.cost }}
  {% endif %}
 !
 {% endfor %}
