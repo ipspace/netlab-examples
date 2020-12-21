@@ -1,0 +1,29 @@
+{% if 'ospf' in igp %}
+router ospf 1
+ network 0.0.0.0 255.255.255.255 area 0
+ auto-cost reference-bandwidth 100000
+!
+{% for l in links %}
+interface {{ l.ifname }}
+ ip ospf cost {{ (100000000/l.bandwidth|default(1000000))|int }}
+{% endfor %}
+{% else %}
+no router ospf 1
+{% endif %}
+!
+{% if 'isis' in igp %}
+router isis fabric
+ is-type level-2
+ net 49.0000.0000.{{ '%04d'|format(id) }}.00
+ address-family ipv4 unicast
+!
+interface loopback 0
+ isis enable fabric
+{% for l in links %}
+interface {{ l.ifname }}
+ isis enable fabric
+ isis metric {{ (2000000/l.bandwidth|default(1000000))|int }}
+{% endfor %}
+{% else %}
+no router isis fabric
+{% endif %}

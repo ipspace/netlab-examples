@@ -1,0 +1,21 @@
+defaults:
+  device: iosv
+  link_attr: [ bandwidth ]
+
+nodes:
+- name: e1
+  igp: [ isis,ospf ]
+  edge: true
+- name: e2
+  igp: [ isis ]
+  edge: true
+- name: pe1
+  device: nxos
+  igp: [ isis,ospf ]
+
+links:
+- pe1:
+  e1:
+- pe1:
+  e2:
+  bandwidth: 100000
