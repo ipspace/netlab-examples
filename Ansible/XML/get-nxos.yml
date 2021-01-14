@@ -3,3 +3,14 @@
   tasks:
   - cisco.nxos.nxos_command:
       commands: "show vlan | json"
+    register: vlans
+  - debug:
+      msg: |
+        {% for vlan in [vlans.stdout[0].TABLE_vlanbrief.ROW_vlanbrief]|flatten(levels=1) %}
+        id: {{ vlan['vlanshowbr-vlanid'] }} name: {{ vlan['vlanshowbr-vlanname'] }}
+        {% endfor %}
+  - debug:
+      msg: |
+        {% for vlan in vlans.stdout[0].TABLE_vlanbrief.ROW_vlanbrief|make_list %}
+        id: {{ vlan['vlanshowbr-vlanid'] }} name: {{ vlan['vlanshowbr-vlanname'] }}
+        {% endfor %}

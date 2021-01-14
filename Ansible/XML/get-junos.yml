@@ -4,3 +4,20 @@
   - junipernetworks.junos.junos_command:
       commands: show route
       display: xml
+    register: routes
+  - debug:
+      msg: |
+        {% for table in routes.output[0]['rpc-reply']['route-information']['route-table'] %}
+        t: {{ table['table-name']}}
+        {%   for entry in [table.rt]|flatten(levels=1) %}
+        d: {{ entry['rt-destination'] }}
+        {%   endfor %}
+        {% endfor %}
+  - debug:
+      msg: |
+        {% for table in routes.output[0]['rpc-reply']['route-information']['route-table']|make_list %}
+        t: {{ table['table-name']}}
+        {%   for entry in table.rt|make_list %}
+        d: {{ entry['rt-destination'] }}
+        {%   endfor %}
+        {% endfor %}
