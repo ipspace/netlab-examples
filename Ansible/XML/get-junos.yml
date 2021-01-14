@@ -1,0 +1,6 @@
+- hosts: j_vsrx
+  gather_facts: false
+  tasks:
+  - junipernetworks.junos.junos_command:
+      commands: show route
+      display: xml

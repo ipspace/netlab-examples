@@ -1,0 +1,9 @@
+nodes:
+- name: c_nxos
+  device: nxos
+- name: j_vsrx
+  device: vsrx
+
+links:
+- c_nxos:
+  j_vsrx:
