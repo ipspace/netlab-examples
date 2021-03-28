@@ -1,0 +1,174 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "c_nxos" do |c_nxos|
+    c_nxos.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "08-4F-A9-00-00-01"
+    end
+    c_nxos.vm.box = "cisco/nexus9300v"
+    c_nxos.vm.synced_folder ".", "/vagrant", disabled: true
+    c_nxos.ssh.insert_key = false
+    c_nxos.vm.boot_timeout = 360
+    c_nxos.vm.guest = :freebsd
+
+    c_nxos.vm.provider :libvirt do |domain|
+      domain.memory = 6144
+      domain.cpus = 2
+      domain.driver = "kvm"
+    end
+    c_nxos.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.1.1",
+                  :libvirt__tunnel_local_port => "10001",
+                  :libvirt__tunnel_ip => "127.1.3.1",
+                  :libvirt__tunnel_port => "10001",
+                  :libvirt__iface_name => "vgif_c_nxos_1",
+                  auto_config: false
+    c_nxos.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.1.2",
+                  :libvirt__tunnel_local_port => "10002",
+                  :libvirt__tunnel_ip => "127.1.2.2",
+                  :libvirt__tunnel_port => "10002",
+                  :libvirt__iface_name => "vgif_c_nxos_2",
+                  auto_config: false
+    c_nxos.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.1.3",
+                  :libvirt__tunnel_local_port => "10003",
+                  :libvirt__tunnel_ip => "127.1.4.0",
+                  :libvirt__tunnel_port => "10000",
+                  :libvirt__iface_name => "vgif_c_nxos_3",
+                  auto_config: false
+  end
+  config.vm.define "c_csr" do |c_csr|
+    c_csr.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "08-4F-A9-00-00-02"
+    end
+    c_csr.vm.box = "cisco/csr1000v"
+    c_csr.vm.synced_folder ".", "/vagrant", disabled: true
+    c_csr.ssh.insert_key = false
+    c_csr.vm.boot_timeout = 180
+    c_csr.vm.guest = :freebsd
+
+    c_csr.vm.provider :libvirt do |domain|
+      domain.nic_adapter_count = 8
+      domain.memory = 4096
+      domain.cpus = 2
+      domain.driver = "kvm"
+    end
+    c_csr.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.2.2",
+                  :libvirt__tunnel_local_port => "10002",
+                  :libvirt__tunnel_ip => "127.1.1.2",
+                  :libvirt__tunnel_port => "10002",
+                  :libvirt__iface_name => "vgif_c_csr_2",
+                  auto_config: false
+    c_csr.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.2.3",
+                  :libvirt__tunnel_local_port => "10003",
+                  :libvirt__tunnel_ip => "127.1.3.3",
+                  :libvirt__tunnel_port => "10003",
+                  :libvirt__iface_name => "vgif_c_csr_3",
+                  auto_config: false
+    c_csr.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.2.4",
+                  :libvirt__tunnel_local_port => "10004",
+                  :libvirt__tunnel_ip => "127.1.4.2",
+                  :libvirt__tunnel_port => "10002",
+                  :libvirt__iface_name => "vgif_c_csr_4",
+                  auto_config: false
+  end
+  config.vm.define "a_eos" do |a_eos|
+    a_eos.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "08-4F-A9-00-00-03"
+    end
+    a_eos.vm.box = "arista/veos"
+    a_eos.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+    a_eos.ssh.insert_key = false
+    a_eos.ssh.shell = "bash"
+    a_eos.vm.guest = :freebsd
+
+    a_eos.vm.provider :libvirt do |domain|
+      domain.disk_bus = 'ide'
+      domain.cpus = 2
+      domain.memory = 2048
+      domain.driver = "kvm"
+    end
+    a_eos.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.3.1",
+                  :libvirt__tunnel_local_port => "10001",
+                  :libvirt__tunnel_ip => "127.1.1.1",
+                  :libvirt__tunnel_port => "10001",
+                  :libvirt__iface_name => "vgif_a_eos_1",
+                  auto_config: false
+    a_eos.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.3.2",
+                  :libvirt__tunnel_local_port => "10002",
+                  :libvirt__tunnel_ip => "127.1.4.1",
+                  :libvirt__tunnel_port => "10001",
+                  :libvirt__iface_name => "vgif_a_eos_2",
+                  auto_config: false
+    a_eos.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.3.3",
+                  :libvirt__tunnel_local_port => "10003",
+                  :libvirt__tunnel_ip => "127.1.2.3",
+                  :libvirt__tunnel_port => "10003",
+                  :libvirt__iface_name => "vgif_a_eos_3",
+                  auto_config: false
+  end
+  config.vm.define "j_vsrx" do |j_vsrx|
+    j_vsrx.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "08-4F-A9-00-00-04"
+    end
+    cwd = Dir.pwd.split("/").last
+    guest_name = "j_vsrx"
+    j_vsrx.vm.box = "juniper/vsrx3"
+    j_vsrx.vm.guest = :tinycore
+    j_vsrx.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+
+    j_vsrx.ssh.insert_key = false
+
+    # Limit CPU once Box has finished booting.
+    j_vsrx.trigger.after :up do |trigger|
+      trigger.name = "Finished Message"
+      trigger.info = "Machine is up! : #{cwd}_#{guest_name}"
+      trigger.run = {inline: "virsh schedinfo #{cwd}_#{guest_name} --set vcpu_quota=35000"}
+    end
+
+    j_vsrx.vm.provider :libvirt do |domain|
+      domain.default_prefix = "#{cwd}_"
+      domain.cpus = 2
+      domain.memory = 4096
+      domain.disk_bus = "ide"
+    end
+    j_vsrx.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.4.0",
+                  :libvirt__tunnel_local_port => "10000",
+                  :libvirt__tunnel_ip => "127.1.1.3",
+                  :libvirt__tunnel_port => "10003",
+                  :libvirt__iface_name => "vgif_j_vsrx_0",
+                  auto_config: false
+    j_vsrx.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.4.1",
+                  :libvirt__tunnel_local_port => "10001",
+                  :libvirt__tunnel_ip => "127.1.3.2",
+                  :libvirt__tunnel_port => "10002",
+                  :libvirt__iface_name => "vgif_j_vsrx_1",
+                  auto_config: false
+    j_vsrx.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.4.2",
+                  :libvirt__tunnel_local_port => "10002",
+                  :libvirt__tunnel_ip => "127.1.2.4",
+                  :libvirt__tunnel_port => "10004",
+                  :libvirt__iface_name => "vgif_j_vsrx_2",
+                  auto_config: false
+  end
+end

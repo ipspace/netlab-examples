@@ -1,0 +1,7 @@
+# Ansible inventory created from ['unnumbered.yml', '/home/pipi/Net101/tools/topology-defaults.yml']
+#
+---
+ansible_connection: netconf
+ansible_network_os: junos
+ansible_ssh_pass: Vagrant
+ansible_user: vagrant

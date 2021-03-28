@@ -1,0 +1,40 @@
+addressing:
+  core:
+    unnumbered: true
+
+module: [ ospf ]
+
+nodes:
+- name: c_nxos
+  device: nxos
+- name: c_csr
+  device: csr
+- name: a_eos
+  device: eos
+- name: j_vsrx
+  device: vsrx
+
+links:
+- c_nxos:
+  a_eos:
+  role: core
+
+- c_nxos:
+  c_csr:
+  role: core
+
+- c_nxos:
+  j_vsrx:
+  role: core
+
+- a_eos:
+  j_vsrx:
+  role: core
+
+- a_eos:
+  c_csr:
+  role: core
+
+- c_csr:
+  j_vsrx:
+  role: core

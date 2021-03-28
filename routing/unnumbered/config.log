@@ -1,0 +1,586 @@
+Using /home/pipi/Net101/routing/unnumbered/ansible.cfg as config file
+
+PLAY [Deploy device configuration] *********************************************
+
+TASK [debug] *******************************************************************
+ok: [a_eos] => 
+  msg: |-
+    Config for a_eos
+    ===================================
+    hostname a_eos
+    !
+    lldp run
+    ip routing
+    !
+    interface Loopback0
+     ip address 10.0.0.3/32
+    !
+    interface Management1
+     no lldp transmit
+     no lldp receive
+    !
+    interface Ethernet1
+     no shutdown
+     no switchport
+     description a_eos -> c_nxos
+     ip address unnumbered Loopback 0
+     ipv6 enable
+     mac-address 52dc.cafe.0301
+    !
+    interface Ethernet2
+     no shutdown
+     no switchport
+     description a_eos -> j_vsrx
+     ip address unnumbered Loopback 0
+     ipv6 enable
+     mac-address 52dc.cafe.0302
+    !
+    interface Ethernet3
+     no shutdown
+     no switchport
+     description a_eos -> c_csr
+     ip address unnumbered Loopback 0
+     ipv6 enable
+     mac-address 52dc.cafe.0303
+    !
+ok: [c_nxos] => 
+  msg: |-
+    Config for c_nxos
+    ===================================
+    hostname c_nxos
+    !
+    no ip domain-lookup
+    !
+    feature lldp
+    !
+    interface loopback0
+     ip address 10.0.0.1/32
+    !
+    interface mgmt0
+     no lldp transmit
+     no lldp receive
+    !
+    interface Ethernet1/1
+     no shutdown
+     no switchport
+     mac-address 52dc.cafe.0101
+     description c_nxos -> a_eos
+     medium p2p
+     ip unnumbered loopback0
+     ipv6 address use-link-local-only
+    !
+    interface Ethernet1/2
+     no shutdown
+     no switchport
+     mac-address 52dc.cafe.0102
+     description c_nxos -> c_csr
+     medium p2p
+     ip unnumbered loopback0
+     ipv6 address use-link-local-only
+    !
+    interface Ethernet1/3
+     no shutdown
+     no switchport
+     mac-address 52dc.cafe.0103
+     description c_nxos -> j_vsrx
+     medium p2p
+     ip unnumbered loopback0
+     ipv6 address use-link-local-only
+    !
+ok: [c_csr] => 
+  msg: |-
+    Config for c_csr
+    ===================================
+    hostname c_csr
+    !
+    no ip domain-lookup
+    !
+    lldp run
+    !
+    ipv6 unicast-routing
+    !
+    interface Loopback0
+     ip address 10.0.0.2 255.255.255.255
+    !
+    interface GigabitEthernet1
+     no lldp transmit
+     no lldp receive
+    !
+    interface GigabitEthernet2
+     no shutdown
+     description c_csr -> c_nxos
+     ip unnumbered Loopback0 poll
+     ipv6 enable
+    !
+    interface GigabitEthernet3
+     no shutdown
+     description c_csr -> a_eos
+     ip unnumbered Loopback0 poll
+     ipv6 enable
+    !
+    interface GigabitEthernet4
+     no shutdown
+     description c_csr -> j_vsrx
+     ip unnumbered Loopback0 poll
+     ipv6 enable
+    !
+    no banner exec
+    no banner login
+    no banner incoming
+ok: [j_vsrx] => 
+  msg: |-
+    Config for j_vsrx
+    ===================================
+    system {
+      host-name j_vsrx
+    }
+    interfaces {
+      lo0 {
+        unit 0 {
+          family inet {
+            address 10.0.0.4/32;
+          }
+        }
+      }
+      ge-0/0/0 {
+        description "j_vsrx -> c_nxos";
+        unit 0 {
+          family inet {
+            unnumbered-address lo0.0
+          }
+          family inet6
+        }
+      }
+      ge-0/0/1 {
+        description "j_vsrx -> a_eos";
+        unit 0 {
+          family inet {
+            unnumbered-address lo0.0
+          }
+          family inet6
+        }
+      }
+      ge-0/0/2 {
+        description "j_vsrx -> c_csr";
+        unit 0 {
+          family inet {
+            unnumbered-address lo0.0
+          }
+          family inet6
+        }
+      }
+    }
+    protocols {
+      lldp {
+        interface fxp0 {
+          disable;
+        }
+      }
+    }
+
+TASK [Deploy initial device configuration] *************************************
+included: /home/pipi/Net101/tools/ansible/deploy-config/ios.yml for c_csr
+included: /home/pipi/Net101/tools/ansible/deploy-config/eos.yml for a_eos
+included: /home/pipi/Net101/tools/ansible/deploy-config/nxos.yml for c_nxos
+included: /home/pipi/Net101/tools/ansible/deploy-config/junos.yml for j_vsrx
+
+TASK [cisco.ios.ios_config] ****************************************************
+changed: [c_csr] => changed=true 
+  ansible_facts:
+    discovered_interpreter_python: /usr/bin/python3
+  banners: {}
+  commands:
+  - hostname c_csr
+  - no ip domain-lookup
+  - lldp run
+  - ipv6 unicast-routing
+  - interface Loopback0
+  - ip address 10.0.0.2 255.255.255.255
+  - interface GigabitEthernet1
+  - no lldp transmit
+  - no lldp receive
+  - interface GigabitEthernet2
+  - no shutdown
+  - description c_csr -> c_nxos
+  - ip unnumbered Loopback0 poll
+  - ipv6 enable
+  - interface GigabitEthernet3
+  - no shutdown
+  - description c_csr -> a_eos
+  - ip unnumbered Loopback0 poll
+  - ipv6 enable
+  - interface GigabitEthernet4
+  - no shutdown
+  - description c_csr -> j_vsrx
+  - ip unnumbered Loopback0 poll
+  - ipv6 enable
+  - no banner exec
+  - no banner login
+  - no banner incoming
+  updates:
+  - hostname c_csr
+  - no ip domain-lookup
+  - lldp run
+  - ipv6 unicast-routing
+  - interface Loopback0
+  - ip address 10.0.0.2 255.255.255.255
+  - interface GigabitEthernet1
+  - no lldp transmit
+  - no lldp receive
+  - interface GigabitEthernet2
+  - no shutdown
+  - description c_csr -> c_nxos
+  - ip unnumbered Loopback0 poll
+  - ipv6 enable
+  - interface GigabitEthernet3
+  - no shutdown
+  - description c_csr -> a_eos
+  - ip unnumbered Loopback0 poll
+  - ipv6 enable
+  - interface GigabitEthernet4
+  - no shutdown
+  - description c_csr -> j_vsrx
+  - ip unnumbered Loopback0 poll
+  - ipv6 enable
+  - no banner exec
+  - no banner login
+  - no banner incoming
+
+TASK [arista.eos.eos_config] ***************************************************
+changed: [a_eos] => changed=true 
+  ansible_facts:
+    discovered_interpreter_python: /usr/bin/python3
+  commands:
+  - hostname a_eos
+  - lldp run
+  - ip routing
+  - interface Loopback0
+  - ip address 10.0.0.3/32
+  - interface Management1
+  - no lldp transmit
+  - no lldp receive
+  - interface Ethernet1
+  - no shutdown
+  - no switchport
+  - description a_eos -> c_nxos
+  - ip address unnumbered Loopback 0
+  - ipv6 enable
+  - mac-address 52dc.cafe.0301
+  - interface Ethernet2
+  - no shutdown
+  - no switchport
+  - description a_eos -> j_vsrx
+  - ip address unnumbered Loopback 0
+  - ipv6 enable
+  - mac-address 52dc.cafe.0302
+  - interface Ethernet3
+  - no shutdown
+  - no switchport
+  - description a_eos -> c_csr
+  - ip address unnumbered Loopback 0
+  - ipv6 enable
+  - mac-address 52dc.cafe.0303
+  session: ansible_1616947620
+  updates:
+  - hostname a_eos
+  - lldp run
+  - ip routing
+  - interface Loopback0
+  - ip address 10.0.0.3/32
+  - interface Management1
+  - no lldp transmit
+  - no lldp receive
+  - interface Ethernet1
+  - no shutdown
+  - no switchport
+  - description a_eos -> c_nxos
+  - ip address unnumbered Loopback 0
+  - ipv6 enable
+  - mac-address 52dc.cafe.0301
+  - interface Ethernet2
+  - no shutdown
+  - no switchport
+  - description a_eos -> j_vsrx
+  - ip address unnumbered Loopback 0
+  - ipv6 enable
+  - mac-address 52dc.cafe.0302
+  - interface Ethernet3
+  - no shutdown
+  - no switchport
+  - description a_eos -> c_csr
+  - ip address unnumbered Loopback 0
+  - ipv6 enable
+  - mac-address 52dc.cafe.0303
+
+TASK [cisco.nxos.nxos_config] **************************************************
+changed: [c_nxos] => changed=true 
+  ansible_facts:
+    discovered_interpreter_python: /usr/bin/python3
+  commands:
+  - hostname c_nxos
+  - no ip domain-lookup
+  - feature lldp
+  - interface loopback0
+  - ip address 10.0.0.1/32
+  - interface mgmt0
+  - no lldp transmit
+  - no lldp receive
+  - interface Ethernet1/1
+  - no shutdown
+  - no switchport
+  - mac-address 52dc.cafe.0101
+  - description c_nxos -> a_eos
+  - medium p2p
+  - ip unnumbered loopback0
+  - ipv6 address use-link-local-only
+  - interface Ethernet1/2
+  - no shutdown
+  - no switchport
+  - mac-address 52dc.cafe.0102
+  - description c_nxos -> c_csr
+  - medium p2p
+  - ip unnumbered loopback0
+  - ipv6 address use-link-local-only
+  - interface Ethernet1/3
+  - no shutdown
+  - no switchport
+  - mac-address 52dc.cafe.0103
+  - description c_nxos -> j_vsrx
+  - medium p2p
+  - ip unnumbered loopback0
+  - ipv6 address use-link-local-only
+  updates:
+  - hostname c_nxos
+  - no ip domain-lookup
+  - feature lldp
+  - interface loopback0
+  - ip address 10.0.0.1/32
+  - interface mgmt0
+  - no lldp transmit
+  - no lldp receive
+  - interface Ethernet1/1
+  - no shutdown
+  - no switchport
+  - mac-address 52dc.cafe.0101
+  - description c_nxos -> a_eos
+  - medium p2p
+  - ip unnumbered loopback0
+  - ipv6 address use-link-local-only
+  - interface Ethernet1/2
+  - no shutdown
+  - no switchport
+  - mac-address 52dc.cafe.0102
+  - description c_nxos -> c_csr
+  - medium p2p
+  - ip unnumbered loopback0
+  - ipv6 address use-link-local-only
+  - interface Ethernet1/3
+  - no shutdown
+  - no switchport
+  - mac-address 52dc.cafe.0103
+  - description c_nxos -> j_vsrx
+  - medium p2p
+  - ip unnumbered loopback0
+  - ipv6 address use-link-local-only
+
+TASK [junipernetworks.junos.junos_config] **************************************
+changed: [j_vsrx] => changed=true 
+  ansible_facts:
+    discovered_interpreter_python: /usr/bin/python3
+
+TASK [Deploy module-specific configurations] ***********************************
+included: /home/pipi/Net101/tools/ansible/deploy-module.yml for c_csr, a_eos, c_nxos, j_vsrx => (item=ospf)
+
+TASK [debug] *******************************************************************
+ok: [a_eos] => 
+  msg: |-
+    ospf configuration for a_eos
+    =========================================
+    router ospf 1
+    !
+    interface Loopback0
+     ip ospf area 0.0.0.0
+    !
+    interface Ethernet1
+     ip ospf area 0.0.0.0
+     ip ospf network point-to-point
+    !
+    interface Ethernet2
+     ip ospf area 0.0.0.0
+     ip ospf network point-to-point
+    !
+    interface Ethernet3
+     ip ospf area 0.0.0.0
+     ip ospf network point-to-point
+    !
+ok: [c_nxos] => 
+  msg: |-
+    ospf configuration for c_nxos
+    =========================================
+    feature ospf
+    !
+    router ospf 1
+    !
+    interface loopback0
+     ip router ospf 1 area 0.0.0.0
+    !
+    interface Ethernet1/1
+     ip router ospf 1 area 0.0.0.0
+     ip ospf network point-to-point
+    !
+    interface Ethernet1/2
+     ip router ospf 1 area 0.0.0.0
+     ip ospf network point-to-point
+    !
+    interface Ethernet1/3
+     ip router ospf 1 area 0.0.0.0
+     ip ospf network point-to-point
+    !
+ok: [c_csr] => 
+  msg: |-
+    ospf configuration for c_csr
+    =========================================
+    router ospf 1
+    !
+    interface Loopback0
+     ip ospf 1 area 0
+    !
+    interface GigabitEthernet2
+     ip ospf 1 area 0
+     ip ospf network point-to-point
+    !
+    interface GigabitEthernet3
+     ip ospf 1 area 0
+     ip ospf network point-to-point
+    !
+    interface GigabitEthernet4
+     ip ospf 1 area 0
+     ip ospf network point-to-point
+    !
+ok: [j_vsrx] => 
+  msg: |-
+    ospf configuration for j_vsrx
+    =========================================
+    protocols {
+      ospf {
+        area 0.0.0.0 {
+          interface lo0;
+          interface ge-0/0/0 {
+            interface-type p2p
+          }
+          interface ge-0/0/1 {
+            interface-type p2p
+          }
+          interface ge-0/0/2 {
+            interface-type p2p
+          }
+        }
+      }
+    }
+
+TASK [include_tasks] ***********************************************************
+included: /home/pipi/Net101/tools/ansible/deploy-config/ios.yml for c_csr
+included: /home/pipi/Net101/tools/ansible/deploy-config/eos.yml for a_eos
+included: /home/pipi/Net101/tools/ansible/deploy-config/nxos.yml for c_nxos
+included: /home/pipi/Net101/tools/ansible/deploy-config/junos.yml for j_vsrx
+
+TASK [cisco.ios.ios_config] ****************************************************
+changed: [c_csr] => changed=true 
+  banners: {}
+  commands:
+  - router ospf 1
+  - interface Loopback0
+  - ip ospf 1 area 0
+  - interface GigabitEthernet2
+  - ip ospf 1 area 0
+  - ip ospf network point-to-point
+  - interface GigabitEthernet3
+  - ip ospf 1 area 0
+  - ip ospf network point-to-point
+  - interface GigabitEthernet4
+  - ip ospf 1 area 0
+  - ip ospf network point-to-point
+  updates:
+  - router ospf 1
+  - interface Loopback0
+  - ip ospf 1 area 0
+  - interface GigabitEthernet2
+  - ip ospf 1 area 0
+  - ip ospf network point-to-point
+  - interface GigabitEthernet3
+  - ip ospf 1 area 0
+  - ip ospf network point-to-point
+  - interface GigabitEthernet4
+  - ip ospf 1 area 0
+  - ip ospf network point-to-point
+
+TASK [arista.eos.eos_config] ***************************************************
+changed: [a_eos] => changed=true 
+  commands:
+  - router ospf 1
+  - interface Loopback0
+  - ip ospf area 0.0.0.0
+  - interface Ethernet1
+  - ip ospf area 0.0.0.0
+  - ip ospf network point-to-point
+  - interface Ethernet2
+  - ip ospf area 0.0.0.0
+  - ip ospf network point-to-point
+  - interface Ethernet3
+  - ip ospf area 0.0.0.0
+  - ip ospf network point-to-point
+  session: ansible_1616947649
+  updates:
+  - router ospf 1
+  - interface Loopback0
+  - ip ospf area 0.0.0.0
+  - interface Ethernet1
+  - ip ospf area 0.0.0.0
+  - ip ospf network point-to-point
+  - interface Ethernet2
+  - ip ospf area 0.0.0.0
+  - ip ospf network point-to-point
+  - interface Ethernet3
+  - ip ospf area 0.0.0.0
+  - ip ospf network point-to-point
+
+TASK [cisco.nxos.nxos_config] **************************************************
+changed: [c_nxos] => changed=true 
+  commands:
+  - feature ospf
+  - router ospf 1
+  - interface loopback0
+  - ip router ospf 1 area 0.0.0.0
+  - interface Ethernet1/1
+  - ip router ospf 1 area 0.0.0.0
+  - ip ospf network point-to-point
+  - interface Ethernet1/2
+  - ip router ospf 1 area 0.0.0.0
+  - ip ospf network point-to-point
+  - interface Ethernet1/3
+  - ip router ospf 1 area 0.0.0.0
+  - ip ospf network point-to-point
+  updates:
+  - feature ospf
+  - router ospf 1
+  - interface loopback0
+  - ip router ospf 1 area 0.0.0.0
+  - interface Ethernet1/1
+  - ip router ospf 1 area 0.0.0.0
+  - ip ospf network point-to-point
+  - interface Ethernet1/2
+  - ip router ospf 1 area 0.0.0.0
+  - ip ospf network point-to-point
+  - interface Ethernet1/3
+  - ip router ospf 1 area 0.0.0.0
+  - ip ospf network point-to-point
+
+TASK [junipernetworks.junos.junos_config] **************************************
+changed: [j_vsrx] => changed=true
+
+PLAY RECAP *********************************************************************
+a_eos                      : ok=7    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+c_csr                      : ok=7    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+c_nxos                     : ok=7    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+j_vsrx                     : ok=7    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

@@ -1,0 +1,49 @@
+# Ansible inventory created from ['unnumbered.yml', '/home/pipi/Net101/tools/topology-defaults.yml']
+#
+---
+box: cisco/nexus9300v
+links:
+- ifindex: 1
+  ifname: Ethernet1/1
+  linkindex: 1
+  name: c_nxos -> a_eos
+  neighbors:
+    a_eos:
+      ifname: Ethernet1
+  remote_id: 3
+  remote_ifindex: 1
+  role: core
+  type: p2p
+  unnumbered: true
+- ifindex: 2
+  ifname: Ethernet1/2
+  linkindex: 2
+  name: c_nxos -> c_csr
+  neighbors:
+    c_csr:
+      ifname: GigabitEthernet2
+  remote_id: 2
+  remote_ifindex: 2
+  role: core
+  type: p2p
+  unnumbered: true
+- ifindex: 3
+  ifname: Ethernet1/3
+  linkindex: 3
+  name: c_nxos -> j_vsrx
+  neighbors:
+    j_vsrx:
+      ifname: ge-0/0/0
+  remote_id: 4
+  remote_ifindex: 0
+  role: core
+  type: p2p
+  unnumbered: true
+loopback:
+  ipv4: 10.0.0.1/32
+mgmt:
+  ifname: mgmt0
+  ipv4: 192.168.121.101
+  mac: 08-4F-A9-00-00-01
+module:
+- ospf
