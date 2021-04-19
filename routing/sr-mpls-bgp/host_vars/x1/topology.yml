@@ -1,0 +1,43 @@
+# Ansible inventory created from ['sr+bgp.yml', 'package:topology-defaults.yml']
+#
+---
+bgp:
+  as: 65001
+  neighbors:
+  - as: 65000
+    ipv4: 10.1.0.17
+    name: e1
+    type: ebgp
+  next_hop_self: true
+box: cisco/iosv
+links:
+- ifindex: 1
+  ifname: GigabitEthernet0/1
+  ipv4: 10.1.0.18/30
+  linkindex: 5
+  name: x1 -> e1
+  neighbors:
+    e1:
+      ifname: GigabitEthernet4
+      ipv4: 10.1.0.17/30
+  remote_id: 3
+  remote_ifindex: 4
+  role: external
+  type: p2p
+- bgp:
+    advertise: true
+  bridge: sr-mpls-bgp_7
+  ifindex: 2
+  ifname: GigabitEthernet0/2
+  ipv4: 172.16.0.5/24
+  linkindex: 7
+  neighbors: {}
+  type: stub
+loopback:
+  ipv4: 10.0.0.5/32
+mgmt:
+  ifname: GigabitEthernet0/0
+  ipv4: 192.168.121.105
+  mac: 08-4F-A9-00-00-05
+module:
+- bgp

@@ -1,0 +1,42 @@
+# Ansible inventory created from ['sr+bgp.yml', 'package:topology-defaults.yml']
+#
+---
+box: cisco/csr1000v
+isis:
+  area: 49.0001
+  ipv4: true
+  type: level-2
+links:
+- ifindex: 2
+  ifname: GigabitEthernet2
+  ipv4: 10.1.0.1/30
+  linkindex: 1
+  name: c1 -> e1
+  neighbors:
+    e1:
+      ifname: GigabitEthernet2
+      ipv4: 10.1.0.2/30
+  remote_id: 3
+  remote_ifindex: 2
+  type: p2p
+- ifindex: 3
+  ifname: GigabitEthernet3
+  ipv4: 10.1.0.9/30
+  linkindex: 3
+  name: c1 -> e2
+  neighbors:
+    e2:
+      ifname: Ethernet1
+      ipv4: 10.1.0.10/30
+  remote_id: 4
+  remote_ifindex: 1
+  type: p2p
+loopback:
+  ipv4: 10.0.0.1/32
+mgmt:
+  ifname: GigabitEthernet1
+  ipv4: 192.168.121.101
+  mac: 08-4F-A9-00-00-01
+module:
+- sr
+- isis

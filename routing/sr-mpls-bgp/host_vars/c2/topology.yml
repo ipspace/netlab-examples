@@ -1,0 +1,42 @@
+# Ansible inventory created from ['sr+bgp.yml', 'package:topology-defaults.yml']
+#
+---
+box: arista/veos
+isis:
+  area: 49.0001
+  ipv4: true
+  type: level-2
+links:
+- ifindex: 1
+  ifname: Ethernet1
+  ipv4: 10.1.0.5/30
+  linkindex: 2
+  name: c2 -> e1
+  neighbors:
+    e1:
+      ifname: GigabitEthernet3
+      ipv4: 10.1.0.6/30
+  remote_id: 3
+  remote_ifindex: 3
+  type: p2p
+- ifindex: 2
+  ifname: Ethernet2
+  ipv4: 10.1.0.13/30
+  linkindex: 4
+  name: c2 -> e2
+  neighbors:
+    e2:
+      ifname: Ethernet2
+      ipv4: 10.1.0.14/30
+  remote_id: 4
+  remote_ifindex: 2
+  type: p2p
+loopback:
+  ipv4: 10.0.0.2/32
+mgmt:
+  ifname: Management1
+  ipv4: 192.168.121.102
+  mac: 08-4F-A9-00-00-02
+module:
+- sr
+- isis
