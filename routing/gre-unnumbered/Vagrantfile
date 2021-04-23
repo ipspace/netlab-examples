@@ -1,0 +1,64 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "r1" do |r1|
+    r1.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "08-4F-A9-00-00-01"
+    end
+    r1.vm.box = "cisco/csr1000v"
+    r1.vm.synced_folder ".", "/vagrant", disabled: true
+    r1.ssh.insert_key = false
+    r1.vm.boot_timeout = 180
+    r1.vm.guest = :freebsd
+
+    r1.vm.provider :libvirt do |domain|
+      domain.nic_adapter_count = 8
+      domain.memory = 4096
+      domain.cpus = 2
+      domain.driver = "kvm"
+    end
+    r1.vm.network :private_network,
+                  :libvirt__network_name => "gre-unnumbered_1",
+                  :libvirt__forward_mode => "veryisolated",
+                  :libvirt__dhcp_enabled => false,
+                  :libvirt__iface_name => "vgif_r1_2",
+                  :auto_config => false
+    r1.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.1.3",
+                  :libvirt__tunnel_local_port => "10003",
+                  :libvirt__tunnel_ip => "127.1.2.2",
+                  :libvirt__tunnel_port => "10002",
+                  :libvirt__iface_name => "vgif_r1_3",
+                  auto_config: false
+  end
+  config.vm.define "r2" do |r2|
+    r2.vm.provider :libvirt do |domain|
+      domain.management_network_mac = "08-4F-A9-00-00-02"
+    end
+    r2.vm.box = "cisco/csr1000v"
+    r2.vm.synced_folder ".", "/vagrant", disabled: true
+    r2.ssh.insert_key = false
+    r2.vm.boot_timeout = 180
+    r2.vm.guest = :freebsd
+
+    r2.vm.provider :libvirt do |domain|
+      domain.nic_adapter_count = 8
+      domain.memory = 4096
+      domain.cpus = 2
+      domain.driver = "kvm"
+    end
+    r2.vm.network :private_network,
+                  :libvirt__tunnel_type => "udp",
+                  :libvirt__tunnel_local_ip => "127.1.2.2",
+                  :libvirt__tunnel_local_port => "10002",
+                  :libvirt__tunnel_ip => "127.1.1.3",
+                  :libvirt__tunnel_port => "10003",
+                  :libvirt__iface_name => "vgif_r2_2",
+                  auto_config: false
+    r2.vm.network :private_network,
+                  :libvirt__network_name => "gre-unnumbered_3",
+                  :libvirt__forward_mode => "veryisolated",
+                  :libvirt__dhcp_enabled => false,
+                  :libvirt__iface_name => "vgif_r2_3",
+                  :auto_config => false
+  end
+end

@@ -1,0 +1,6 @@
+---
+defaults:
+  device: csr
+
+nodes: [ r1, r2 ]
+links: [ r1, r1-r2, r2 ]
