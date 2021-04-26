@@ -1,0 +1,7 @@
+---
+defaults:
+  device: csr
+
+nodes: [ rtr, c1, c2 ]
+
+links: [ rtr-c1, rtr-c2, rtr, c1, c2 ]
