@@ -6,12 +6,15 @@ This directory contains topology files, Vagrantfile, Ansible inventory, and rout
 
 You could use router configurations from the `config` directory (EIGRP + OSPF combo) or follow this recipe that works out-of-the box with *vagrant-libvirt* (some assembly required for other environments):
 
-* Add **[netsim-tools](https://github.com/ipspace/netsim-tools)** to your path
+* [Install *netsim-tools*](https://netsim-tools.readthedocs.io/en/latest/install.html) and add the top directory to your path.
 * Create Ansible and Vagrant configuration files with **create-topology -t _filename_ -g -c -i**
 * Create virtual lab with **vagrant up**
-* Deploy initial IP addressing with **initial-config.ansible**
-* Deploy BGP with **config.ansible -e config=igp**
-* Deploy BGP with **config.ansible -e config=bgp**
+* Deploy device configurations with **initial-config.ansible**
+
+**Notes:**
+
+* EIGRP is supported in *netsim-tools* in release 0.7. You might have to switch to *dev_0.7* branch until the release is published.
+* To run your tests with a different virtualization provider, add **provider: virtualbox** or **provider: clab** to the topology file(s).
 
 Sample topology files:
 
@@ -22,4 +25,4 @@ Sample topology files:
 : Network-wide OSPF + EIGRP between PE1 and E1
 
 *topology-isis.yml*
-: Network-wide IS-IS + OSPF between PE1 and E1. The IGP configuration templates can be used with Cisco IOS, Arista vEOS, or Cisco Nexus OS -- just change the device type of PE1 in the topology file.
+: Network-wide IS-IS + OSPF between PE1 and E1. To check the behavior of various network operating systems, replace **device: csr** with the [network device of your choice](https://netsim-tools.readthedocs.io/en/latest/platforms.html).

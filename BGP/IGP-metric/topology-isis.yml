@@ -1,21 +1,29 @@
 defaults:
   device: iosv
-  link_attr: [ bandwidth ]
+
+module: [ isis, ospf, bgp ]
+
+bgp:
+  as: 65000
+  advertise_loopback: False
 
 nodes:
 - name: e1
-  igp: [ isis,ospf ]
-  edge: true
+  bgp:
+    originate: [ 172.16.0.0/16 ]
 - name: e2
-  igp: [ isis ]
-  edge: true
+  module: [ isis, bgp ]
+  bgp:
+    originate: [ 172.16.0.0/16 ]
 - name: pe1
-  device: nxos
-  igp: [ isis,ospf ]
+  device: csr
 
 links:
 - pe1:
   e1:
+  ospf:
+    cost: 1000
+
 - pe1:
   e2:
-  bandwidth: 100000
+  bandwidth: 1000

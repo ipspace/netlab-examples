@@ -1,17 +1,22 @@
 defaults:
   device: iosv
-  link_attr: [ bandwidth ]
+
+module: [ eigrp, ospf, bgp ]
+
+bgp:
+  as: 65000
+  advertise_loopback: False
 
 nodes:
 - name: e1
-  igp: [ ospf, eigrp ]
-  edge: true
+  bgp:
+    originate: [ 172.16.0.0/16 ]
 - name: e2
-  igp: [ ospf ]
-  edge: true
+  module: [ ospf, bgp ]
+  bgp:
+    originate: [ 172.16.0.0/16 ]
 - name: pe1
   device: csr
-  igp: [ ospf, eigrp ]
 
 links:
 - pe1:
