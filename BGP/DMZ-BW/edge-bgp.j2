@@ -1,0 +1,8 @@
+router bgp {{ bgp.as }}
+ address-family ipv4
+  bgp dmzlink-bw
+  maximum-paths 8
+  maximum-paths ibgp 8
+{% for n in bgp.neighbors if n.ipv4 is defined and n.type == 'ebgp' %}
+  neighbor {{ n.ipv4 }} dmzlink-bw
+{% endfor %}

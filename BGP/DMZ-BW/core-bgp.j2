@@ -1,0 +1,5 @@
+router bgp {{ bgp.as }}
+ address-family ipv4
+  bgp dmzlink-bw
+  maximum-paths 8
+  maximum-paths ibgp 8

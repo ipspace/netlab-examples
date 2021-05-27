@@ -1,0 +1,45 @@
+#
+# Two-AS lab used to demonstrate how DMZ-BW works
+#
+
+defaults:
+  device: csr
+
+module: [ bgp, ospf ]
+
+bgp:
+  advertise_loopback: False
+  as_list:
+    65000:
+      members: [ e1, e2, pe1 ]
+      rr: [ pe1 ]
+    65100:
+      members: [ x1, x2 ]
+
+nodes:
+- e1
+- e2
+- pe1
+- name: x1
+  device: iosv
+- name: x2
+  device: iosv
+
+links:
+- pe1-e1
+- pe1-e2
+- e1:
+  x1:
+  bandwidth: 2000
+- e1:
+  x2:
+  bandwidth: 3000
+- e2:
+  x2:
+  bandwidth: 1000
+- x1:
+  x2:
+  bgp:
+    advertise: True
+  prefix:
+    ipv4: 10.42.42.0/24
