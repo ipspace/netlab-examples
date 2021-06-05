@@ -1,0 +1,15 @@
+---
+defaults:
+  device: csr
+
+module: [ ospf ]
+
+nodes: [ e1, e2, rtr ]
+
+links:
+- e1-rtr
+- e2-rtr
+- e1:
+  e2:
+  prefix: 10.42.42.0/24
+  role: stub
