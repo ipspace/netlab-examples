@@ -1,0 +1,18 @@
+---
+defaults:
+  device: csr
+
+nodes:
+ rtr:
+   dhcp_prefix: 10.42.42.0/24
+ c1:
+ c2:
+
+links:
+- rtr:
+  c1:
+  role: dhcp
+- rtr:
+  c2:
+  role: dhcp
+- rtr

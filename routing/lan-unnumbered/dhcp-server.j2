@@ -1,0 +1,12 @@
+interface Loopback1
+ ip address {{ dhcp_prefix|ipaddr(1)|ipaddr('address') }} {{ dhcp_prefix|ipaddr('netmask') }}
+!
+ip dhcp pool Access
+ network {{ dhcp_prefix|ipaddr(1)|ipaddr('address') }} {{ dhcp_prefix|ipaddr('netmask') }}
+ default-router {{ dhcp_prefix|ipaddr(1)|ipaddr('address') }}
+!
+{% for l in links|default([]) if 'dhcp' in l.role|default('') %}
+interface {{ l.ifname }}
+ no ip address
+ ip unnumbered Loopback1
+{% endfor %}

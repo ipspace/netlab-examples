@@ -1,0 +1,5 @@
+{% for l in links|default([]) if 'dhcp' in l.role|default('') %}
+interface {{ l.ifname }}
+ no ip address
+ ip address dhcp
+{% endfor %}
