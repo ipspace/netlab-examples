@@ -1,0 +1,5 @@
+router bgp {{ bgp.as }}
+ maximum-paths 4
+!
+router ospf 1
+ redistribute bgp {{ bgp.as }} subnets

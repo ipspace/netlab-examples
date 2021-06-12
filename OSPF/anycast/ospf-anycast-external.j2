@@ -1,0 +1,7 @@
+router ospf 1
+ router-id 10.0.0.{{ id }}
+ redistribute connected subnets metric-type 2 tag 100
+!
+interface Loopback42
+ ip addr 10.42.42.1 255.255.255.255
+ no ip ospf 1 area 0

@@ -1,0 +1,26 @@
+#
+# OSPF-only topology
+#
+
+module: ospf
+
+defaults:
+  device: csr
+
+nodes:
+- l1
+- l2
+- s1
+- name: a1
+  device: iosv
+- name: a2
+  device: iosv
+- name: a3
+  device: iosv
+
+links:
+- s1-l1
+- s1-l2
+- l1-a1
+- l1-a2
+- l2-a3

@@ -1,0 +1,5 @@
+host_vars/
+group_vars/
+hosts.yml
+ansible.cfg
+Vagrantfile
