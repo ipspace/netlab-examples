@@ -8,17 +8,17 @@ The final router configurations are in the [config](config) directory. To recrea
 
 * [Install *netsim-tools*](https://netsim-tools.readthedocs.io/en/latest/install.html) and [create your lab environment](https://netsim-tools.readthedocs.io/en/latest/install.html#building-the-lab-environment)
 * Copy [lab.yml](lab.yml) and Jinja2 templates into an empty directory (or clone this repository)
-* Create the configuration files with **create-topology -t lab.yml -p -i -c**
+* Create the configuration files with **netlab create lab.yml**
 * Start the lab with **vagrant up**
-* Configure the lab with **initial-config.ansible**
+* Configure the lab with **netlab initial**
 * Configure BGP DMZ Bandwidth on the edge devices with
 
 ```
-config.ansible -e config=edge-bgp.j2 -l e1,e2
+netlab config edge-bgp.j2 -l e1,e2
 ```
 
 * Configure BGP DMZ Bandwidth on PE1 with
 
 ```
-config.ansible -e config=core-bgp.j2 -l pe1
+netlab config core-bgp.j2 -l pe1
 ```

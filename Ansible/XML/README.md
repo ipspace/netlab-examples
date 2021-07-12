@@ -11,10 +11,9 @@ This directory contains test Ansible playbooks that interact with Junos and Nexu
 
 To test these examples on your own:
 
-* Clone the repository and its submodules with `git clone --recursive https://github.com/ipspace/netsim-examples`
-* Make sure the *master* branch is used in *netsim-tools* submodule with `cd netsim-examples/tools; git checkout master`
-* Set the path to tools directory: execute `. setup.sh` in main repository folder
-* Within the `Ansible/XML` directory execute `create-topology -g -i -c`  to create *Vagrantfile*, Ansible inventory, and *ansible.cfg*
+* Clone the repository.
+* [Install *netsim-tools*](https://netsim-tools.readthedocs.io/en/latest/install.html)
+* Within the `Ansible/XML` directory execute `netlab create`  to create *Vagrantfile*, Ansible inventory, and *ansible.cfg*
 * Have fun
 
-**Note:** The *Vagrantfile* created by the **create-topology** tool will be usable on a Linux system with *vagrant-libvirt* plugin. Please feel free to [add support for other Vagrant providers](https://netsim-tools.readthedocs.io/en/latest/platforms.html#contributing-new-devices) to *[netsim-tools](https://github.com/ipspace/netsim-tools)* and submit a pull request.
+**Note:** The *Vagrantfile* created by the **netlab create** tool will be usable on a Linux system with *vagrant-libvirt* plugin. Please feel free to [add support for VirtualBox Vagrant boxes](https://netsim-tools.readthedocs.io/en/latest/contribute.html) to *[netsim-tools](https://github.com/ipspace/netsim-tools)* and submit a pull request.
