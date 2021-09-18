@@ -1,0 +1,34 @@
+provider: clab
+defaults:
+  device: frr
+
+module: [ ospf, bgp ]
+bgp:
+  as_list:
+    65000:
+      members: [ l1, l2, l3, l4, s1, s2 ]
+      rr: [ s1, s2 ]
+    65101:
+      members: [ a1 ]
+    65102:
+      members: [ a2 ]
+    65103:
+      members: [ a3 ]
+    65104:
+      members: [ a4 ]
+
+nodes: [ l1, l2, l3, l4, s1, s2, a1, a2, a3, a4 ]
+
+links:
+- l1-s1
+- l1-s2
+- l2-s1
+- l2-s2
+- l3-s1
+- l3-s2
+- l4-s1
+- l4-s2
+- a1-l1
+- a2-l1
+- a3-l1
+- a4-l2

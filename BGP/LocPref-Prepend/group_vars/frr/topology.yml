@@ -1,0 +1,5 @@
+# Ansible inventory created from ['topology.yml', 'package:topology-defaults.yml']
+#
+---
+ansible_connection: docker
+ansible_network_os: frr

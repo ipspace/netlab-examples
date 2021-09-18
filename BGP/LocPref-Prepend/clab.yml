@@ -1,0 +1,42 @@
+name: LocPref-Prepend
+
+topology:
+  nodes:
+    c1:
+      kind: linux
+      image: frrouting/frr:v7.5.0
+    c2:
+      kind: linux
+      image: frrouting/frr:v7.5.0
+    x1:
+      kind: linux
+      image: frrouting/frr:v7.5.0
+    pe1:
+      kind: linux
+      image: frrouting/frr:v7.5.0
+    pe2:
+      kind: linux
+      image: frrouting/frr:v7.5.0
+    pe3:
+      kind: linux
+      image: frrouting/frr:v7.5.0
+
+  links:
+  - endpoints:
+    - "c1:eth1"
+    - "pe1:eth1"
+  - endpoints:
+    - "c2:eth1"
+    - "pe2:eth1"
+  - endpoints:
+    - "c1:eth2"
+    - "x1:eth1"
+  - endpoints:
+    - "pe1:eth2"
+    - "pe2:eth2"
+  - endpoints:
+    - "pe1:eth3"
+    - "pe3:eth1"
+  - endpoints:
+    - "pe2:eth3"
+    - "pe3:eth2"

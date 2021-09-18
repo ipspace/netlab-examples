@@ -1,0 +1,93 @@
+graph {
+  bgcolor="transparent"
+  node [shape=box, style="rounded,filled" fontname=Verdana]
+  edge [fontname=Verdana labelfontsize=10 labeldistance=1.5]
+  subgraph cluster_65100 {
+    bgcolor="#e8e8e8"
+    fontname=Verdana
+    margin=16
+    label="customer (AS 65100)"
+    c1 [
+      label=<c1 [frr]<br /><sub>10.0.0.1/32</sub>>
+      fillcolor="#ff9f01"
+    ]
+  }
+  subgraph cluster_65101 {
+    bgcolor="#e8e8e8"
+    fontname=Verdana
+    margin=16
+    label="remote (AS 65101)"
+    c2 [
+      label=<c2 [frr]<br /><sub>10.0.0.2/32</sub>>
+      fillcolor="#ff9f01"
+    ]
+  }
+  subgraph cluster_65001 {
+    bgcolor="#e8e8e8"
+    fontname=Verdana
+    margin=16
+    label="AS 65001"
+    x1 [
+      label=<x1 [frr]<br /><sub>10.0.0.3/32</sub>>
+      fillcolor="#ff9f01"
+    ]
+  }
+  subgraph cluster_65000 {
+    bgcolor="#e8e8e8"
+    fontname=Verdana
+    margin=16
+    label="provider (AS 65000)"
+    pe1 [
+      label=<pe1 [frr]<br /><sub>10.0.0.4/32</sub>>
+      fillcolor="#ff9f01"
+    ]
+    pe2 [
+      label=<pe2 [frr]<br /><sub>10.0.0.5/32</sub>>
+      fillcolor="#ff9f01"
+    ]
+    pe3 [
+      label=<pe3 [frr]<br /><sub>10.0.0.6/32</sub>>
+      fillcolor="#ff9f01"
+    ]
+    rr [
+      label=<rr [frr]<br /><sub>10.0.0.7/32</sub>>
+      fillcolor="#ff9f01"
+    ]
+    p [
+      label=<p [frr]<br /><sub>10.0.0.8/32</sub>>
+      fillcolor="#ff9f01"
+    ]
+  }
+  c1 -- pe1  [
+    color="#b21a1a"
+    penwidth=2.5 arrowsize=0.7 dir=both
+  ]
+  c1 -- x1  [
+    color="#b21a1a"
+    penwidth=2.5 arrowsize=0.7 dir=both
+  ]
+  c2 -- pe2  [
+    color="#b21a1a"
+    penwidth=2.5 arrowsize=0.7 dir=both
+  ]
+  pe1 -- rr  [
+    color="#613913"
+    penwidth=2.5 arrowsize=0.7 dir=both
+  ]
+  pe2 -- rr  [
+    color="#613913"
+    penwidth=2.5 arrowsize=0.7 dir=both
+  ]
+  pe3 -- rr  [
+    color="#613913"
+    penwidth=2.5 arrowsize=0.7 dir=both
+  ]
+  pe3 -- x1  [
+    color="#b21a1a"
+    penwidth=2.5 arrowsize=0.7 dir=both
+  ]
+  p -- rr  [
+    color="#613913"
+    penwidth=2.5 arrowsize=0.7 dir=both
+  ]
+}

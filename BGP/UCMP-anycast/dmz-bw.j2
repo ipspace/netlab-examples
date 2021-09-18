@@ -1,0 +1,16 @@
+ip prefix-list anycast seq 10 permit 10.42.0.0/16 ge 32
+!
+route-map anycast-bw permit 10
+ match ip address prefix-list anycast
+ set extcommunity bandwidth num-multipaths
+!
+route-map anycast-bw permit 20
+!
+router bgp {{ bgp.as }}
+ bgp bestpath as-path multipath-relax
+ bgp bestpath bandwidth default-weight-for-missing
+!
+ address-family ipv4 unicast
+{% for n in bgp.neighbors if n.type == 'ibgp' %}
+  neighbor {{ n.ipv4 }} route-map anycast-bw out
+{% endfor %}

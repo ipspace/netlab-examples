@@ -1,0 +1,7 @@
+!
+interface lo0
+ ip address 10.42.0.1/32
+!
+router bgp {{ bgp.as }}
+ address-family ipv4 unicast
+  network 10.42.0.1/32

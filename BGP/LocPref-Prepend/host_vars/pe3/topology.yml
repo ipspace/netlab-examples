@@ -1,0 +1,60 @@
+# Ansible inventory created from ['topology.yml', 'package:topology-defaults.yml']
+#
+---
+bgp:
+  advertise_loopback: true
+  as: 65000
+  community:
+    ebgp:
+    - standard
+    ibgp:
+    - standard
+    - extended
+  ipv4: true
+  neighbors:
+  - as: 65000
+    ipv4: 10.0.0.4
+    name: pe1
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.5
+    name: pe2
+    type: ibgp
+  next_hop_self: true
+box: frrouting/frr:v7.5.0
+hostname: clab-LocPref-Prepend-pe3
+kind: linux
+links:
+- ifindex: 1
+  ifname: eth1
+  ipv4: 10.1.0.18/30
+  linkindex: 5
+  name: pe3 -> pe1
+  neighbors:
+    pe1:
+      ifname: eth3
+      ipv4: 10.1.0.17/30
+  remote_id: 4
+  remote_ifindex: 3
+  type: p2p
+- ifindex: 2
+  ifname: eth2
+  ipv4: 10.1.0.22/30
+  linkindex: 6
+  name: pe3 -> pe2
+  neighbors:
+    pe2:
+      ifname: eth3
+      ipv4: 10.1.0.21/30
+  remote_id: 5
+  remote_ifindex: 3
+  type: p2p
+loopback:
+  ipv4: 10.0.0.6/32
+mgmt:
+  ifname: eth0
+  ipv4: 192.168.121.106
+  mac: 08-4F-A9-00-00-06
+module:
+- bgp
+- ospf

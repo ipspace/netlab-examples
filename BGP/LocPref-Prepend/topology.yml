@@ -1,0 +1,30 @@
+provider: clab
+defaults.device: frr
+module: [ bgp, ospf ]
+
+bgp:
+  as_list:
+    65000:
+      members: [ pe1, pe2, pe3, p, rr ]
+      rr: [ rr ]
+      name: provider
+    65001:
+      members: [ x1 ]
+    65100:
+      members: [ c1 ]
+      name: customer
+    65101:
+      members: [ c2 ]
+      name: remote
+
+nodes: [ c1, c2, x1, pe1, pe2, pe3, rr, p ]
+
+links:
+- c1-pe1
+- c2-pe2
+- c1-x1
+- x1-pe3
+- pe1-p
+- pe2-p
+- pe3-p
+- rr-p
