@@ -1,0 +1,6 @@
+graph.*
+hosts.*
+host_vars/
+group_vars/
+ansible.cfg
+Vagrantfile

@@ -1,0 +1,17 @@
+module: [ bgp, ospf ]
+defaults.device: iosv
+bgp.as: 65000
+
+nodes:
+  a:
+  b:
+  c:
+  d:
+  rr:
+    bgp.rr: True
+    id: 1
+  y:
+    bgp.as: 65100
+    bgp.originate: [ 10.42.42.0/24 ]
+
+links: [ a-b, a-c, b-d, c-d, b-rr, d-rr, c-y, d-y ]
