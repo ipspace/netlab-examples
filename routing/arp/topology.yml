@@ -1,0 +1,12 @@
+---
+defaults.device: iosv
+
+nodes:
+  h1:
+    device: linux
+  h2:
+    device: linux
+  rtr:
+    id: 1
+
+links: [ h1-rtr, h2-rtr ]

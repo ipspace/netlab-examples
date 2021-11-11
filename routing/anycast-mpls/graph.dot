@@ -1,0 +1,39 @@
+graph {
+  bgcolor="transparent"
+  node [shape=box, style="rounded,filled" fontname=Verdana]
+  edge [fontname=Verdana labelfontsize=10 labeldistance=1.5]
+  l1 [
+    label=<l1 [iosv]<br /><sub>10.0.0.1/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  l2 [
+    label=<l2 [iosv]<br /><sub>10.0.0.2/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  l3 [
+    label=<l3 [iosv]<br /><sub>10.0.0.3/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  s1 [
+    label=<s1 [iosv]<br /><sub>10.0.0.4/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  a1 [
+    label=<a1 [iosv]<br /><sub>10.0.0.5/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  a2 [
+    label=<a2 [iosv]<br /><sub>10.0.0.6/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  a3 [
+    label=<a3 [iosv]<br /><sub>10.0.0.7/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+ l1 -- s1 [ ]
+ l2 -- s1 [ ]
+ l3 -- s1 [ ]
+ a1 -- l2 [ ]
+ a2 -- l2 [ ]
+ a3 -- l3 [ ]
+}

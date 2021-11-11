@@ -1,0 +1,12 @@
+#
+# OSPF-only topology
+#
+
+module: ospf
+
+defaults:
+  device: iosv
+
+nodes: [ l1, l2, l3, s1, a1, a2, a3 ]
+
+links: [ s1-l1, s1-l2, s1-l3, l2-a1, l2-a2, l3-a3 ]

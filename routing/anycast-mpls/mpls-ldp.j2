@@ -1,0 +1,6 @@
+mpls ldp explicit-null
+{% for l in links %}
+!
+interface {{ l.ifname }}
+ mpls ip
+{% endfor %}
