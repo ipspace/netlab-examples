@@ -13,5 +13,8 @@
 *.retry
 ansible.log
 
+# Ignore Python cache
+__pycache__/
+
 # Don't publish SFTP configuration
 sftp-config.json
