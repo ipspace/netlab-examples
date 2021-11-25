@@ -2,20 +2,11 @@ module: [ bgp, ospf ]
 defaults.device: iosv
 bgp.as: 65000
 
-groups:
-  net: 
-    members: [ a,b,c,d,m,rr ]
-    config: [ bgp-addpath.j2 ]
-  ext: 
-    members: [ y ]
-    config: [ test-loopback.j2 ]
-
 nodes:
   a:
   b:
   c:
   d:
-  m:
   rr:
     bgp.rr: True
     id: 1
