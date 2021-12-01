@@ -1,0 +1,16 @@
+---
+defaults.device: iosv
+
+module: [ bgp, ospf ]
+bgp.as: 65000
+
+nodes:
+  rr:
+    id: 1
+    bgp.rr: true
+  e1:
+    device: iosv
+  e2:
+    device: iosv
+
+links: [ e1-rr, rr-e2 ]

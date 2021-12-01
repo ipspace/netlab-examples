@@ -1,0 +1,7 @@
+mpls ldp router-id Loopback 0
+mpls ldp explicit-null
+{% for l in links if l.role|default('') != 'external' %}
+!
+interface {{ l.ifname }}
+ mpls ip
+{% endfor %}

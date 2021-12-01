@@ -1,0 +1,9 @@
+ip cef load-sharing algorithm include-ports source destination
+!
+router bgp {{ bgp.as }}
+ address-family ipv4
+  maximum-paths 32
+  maximum-paths ibgp 32
+{% for n in bgp.neighbors if n.ipv4 %}
+  neighbor {{ n.ipv4 }} send-label
+{% endfor %}
