@@ -13,6 +13,9 @@ defaults:
   device: iosv
 
 bgp:
+  ebgp_role: stub
+  advertise_roles: []
+  next_hop_self: false
   as_list:
     65000:
       members: [ l1, l2, l3, s1 ]
@@ -21,6 +24,8 @@ bgp:
       members: [ a1,a2,a3 ]
 
 groups:
+  as65000:
+    config: [ bgp-addpath.j2 ]
   as65101:
     config: [ bgp-anycast-loopback.j2 ]
     node_data:

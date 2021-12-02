@@ -1,0 +1,9 @@
+router bgp {{ bgp.as }}
+ address-family ipv4 unicast
+  bgp additional-paths select all
+  bgp additional-paths send receive
+  maximum-paths 16
+  maximum-paths ibgp 16
+{% for n in bgp.neighbors if n.type == 'ibgp' %}
+  neighbor {{ n.ipv4 }} advertise additional-paths all
+{% endfor %}
