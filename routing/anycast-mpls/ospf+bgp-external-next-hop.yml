@@ -13,6 +13,9 @@ defaults:
   device: iosv
 
 bgp:
+  ebgp_role: stub
+  advertise_roles: []
+  next_hop_self: false
   as_list:
     65000:
       members: [ l1, l2, l3, s1 ]
