@@ -6,7 +6,7 @@ updates:
     ip-prefix: "{{ anycast_ip }}/32"
     type: exact
 
-- path: configure/policy-options/policy-statement[name=accept_all]
+- path: configure/policy-options/policy-statement[name=set_anycast_nexthop]
   val:
    entry:
     entry-id: 10
@@ -17,6 +17,11 @@ updates:
    default-action:
     action-type: accept
     next-hop: {{ anycast_ip }}
+
+- path: configure/router[router-name=Base]/bgp/group[group-name=ibgp]
+  val:
+   export:
+    policy: ["set_anycast_nexthop"]
 
 - path: configure/router[router-name=Base]/interface[interface-name=anycast_loopback]
   val:
