@@ -81,6 +81,14 @@ configures the RR to ignore the IGP cost difference (as the cost can be differen
 This causes the RR to use both routes:
 ```
 A:admin@rr# show router bgp routes | match 10.42.42.0 post-lines 2
+===============================================================================
+BGP IPv4 Routes
+===============================================================================
+Flag  Network                                            LocalPref   MED
+      Nexthop (Router)                                   Path-Id     IGP Cost
+      As-Path                                                        Label
+-------------------------------------------------------------------------------
+...
 u*>?  10.42.42.0/24                                      100         None
       10.0.0.4                                           None        17
       65100                                                          -
@@ -89,7 +97,7 @@ u*>?  10.42.42.0/24                                      100         None
       65100                                                          -
 ```
 
-and to announce both to M, using different path IDs (1 via C, 2 via D):
+and to announce both to M, assigning different path IDs (1 via C, 2 via D):
 ```
 A:admin@rr# show router bgp neighbor "10.0.0.6" advertised-routes | match 10.42.42 post-lines 2
 ?     10.42.42.0/24                                      100         None
@@ -133,5 +141,6 @@ u*>?  10.42.42.0/24                                      100         None
 
 # Discussion: A BGP Anycast alternative
 In [this blog](https://srlinux-at-your-service.medium.com/do-it-yourself-automation-for-bgp-anycast-introducing-one-next-hop-to-rule-them-all-173e21237a1f) an alternative solution is suggested, using BGP Anycast nexthops.
-The IGP topology used there is slightly different, using eBGP instead of OSPF.
+
+Originally, the IGP topology used there was slightly different, using eBGP instead of OSPF.
 This leads to the RR sending routes with full AS paths to its clients, instead of an (aggregated) IGP cost metric from OSPF.
