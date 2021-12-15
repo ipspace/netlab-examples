@@ -292,4 +292,4 @@ Both approaches require the use of more advanced routing features that are not f
 
 The addition of BGP Add Path requires a re-negotiation of capabilities, resetting the session, whereas anycast loopback interfaces replace existing routes and can be sent using regular BGP UPDATEs.
 
-With Anycast next hops the same amount of routes are sent, whereas Add Path introduces extra routes (marked with path identifiers). In the anycast case, the RR is not aware of the local resolution of anycast paths; it is a more "decentralized" approach
+With Anycast next hops the same amount of routes are sent, whereas Add Path introduces extra routes (marked with path identifiers). In the anycast case, the RR is not aware of the local resolution of anycast paths; it is a more "decentralized" approach. Select traffic routes can be optimized using anycast, incrementally over time. Add Path is an all-or-nothing per-peer change, requiring changes to central Route Reflectors - arguably more risky
