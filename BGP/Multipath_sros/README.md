@@ -152,7 +152,7 @@ The latter requires the use of SROS, as SR Linux does not (yet) support setting 
 ## Validation
 With these changes, the (SR Linux) Route Reflector now receives:
 ```
-A:rr# /show network-instance default protocols bgp neighbor 10.0.0.4 received-routes ipv4                                                                                                                          
+A:rr# /show network-instance default protocols bgp neighbor 10.0.0.4 received-routes ipv4
 ----------------------------------------------------------------------------------------------
 Peer        : 10.0.0.4, remote AS: 65000, local AS: 65000
 Type        : static
@@ -190,8 +190,8 @@ Origin codes: i=IGP, e=EGP, ?=incomplete
 The RR is able to resolve the anycast nexthop through OSPF (if not, the route would become inactive).
 It advertises the anycast route to node M:
 ```
-A:rr# /show network-instance default protocols bgp neighbor 10.0.0.6 advertised-routes ipv4                                                                                                                        
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+A:rr# /show network-instance default protocols bgp neighbor 10.0.0.6 advertised-routes ipv4
+-------------------------------------------------------------------------------------------
 Peer        : 10.0.0.6, remote AS: 65000, local AS: 65000
 Type        : static
 Description : m
