@@ -32,9 +32,7 @@ nodes:
     device: sros
     license: /Projects/SR_OS_VSR-SIM_license.txt
   m:
-  rr: # Could try plain SRL too, for now use SROS
-    #device: sros
-    #license: /Projects/SR_OS_VSR-SIM_license.txt
+  rr:
     bgp.rr: True
     id: 1
   y:

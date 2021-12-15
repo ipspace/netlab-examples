@@ -1,14 +1,5 @@
 {% set anycast_ip="10.0.0.45" %}
 updates:
-{% if bgp.rr|default(0)|bool %}
-# - path: configure/router[router-name=Base]/bgp
-#   val:
-#    next-hop-resolution:
-#     use-bgp-routes: True
-- path: configure/router[router-name=Base]/bgp/group[group-name=ibgp]
-  val:
-   advertise-inactive: True
-{% else %}
 - path: configure/policy-options/prefix-list[name=anycast_ip]
   val:
    prefix:
@@ -46,4 +37,3 @@ replace:
 - path: configure/router[router-name=Base]/bgp/group[group-name=ibgp]/export
   val:
    policy: ["set_anycast_nexthop"]
-{% endif %}
