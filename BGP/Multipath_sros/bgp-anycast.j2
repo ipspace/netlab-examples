@@ -18,11 +18,6 @@ updates:
     action-type: accept
     next-hop: {{ anycast_ip }}
 
-- path: configure/router[router-name=Base]/bgp/group[group-name=ibgp]
-  val:
-   export:
-    policy: ["set_anycast_nexthop"]
-
 - path: configure/router[router-name=Base]/interface[interface-name=anycast_loopback]
   val:
    admin-state: enable
@@ -32,3 +27,8 @@ updates:
     primary:
      address: "{{ anycast_ip }}"
      prefix-length: 32
+
+replace:
+- path: configure/router[router-name=Base]/bgp/group[group-name=ibgp]/export
+  val:
+   policy: ["set_anycast_nexthop"]
