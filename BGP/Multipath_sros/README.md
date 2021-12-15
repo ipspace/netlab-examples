@@ -226,9 +226,9 @@ Origin codes: i=IGP, e=EGP, ?=incomplete
 
 At M, the route resolves to both C & D via OSPFv2 routes:
 ```
-A:m# /show network-instance default route-table ipv4-unicast summary                                                                                                             
+A:m# /show network-instance default route-table ipv4-unicast summary
 -------------------------------------------------------------------------------------------------------------------------------------
-IPv4 unicast route table of network instance default           
+IPv4 unicast route table of network instance default
 -------------------------------------------------------------------------------------------------------------------------------------
 +-------------------------+-------+------------+---------------+----------+---------+-----------------------+-----------------------+
 |   Prefix                |  ID   | Route Type | Route Owner   |  Metric  |  Pref   |    Next-hop (Type)    |  Next-hop Interface   |
