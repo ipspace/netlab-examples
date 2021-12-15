@@ -62,11 +62,11 @@ u*>?  10.42.42.0/24                                      100         None
       65100                                                          -
 ```
 
-It sends this single best route (via D) to M:
+It sends this single best route (via D) to M, note the "None" for Path ID:
 ```
 A:admin@rr# show router bgp neighbor "10.0.0.6" advertised-routes | match 10.42.42.0 post-lines 2
 ?     10.42.42.0/24                                      100         None
-      10.0.0.5                                           None        1
+      10.0.0.5                                           *None*      1
       65100                                                          -
 ```
 
