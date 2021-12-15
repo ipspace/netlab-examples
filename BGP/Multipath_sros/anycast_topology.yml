@@ -15,7 +15,7 @@ bgp.as: 65000
 groups:
   net:
     members: [ a,b,c,d,m,rr ]
-  ecmp_pair:
+  anycasters:
     members: [ c,d ]
     config: [ bgp-anycast.j2 ] # Rewrite nexthop to shared anycast IP
   ext:
@@ -32,7 +32,9 @@ nodes:
     device: sros
     license: /Projects/SR_OS_VSR-SIM_license.txt
   m:
-  rr:
+  rr: # Could try plain SRL too, for now use SROS
+    #device: sros
+    #license: /Projects/SR_OS_VSR-SIM_license.txt
     bgp.rr: True
     id: 1
   y:
