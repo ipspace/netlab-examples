@@ -268,13 +268,16 @@ IPv4 prefixes with active ECMP routes: 3
 
 This allows M to reach Y via both C and D paths, as desired:
 ```
-A:m# traceroute 10.42.42.0                                                                                                                                                                                         
+A:m# traceroute 10.42.42.0
+
 Using network instance default
 traceroute to 10.42.42.0 (10.42.42.0), 30 hops max, 60 byte packets
  1  10.1.0.37 (10.1.0.37)  14.987 ms 10.1.0.33 (10.1.0.33)  6.913 ms  14.990 ms
  2  10.1.0.26 (10.1.0.26)  14.959 ms !X * *
---{ running }--[ network-instance default ]--                                                                                                                                                                      
-A:m# traceroute 10.42.42.0                                                                                                                                                                                         
+--{ running }--[ network-instance default ]--
+
+A:m# traceroute 10.42.42.0
+
 Using network instance default
 traceroute to 10.42.42.0 (10.42.42.0), 30 hops max, 60 byte packets
  1  10.1.0.33 (10.1.0.33)  8.477 ms 10.1.0.37 (10.1.0.37)  8.545 ms 10.1.0.33 (10.1.0.33)  8.557 ms
