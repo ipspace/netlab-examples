@@ -140,7 +140,128 @@ u*>?  10.42.42.0/24                                      100         None
 ```
 
 # Discussion: A BGP Anycast alternative
-In [this blog](https://srlinux-at-your-service.medium.com/do-it-yourself-automation-for-bgp-anycast-introducing-one-next-hop-to-rule-them-all-173e21237a1f) an alternative solution is suggested, using BGP Anycast nexthops.
+In [this blog](https://srlinux-at-your-service.medium.com/do-it-yourself-automation-for-bgp-anycast-introducing-one-next-hop-to-rule-them-all-173e21237a1f) an alternative solution is suggested, using BGP Anycast nexthops (using eBGP instead of OSPF as IGP)
 
-Originally, the IGP topology used there was slightly different, using eBGP instead of OSPF.
-This leads to the RR sending routes with full AS paths to its clients, instead of an (aggregated) IGP cost metric from OSPF.
+To implement this option in NetSim-Tools, we need to do [the following](bgp-anycast.j2) for nodes C and D:
+* Create an anycast loopback interface, assigning the same IP(10.0.0.45/32, could be any)
+* Add this interface to OSPF
+* Change the iBGP export policy to use the anycast IP as nexthop
+
+The latter requires the use of SROS, as SR Linux does not (yet) support setting arbitrary next hop IPs in policies.
+
+## Validation
+With these changes, the (SR Linux) Route Reflector now receives:
+```
+A:rr# /show network-instance default protocols bgp neighbor 10.0.0.4 received-routes ipv4                                                                                                                          
+----------------------------------------------------------------------------------------------
+Peer        : 10.0.0.4, remote AS: 65000, local AS: 65000
+Type        : static
+Description : c
+Group       : ibgp
+----------------------------------------------------------------------------------------------
+Status codes: u=used, *=valid, >=best, x=stale
+Origin codes: i=IGP, e=EGP, ?=incomplete
++---------------------------------------------------------------------------------------------
+|  Status       Network          Next Hop     MED     LocPref      AsPath       Origin       |
++============================================================================================+
+|     *       10.0.0.1/32       10.0.0.45      2        100                       i          |
+|     *       10.0.0.2/32       10.0.0.45      1        100                       i          |
+|     *       10.0.0.3/32       10.0.0.45      2        100                       i          |
+|     *       10.0.0.4/32       10.0.0.45      -        100                       i          |
+|     *       10.0.0.5/32       10.0.0.45      1        100                       i          |
+|     *       10.0.0.6/32       10.0.0.45      1        100                       i          |
+|    u*>      10.0.0.7/32       10.0.0.45      -        100       [65100]         i          |
+|     *       10.1.0.0/30       10.0.0.45      17       100                       i          |
+|     *       10.1.0.4/30       10.0.0.45      -        100                       i          |
+|     *       10.1.0.8/30       10.0.0.45      2        100                       i          |
+|     *       10.1.0.12/30      10.0.0.45      -        100                       i          |
+|     *       10.1.0.16/30      10.0.0.45      18       100                       i          |
+|     *       10.1.0.20/30      10.0.0.45      2        100                       i          |
+|    u*>      10.1.0.24/30      10.0.0.45      -        100                       i          |
+|     *       10.1.0.28/30      10.0.0.45      -        100       [65100]         i          |
+|     *       10.1.0.32/30      10.0.0.45      -        100                       i          |
+|     *       10.1.0.36/30      10.0.0.45      2        100                       i          |
+|    u*>      10.42.42.0/24     10.0.0.45      -        100       [65100]         ?          |
++--------------------------------------------------------------------------------------------+
+18 received BGP routes : 3 used 18 valid
+```
+(this could be optimized, as only a few of these routes are actually used)
+
+The RR is able to resolve the anycast nexthop through OSPF (if not, the route would become inactive).
+It advertises the anycast route to node M:
+```
+A:rr# /show network-instance default protocols bgp neighbor 10.0.0.6 advertised-routes ipv4                                                                                                                        
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Peer        : 10.0.0.6, remote AS: 65000, local AS: 65000
+Type        : static
+Description : m
+Group       : ibgp
+---------------------------------------------------------------------------------
+Origin codes: i=IGP, e=EGP, ?=incomplete
++--------------------------------------------------------------------------------
+|   Network        Next Hop      MED       LocPref     AsPath      Origin       |
++===============================================================================+
+| 10.0.0.1/32      10.0.0.1       -         100                      i          |
+| 10.0.0.2/32      10.0.0.1       18        100                      i          |
+| 10.0.0.3/32      10.0.0.1       16        100                      i          |
+| 10.0.0.4/32      10.0.0.1       17        100                      i          |
+| 10.0.0.5/32      10.0.0.1       16        100                      i          |
+| 10.0.0.6/32      10.0.0.1       17        100                      i          |
+| 10.0.0.7/32      10.0.0.1       -         100        [65100]       i          |
+| 10.0.0.45/32     10.0.0.1       16        100                      i          |
+| 10.1.0.0/30      10.0.0.1       32        100                      i          |
+| 10.1.0.4/30      10.0.0.1       18        100                      i          |
+| 10.1.0.8/30      10.0.0.1       17        100                      i          |
+| 10.1.0.12/30     10.0.0.1       17        100                      i          |
+| 10.1.0.16/30     10.0.0.1       -         100                      i          |
+| 10.1.0.20/30     10.0.0.1       -         100                      i          |
+| 10.1.0.24/30     10.0.0.1       -         100                      i          |
+| 10.1.0.28/30     10.0.0.1       -         100                      i          |
+| 10.1.0.32/30     10.0.0.1       18        100                      i          |
+| 10.1.0.36/30     10.0.0.1       17        100                      i          |
+| 10.42.42.0/24    10.0.0.1       -         100        [65100]       ?          |
++-------------------------------------------------------------------------------+
+19 advertised BGP routes
+```
+
+At M, the route resolves to both C & D via OSPFv2 routes:
+```
+A:m# /show network-instance default route-table ipv4-unicast summary                                                                                                                                               
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+IPv4 unicast route table of network instance default
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
++-------------------------+-------+------------+------------------+----------------------+----------+---------+-----------------------+-----------------------+
+|   Prefix                |  ID   | Route Type | Route Owner      |      Best/Fib-       |  Metric  |  Pref   |    Next-hop (Type)    |  Next-hop Interface   |
+|                         |       |            |                  |     status(slot)     |          |         |                       |                       |
++=========================+=======+============+==================+======================+==========+=========+=======================+=======================+
+| 10.0.0.1/32             | 0     | ospfv2     | ospf_mgr         | True/success         | 17       | 10      | 10.1.0.37 (direct)    | ethernet-1/2.0        |
+| 10.0.0.2/32             | 0     | ospfv2     | ospf_mgr         | True/success         | 17       | 10      | 10.1.0.33 (direct)    | ethernet-1/1.0        |
+| 10.0.0.3/32             | 0     | ospfv2     | ospf_mgr         | True/success         | 17       | 10      | 10.1.0.37 (direct)    | ethernet-1/2.0        |
+| 10.0.0.4/32             | 0     | ospfv2     | ospf_mgr         | True/success         | 16       | 10      | 10.1.0.33 (direct)    | ethernet-1/1.0        |
+| 10.0.0.5/32             | 0     | ospfv2     | ospf_mgr         | True/success         | 16       | 10      | 10.1.0.37 (direct)    | ethernet-1/2.0        |
+| 10.0.0.6/32             | 4     | host       | net_inst_mgr     | True/success         | 0        | 0       | None (extract)        | None                  |
+| 10.0.0.7/32             | 0     | bgp        | bgp_mgr          | True/success         | 0        | 170     | 10.0.0.45 (indirect)  | None                  |
+| 10.0.0.45/32 <= anycast | 0     | ospfv2     | ospf_mgr         | True/success         | 16       | 10      | 10.1.0.33 (direct)    | ethernet-1/1.0        |
+|                         |       |            |                  |                      |          |         | 10.1.0.37 (direct)    | ethernet-1/2.0        |
+| 10.1.0.0/30             | 0     | ospfv2     | ospf_mgr         | True/success         | 33       | 10      | 10.1.0.33 (direct)    | ethernet-1/1.0        |
+|                         |       |            |                  |                      |          |         | 10.1.0.37 (direct)    | ethernet-1/2.0        |
+| 10.1.0.4/30             | 0     | ospfv2     | ospf_mgr         | True/success         | 17       | 10      | 10.1.0.33 (direct)    | ethernet-1/1.0        |
+| 10.1.0.8/30             | 0     | ospfv2     | ospf_mgr         | True/success         | 17       | 10      | 10.1.0.37 (direct)    | ethernet-1/2.0        |
+| 10.1.0.12/30            | 0     | ospfv2     | ospf_mgr         | True/success         | 17       | 10      | 10.1.0.33 (direct)    | ethernet-1/1.0        |
+|                         |       |            |                  |                      |          |         | 10.1.0.37 (direct)    | ethernet-1/2.0        |
+| 10.1.0.16/30            | 0     | ospfv2     | ospf_mgr         | True/success         | 33       | 10      | 10.1.0.37 (direct)    | ethernet-1/2.0        |
+| 10.1.0.20/30            | 0     | ospfv2     | ospf_mgr         | True/success         | 17       | 10      | 10.1.0.37 (direct)    | ethernet-1/2.0        |
+| 10.1.0.24/30            | 0     | bgp        | bgp_mgr          | True/success         | 0        | 170     | 10.0.0.45 (indirect)  | None                  |
+| 10.1.0.28/30            | 0     | bgp        | bgp_mgr          | True/success         | 0        | 170     | 10.0.0.45 (indirect)  | None                  |
+| 10.1.0.32/30            | 2     | local      | net_inst_mgr     | True/success         | 0        | 0       | 10.1.0.34 (direct)    | ethernet-1/1.0        |
+| 10.1.0.34/32            | 2     | host       | net_inst_mgr     | True/success         | 0        | 0       | None (extract)        | None                  |
+| 10.1.0.35/32            | 2     | host       | net_inst_mgr     | True/success         | 0        | 0       | None (broadcast)      | None                  |
+| 10.1.0.36/30            | 3     | local      | net_inst_mgr     | True/success         | 0        | 0       | 10.1.0.38 (direct)    | ethernet-1/2.0        |
+| 10.1.0.38/32            | 3     | host       | net_inst_mgr     | True/success         | 0        | 0       | None (extract)        | None                  |
+| 10.1.0.39/32            | 3     | host       | net_inst_mgr     | True/success         | 0        | 0       | None (broadcast)      | None                  |
+| 10.42.42.0/24           | 0     | bgp        | bgp_mgr          | True/success         | 0        | 170     | 10.0.0.45 (indirect)  | None                  |
++-------------------------+-------+------------+------------------+----------------------+----------+---------+-----------------------+-----------------------+
+IPv4 routes total                    : 23
+IPv4 prefixes with active routes     : 23
+IPv4 prefixes with active ECMP routes: 3
+```
