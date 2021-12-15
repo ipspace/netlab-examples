@@ -9,7 +9,9 @@ bgp.as: 65000
 groups:
   net:
     members: [ a,b,c,d,m,rr ]
-    # config: [ bgp-addpath.j2 ] # Doesn't work at node level only
+  add_path:
+    members: [ m, rr ]
+    config: [ bgp-addpath.j2 ]
   ext:
     members: [ y ]
     # config: [ test-loopback.j2 ] # using 'generate-icmp true' in SRL

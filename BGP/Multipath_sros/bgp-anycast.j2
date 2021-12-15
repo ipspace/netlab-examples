@@ -13,7 +13,7 @@ updates:
     from:
      prefix-list: ["anycast_ip"]
     action:
-     action-type: accept # Don't rewrite next hop on the anycast IP itself
+     action-type: reject # Anycast IP gets resolved through OSPF
    default-action:
     action-type: accept
     next-hop: {{ anycast_ip }}

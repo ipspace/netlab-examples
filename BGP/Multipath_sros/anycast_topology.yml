@@ -10,6 +10,7 @@ module: [ bgp, ospf ]
 provider: clab
 
 defaults.device: srlinux # iosv
+
 bgp.as: 65000
 
 groups:
