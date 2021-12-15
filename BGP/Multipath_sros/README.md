@@ -265,3 +265,28 @@ IPv4 routes total                    : 23
 IPv4 prefixes with active routes     : 23
 IPv4 prefixes with active ECMP routes: 3
 ```
+
+This allows M to reach Y via both C and D paths, as desired:
+```
+A:m# traceroute 10.42.42.0                                                                                                                                                                                         
+Using network instance default
+traceroute to 10.42.42.0 (10.42.42.0), 30 hops max, 60 byte packets
+ 1  10.1.0.37 (10.1.0.37)  14.987 ms 10.1.0.33 (10.1.0.33)  6.913 ms  14.990 ms
+ 2  10.1.0.26 (10.1.0.26)  14.959 ms !X * *
+--{ running }--[ network-instance default ]--                                                                                                                                                                      
+A:m# traceroute 10.42.42.0                                                                                                                                                                                         
+Using network instance default
+traceroute to 10.42.42.0 (10.42.42.0), 30 hops max, 60 byte packets
+ 1  10.1.0.33 (10.1.0.33)  8.477 ms 10.1.0.37 (10.1.0.37)  8.545 ms 10.1.0.33 (10.1.0.33)  8.557 ms
+ 2  10.1.0.26 (10.1.0.26)  13.088 ms !X * *
+--{ running }--[ network-instance default ]--
+```
+
+## Comparison
+Both approaches require the use of more advanced routing features that are not found on every device/NOS:
+* BGP Add Path
+* BGP nexthop with arbitrary IP
+
+The addition of BGP Add Path requires a re-negotiation of capabilities, resetting the session, whereas anycast loopback interfaces replace existing routes and can be sent using regular BGP UPDATEs.
+
+With Anycast next hops the same amount of routes are sent, whereas Add Path introduces extra routes (marked with path identifiers). In the anycast case, the RR is not aware of the local resolution of anycast paths; it is a more "decentralized" approach
