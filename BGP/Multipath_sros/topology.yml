@@ -1,0 +1,36 @@
+module: [ bgp, ospf ]
+
+# JvB added
+provider: clab
+
+defaults.device: srlinux # iosv
+bgp.as: 65000
+
+groups:
+  net:
+    members: [ a,b,c,d,m,rr ]
+  add_path:
+    members: [ m, rr ]
+    config: [ bgp-addpath.j2 ]
+  ext:
+    members: [ y ]
+    # config: [ test-loopback.j2 ] # using 'generate-icmp true' in SRL
+
+nodes:
+  a:
+  b:
+  c:
+  d:
+  m: # SRL does not support ADD_PATH capabiility
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
+  rr:
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
+    bgp.rr: True
+    id: 1
+  y:
+    bgp.as: 65100
+    bgp.originate: [ 10.42.42.0/24 ]
+
+links: [ a-b, a-c, b-d, c-d, b-rr, d-rr, c-y, d-y, m-c, m-d ]

@@ -1,0 +1,43 @@
+#
+# Variation on the same topology, using SROS for nodes C&D
+# (ideally, this would be supported as a feature in Netsim-tools, using a single
+# topology file with multiple 'scenarios')
+#
+
+module: [ bgp, ospf ]
+
+# JvB added
+provider: clab
+
+defaults.device: srlinux # iosv
+
+bgp.as: 65000
+
+groups:
+  net:
+    members: [ a,b,c,d,m,rr ]
+  anycasters:
+    members: [ c,d ]
+    config: [ bgp-anycast.j2 ] # Rewrite nexthop to shared anycast IP
+  ext:
+    members: [ y ]
+    # config: [ test-loopback.j2 ] # using 'generate-icmp true' in SRL
+
+nodes:
+  a:
+  b:
+  c: # SRL does not support arbitrary next hop IPs
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
+  d:
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
+  m:
+  rr:
+    bgp.rr: True
+    id: 1
+  y:
+    bgp.as: 65100
+    bgp.originate: [ 10.42.42.0/24 ]
+
+links: [ a-b, a-c, b-d, c-d, b-rr, d-rr, c-y, d-y, m-c, m-d ]
