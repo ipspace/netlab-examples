@@ -1,0 +1,19 @@
+module: [ bgp,ospf ]
+
+bgp.as: 65000
+
+groups:
+  all:
+    config: [ loopback, bgp-ipv6 ]
+
+nodes:
+  r1:
+    device: iosv
+  r2:
+    device: iosv
+  s1:
+    device: nxos
+  s2:
+    device: eos
+
+links: [ r1-r2, r2-s1, s1-s2, s2-r1 ]

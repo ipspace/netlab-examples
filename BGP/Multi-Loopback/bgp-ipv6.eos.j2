@@ -1,0 +1,11 @@
+router bgp {{ bgp.as }}
+{% for n in bgp.neighbors %}
+{%   set rid = hostvars[n.name].id %}
+ neighbor 10.42.42.{{ rid }} remote-as 65000
+ neighbor 10.42.42.{{ rid }} update-source loopback42
+{% endfor %}
+ address-family ipv6
+{% for n in bgp.neighbors %}
+{%   set rid = hostvars[n.name].id %}
+  neighbor 10.42.42.{{ rid }} activate
+{% endfor %}

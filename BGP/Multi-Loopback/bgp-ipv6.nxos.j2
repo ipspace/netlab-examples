@@ -1,0 +1,8 @@
+router bgp {{ bgp.as }}
+{% for n in bgp.neighbors %}
+{%   set rid = hostvars[n.name].id %}
+  neighbor 10.42.42.{{ rid }}
+    remote-as 65000
+    update-source loopback42
+    address-family ipv6 unicast
+{% endfor %}
