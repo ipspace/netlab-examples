@@ -21,3 +21,6 @@ rtt min/avg/max/mdev = 16.118/16.423/16.729/0.331 ms
 using an MPLS datapath via E1-{C1 or C2}-E2.
 
 E2 and C2 are SROS nodes, the others are SRLinux IXR6 nodes running 21.11.1
+
+## Netsimtools
+Requires [this](https://github.com/ipspace/netsim-tools/pull/85) PR to add support for ISIS and SR modules
