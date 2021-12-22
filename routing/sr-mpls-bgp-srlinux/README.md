@@ -1,4 +1,4 @@
-[!plot](CLab_MPLS_SR.PNG)
+![plot](CLab_MPLS_SR.PNG)
 
 # SROS/SRLinux SR-MPLS example using SR-ISIS
 
