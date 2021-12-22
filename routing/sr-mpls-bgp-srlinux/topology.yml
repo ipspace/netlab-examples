@@ -9,11 +9,24 @@ provider: clab
 
 defaults:
   device: srlinux
+  sr.extra_attributes.global: [ srgb_range_start, srgb_range_size ]
   providers:
     clab:
       devices:
         srlinux:
           provider_type: ixr6 # SR-MPLS only supported on 7250 IXR platform
+
+# SR Global Block label range
+sr.srgb_range_start: 500000
+sr.srgb_range_size: 1000
+
+groups:
+  core:
+    members: [ c1,c2 ]
+  edge:
+    members: [ e1,e2 ]
+  external:
+    members: [ x1,x2 ]
 
 nodes:
   # CORE (no BGP)
@@ -21,6 +34,8 @@ nodes:
     module: [ isis,sr ]
   c2:
     module: [ isis,sr ]
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
 
   # EDGE
   e1:
@@ -29,16 +44,20 @@ nodes:
       as: 65000
   e2:
     module: [ isis, bgp, sr ]
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
     bgp:
       as: 65000
 
   # EXTERNAL PEERS
   x1:
     module: [ bgp ]
+    # type: ixrd2
     bgp:
       as: 65001
   x2:
     module: [ bgp ]
+    # type: ixrd2
     bgp:
       as: 65002
 
