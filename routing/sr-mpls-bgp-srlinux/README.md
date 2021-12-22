@@ -6,7 +6,8 @@ Commemorating the release of SR Linux 21.11.1, now with SR-MPLS support (on 7250
 
 X1 can ping X2:
 ```
-A:x1# ping 10.0.0.6                                                                                                                                                                                                
+A:x1# ping 10.0.0.6
+
 Using network instance default
 PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
 64 bytes from 10.0.0.6: icmp_seq=1 ttl=61 time=16.1 ms
