@@ -1,0 +1,77 @@
+#
+# This topology combines SR-MPLS topology with IBGP session between AS-edge devices
+# and EBGP sessions with two external routers, using SR Linux 7250 IXR devices
+#
+# The goal: test BGP-free core based on Segment Routing
+#
+
+provider: clab
+
+defaults:
+  device: srlinux
+  sr.extra_attributes.global: [ srgb_range_start, srgb_range_size ]
+  providers:
+    clab:
+      devices:
+        srlinux:
+          provider_type: ixr6 # SR-MPLS only supported on 7250 IXR platform
+
+# SR Global Block label range
+sr.srgb_range_start: 500000
+sr.srgb_range_size: 1000
+
+groups:
+  core:
+    members: [ c1,c2 ]
+  edge:
+    members: [ e1,e2 ]
+  external:
+    members: [ x1,x2 ]
+
+nodes:
+  # CORE (no BGP)
+  c1:
+    module: [ isis,sr ]
+  c2:
+    module: [ isis,sr ]
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
+
+  # EDGE
+  e1:
+    module: [ isis, bgp, sr ] # JvB: in this order...
+    bgp:
+      as: 65000
+  e2:
+    module: [ isis, bgp, sr ]
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
+    bgp:
+      as: 65000
+
+  # EXTERNAL PEERS
+  x1:
+    module: [ bgp ]
+    # type: ixrd2
+    bgp:
+      as: 65001
+  x2:
+    module: [ bgp ]
+    # type: ixrd2
+    bgp:
+      as: 65002
+
+links:
+# Core links
+- e1-c1
+- e1-c2
+- e2-c1
+- e2-c2
+
+# External links
+- x1-e1
+- x2-e2
+
+# Stub links
+- x1
+- x2
