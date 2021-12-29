@@ -20,3 +20,6 @@ separated by an MPLS network topology that features a traffic-engineered ePipe s
 
 Netsim-Tools currently assumes 'atomic' links, i.e. different links are assigned different prefixes from a pool.
 This example uses custom manual addressing; including these concepts in Netsim-Tools is FFS.
+
+## MACsec: For Future Study / work in progress
+Note that the MACsec association doesn't currently work in this setup: MACsec is designed for hop-by-hop security, and this multi-hop MPLS scenario requires more thought/knobs.
