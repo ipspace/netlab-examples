@@ -21,6 +21,8 @@ defaults:
   providers:
     clab:
       devices:
+        srlinux:
+          provider_type: ixr6  # Need IXR for MPLS support
         sros:
           provider_type: sr-a4 # Added to vrnetlab to support macsec
 
@@ -50,7 +52,7 @@ nodes:
     license: /Projects/SR_OS_VSR-SIM_license.txt
     config: [ mpls-te-path.j2 ]
 
-  # Core routers (SRL), need sros for SR-TE (Adj SIDs)
+  # Core routers (future SRL), need sros for SR-TE and Adj SIDs
   r2:
     device: sros
     license: /Projects/SR_OS_VSR-SIM_license.txt

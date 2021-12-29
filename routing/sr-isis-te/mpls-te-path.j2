@@ -24,7 +24,10 @@ updates:
 
 {% endfor %}
 
-# RSVP must be enabled along with mpls, even though it is not used here
+# RSVP must be present along with mpls, even though it is not used here
 - path: configure/router[router-name=Base]/rsvp
-  val:
-   admin-state: enable
+  val: {}
+
+# Remove system interface from MPLS
+delete:
+- configure/router[router-name=Base]/mpls/interface[interface-name=system]
