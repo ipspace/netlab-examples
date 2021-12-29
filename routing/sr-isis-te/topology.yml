@@ -1,6 +1,6 @@
 #
 # Inspired by https://derekcheung.medium.com/segment-routing-b69f6ea2e3f5
-# this topology demonstrates SR-ISIS between SROS and SR Linux devices,
+# this topology demonstrates SR-ISIS between SROS devices,
 # including Loop-Free-Alternative and MPLS-TE use cases
 #
 # The goal: demonstrate the power of networking

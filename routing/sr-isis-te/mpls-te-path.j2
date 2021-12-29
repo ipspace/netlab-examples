@@ -10,7 +10,7 @@ updates:
      hop:
 {%   for ip in l.te_path_ips %}
      - hop-index: {{ loop.index }}
-       ip-address: "{{ ip }}"
+       ip-address: "{{ ip|ipaddr('address') }}"
        type: strict
 {%   endfor %}
 
@@ -18,7 +18,7 @@ updates:
    - lsp-name: "lsp_{{ l.traffic_engineering_path|join('-') }}-TE"
      admin-state: enable
      type: p2p-sr-te
-     to: "{{ l.te_path_ips[-1] }}"
+     to: "{{ l.te_path_ips[-1]|ipaddr('address') }}"
      primary:
      - path-name: "{{ l.traffic_engineering_path|join('-') }}-TE-strict"
 
