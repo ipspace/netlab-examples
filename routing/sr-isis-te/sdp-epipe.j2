@@ -2,7 +2,6 @@
 updates:
 {% for l in links if 'epipe_peer' in l %}
 {% set peer=l.epipe_peer|ipaddr('address') %}
-updates:
 - path: configure/router[router-name=Base]/ldp
   val:
    admin-state: enable
@@ -18,14 +17,20 @@ updates:
    far-end:
     ip-address: "{{ peer }}"
 
+# Note: could set md-auto-id service range
+{% set svc_id = 100 + l.ifindex %}
 - path: configure/service/epipe[service-name=to-{{l.epipe}}]
   val:
    admin-state: enable
    customer: "1"
+   service-id: {{ svc_id }}
    spoke-sdp:
-   - sdp-bind-id: "{{ l.ifindex }}:{{ 100 + l.ifindex }}" # vc-id
+   - sdp-bind-id: "{{ l.ifindex }}:{{ svc_id }}"
      admin-state: enable
+     # Could enable BFD here too...
    sap:
-   - sap-id: "{{ l.ifname }}/1"
+   - sap-id: "{{ l.ifname }}{{ '/1' if 'c' in l.ifname else '' }}"
      admin-state: enable
 {% endfor %}
+
+{# FFS: MACsec encryption #}

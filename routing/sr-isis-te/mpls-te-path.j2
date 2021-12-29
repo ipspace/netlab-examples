@@ -1,0 +1,30 @@
+{# epipe modeled as a virtual link between r1-r4 #}
+updates:
+{% for l in links if 'te_path_ips' in l %}
+- path: configure/router[router-name=Base]/mpls
+  val:
+   admin-state: enable
+   path:
+   - path-name: "{{ l.traffic_engineering_path|join('-') }}-TE-strict"
+     admin-state: enable
+     hop:
+{%   for ip in l.te_path_ips %}
+     - hop-index: {{ loop.index }}
+       ip-address: "{{ ip }}"
+       type: strict
+{%   endfor %}
+
+   lsp:
+   - lsp-name: "lsp_{{ l.traffic_engineering_path|join('-') }}-TE"
+     admin-state: enable
+     type: p2p-sr-te
+     to: "{{ l.te_path_ips[-1] }}"
+     primary:
+     - path-name: "{{ l.traffic_engineering_path|join('-') }}-TE-strict"
+
+{% endfor %}
+
+# RSVP must be enabled along with mpls, even though it is not used here
+- path: configure/router[router-name=Base]/rsvp
+  val:
+   admin-state: enable

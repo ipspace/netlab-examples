@@ -1,0 +1,101 @@
+#
+# Inspired by https://derekcheung.medium.com/segment-routing-b69f6ea2e3f5
+# this topology demonstrates SR-ISIS between SROS and SR Linux devices,
+# including Loop-Free-Alternative and MPLS-TE use cases
+#
+# The goal: demonstrate the power of networking
+#
+
+provider: clab
+
+module: [ bfd, isis, sr ]
+
+plugin: [ epipe, mpls-te ]
+
+defaults:
+  # custom_link_types: [ epipe ]
+  device: sros
+  devices:
+   sros:
+     interface_name: 1/1/%d # sr-a4 does not use connectors
+  providers:
+    clab:
+      devices:
+        sros:
+          provider_type: sr-a4 # Added to vrnetlab to support macsec
+
+isis.traffic_engineering: True
+isis.loop_free_alternate: True
+
+addressing:
+  lan:
+    ipv4: 192.168.1.0/24 # "Must be longer than /24"
+
+groups:
+  sros:
+    members: [ r1,r4 ]
+    config: [ sdp-epipe.j2 ]
+  srlinux:
+    members: [ r2,r3 ]
+  hosts:
+    members: [ h1,h2 ]
+
+nodes:
+  # Edge router
+  r1:
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
+    config: [ sdp-epipe.j2, mpls-te-path.j2 ]
+
+  # Core routers (SRL), need sros for SR-TE (Adj SIDs)
+  r2:
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
+  r3:
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
+
+  r4:
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
+
+  # Hosts connected via L2 ePipe
+  h1:
+    device: linux
+    module: []
+  h2:
+    device: linux
+    module: []
+
+links:
+# Core links
+- r1-r2
+- r1-r3
+- r2-r3
+- r2-r4
+- r3-r4
+
+- type: lan
+  # role: lan cannot use this, assigns different prefixes from pool
+  prefix: 192.168.1.0/24
+  r1:
+    ipv4: False
+    epipe: r4   # Cannot declare this at top level
+    traffic_engineering_path: [ r3, r2, r4 ]
+  h1:
+    ipv4: 1
+
+- type: lan
+  # role: lan
+  prefix: 192.168.1.0/24
+  r4:
+    ipv4: False
+    epipe: r1
+  h2:
+    ipv4: 2
+
+# - type: epipe
+#   r1:
+#     ipv4: 10.0.0.3/32 # TODO get from loopback.ipv4
+#   r4:
+#     ipv4: 10.0.0.6/32 # TODO get from loopback
