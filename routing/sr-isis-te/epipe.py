@@ -1,6 +1,4 @@
-import sys
 from box import Box
-from netsim import common
 
 def post_transform(topo: Box) -> None:
   """

@@ -1,4 +1,3 @@
-import sys
 from box import Box
 from netsim import common
 
@@ -15,6 +14,9 @@ def post_transform(topo: Box) -> None:
     if 'traffic_engineering_path' in link:
        te_path_ips = []
        for node in link.traffic_engineering_path:
+         if node not in topo.nodes:
+             common.error( f"Invalid node in TE-path: {node}", module='mpls-te')
+             continue
          te_path_ips.append( topo.nodes[ node ].loopback.ipv4 )
        link.te_path_ips = te_path_ips
 
