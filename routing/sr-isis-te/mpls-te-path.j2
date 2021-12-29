@@ -1,6 +1,7 @@
 {# epipe modeled as a virtual link between r1-r4 #}
 updates:
 {% for l in links if 'te_path_ips' in l %}
+{% set lsp_name = "lsp_" + l.traffic_engineering_path|join('-') + "-TE" %}
 - path: configure/router[router-name=Base]/mpls
   val:
    admin-state: enable
@@ -15,12 +16,19 @@ updates:
 {%   endfor %}
 
    lsp:
-   - lsp-name: "lsp_{{ l.traffic_engineering_path|join('-') }}-TE"
+   - lsp-name: "{{ lsp_name }}"
      admin-state: enable
      type: p2p-sr-te
      to: "{{ l.te_path_ips[-1]|ipaddr('address') }}"
      primary:
      - path-name: "{{ l.traffic_engineering_path|join('-') }}-TE-strict"
+
+{# Activate the LSP path, disabling the SR-ISIS shortest IGP path #}
+- path: configure/service/sdp[sdp-id={{l.ifindex}}]
+  val:
+   sr-isis: False
+   lsp:
+   - lsp-name: "{{ lsp_name }}"
 
 {% endfor %}
 
