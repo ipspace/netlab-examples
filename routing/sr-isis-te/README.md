@@ -1,4 +1,4 @@
-# Example: ePipe service over SR-ISIS with Traffic Engineering and MACsec
+# L2 example: ePipe service over SR-ISIS with Traffic Engineering and MACsec
 
 See [original use case by Derek Cheung](https://medium.com/r/?url=https%3A%2F%2Fderekcheung.medium.com%2Fsegment-routing-b69f6ea2e3f5)
 
@@ -13,3 +13,10 @@ All plugins are relatively simple, by design; following the [Unix philosophy](ht
 * Expect the output of every program to become the input to another, as yet unknown, program. Don't clutter output with extraneous information. Avoid stringently columnar or binary input formats. Don't insist on interactive input.
 * Design and build software, even operating systems, to be tried early, ideally within weeks. Don't hesitate to throw away the clumsy parts and rebuild them.
 * Use tools in preference to unskilled help to lighten a programming task, even if you have to detour to build the tools and expect to throw some of them out after you've finished using them.
+
+## Modeling extended L2 segments
+This use case is different in that it models an extended L2 service: Host 1 and host 2 are both on the same subnet,
+separated by an MPLS network topology that features a traffic-engineered ePipe service over SR-ISIS.
+
+Netsim-Tools currently assumes 'atomic' links, i.e. different links are assigned different prefixes from a pool.
+This example uses custom manual addressing; including these concepts in Netsim-Tools is FFS.
