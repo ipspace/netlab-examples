@@ -27,9 +27,17 @@ defaults:
 isis.traffic_engineering: True
 isis.loop_free_alternate: True
 
+# Custom definition of MACsec security association parameters
+macsec.associations:
+- cak: "228ef255aa23ff6729ee664acb66e91f"
+  cak-name: "37c9c2c45ddd012aa5bc8ef284aa23ff6729ee2e4acb66e91fe34ba2cd9fe311"
+
 addressing:
   lan:
     ipv4: 192.168.1.0/24 # "Must be longer than /24"
+    macsec: # Custom parameters used by macsec plugin
+     cak: "228ef255aa23ff6729ee664acb66e91f"
+     cak-name: "37c9c2c45ddd012aa5bc8ef284aa23ff6729ee2e4acb66e91fe34ba2cd9fe311"
 
 groups:
   sros:
@@ -80,10 +88,10 @@ links:
   prefix: 192.168.1.0/24
   r1:
     ipv4: False
-    epipe: r4   # Cannot declare this at top level
+    epipe: r4
     traffic_engineering_path: [ r3, r2, r4 ]
   h1:
-    ipv4: 1
+    ipv4: 1 # Relative IP addressing offset into prefix
 
 - type: lan
   # role: lan
