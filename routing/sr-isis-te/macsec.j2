@@ -2,6 +2,7 @@
 updates:
 {% for l in links if l.type=='lan' and 'macsec' in pools['lan'] %}
 {% set macsec = pools['lan'].macsec %}
+{% set port_id = l.ifname + ('/1' if 'c' in l.ifname else '') %}
 {% set ca_name = "to-%s" | format( l.epipe|default('wherever') ) %}
 - path: configure/macsec/connectivity-association[ca-name={{ ca_name }}]
   val:
@@ -14,7 +15,7 @@ updates:
       cak: {{ macsec.cak }}
       cak-name: {{ macsec.cak_name }}
 
-- path: configure/port[port-id={{l.ifname}}]/ethernet/dot1x/macsec/sub-port[sub-port-id=1]
+- path: configure/port[port-id={{port_id}}]/ethernet/dot1x/macsec/sub-port[sub-port-id=1]
   val:
    admin-state: disable # Disable for now, still missing some way to establish multi-hop MACsec
    ca-name: "{{ ca_name }}"
