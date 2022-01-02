@@ -16,6 +16,14 @@ defaults:
         srlinux:
           provider_type: ixr6 # SR-MPLS only supported on 7250 IXR platform
 
+addressing:
+  unnumbered:
+    unnumbered: True
+  # p2p:
+  #   ipv6: 2001:db8:1234::/48 # Links need ipv6 in order to form ISIS adjacencies
+  # loopback:
+  #   ipv6: 2001:db8:cafe::/48
+
 # SR Global Block label range
 sr.srgb_range_start: 500000
 sr.srgb_range_size: 1000
@@ -66,7 +74,11 @@ links:
 - e1-c1
 - e1-c2
 - e2-c1
-- e2-c2
+
+- e2:
+  c2:
+  # unnumbered: True
+  role: unnumbered
 
 # External links
 - x1-e1

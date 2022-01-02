@@ -1,0 +1,36 @@
+{# epipe modeled as a virtual link between r1-r4 #}
+updates:
+{% for l in links if 'epipe_peer' in l %}
+{% set peer=l.epipe_peer|ipaddr('address') %}
+- path: configure/router[router-name=Base]/ldp
+  val:
+   admin-state: enable
+   targeted-session:
+    peer:
+    - ip-address: "{{ peer }}"
+
+- path: configure/service/sdp[sdp-id={{l.ifindex}}]
+  val:
+   admin-state: enable
+   delivery-type: mpls
+   sr-isis: True
+   far-end:
+    ip-address: "{{ peer }}"
+
+# Note: could set md-auto-id service range
+{% set svc_id = 100 + l.ifindex %}
+- path: configure/service/epipe[service-name=to-{{l.epipe}}]
+  val:
+   admin-state: enable
+   customer: "1"
+   service-id: {{ svc_id }}
+   spoke-sdp:
+   - sdp-bind-id: "{{ l.ifindex }}:{{ svc_id }}"
+     admin-state: enable
+     # Could enable BFD here too...
+   sap:
+   - sap-id: "{{ l.ifname }}{{ '/1' if 'c' in l.ifname else '' }}"
+     admin-state: enable
+{% endfor %}
+
+{# FFS: MACsec encryption #}
