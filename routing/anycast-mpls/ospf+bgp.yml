@@ -5,7 +5,7 @@
 # Anycast prefixes are advertised via EBGP
 #
 
-plugin: [ bgp-anycast-no-ibgp ]
+plugin: [ bgp-anycast ]
 
 module: [ ospf, bgp ]
 
@@ -24,7 +24,6 @@ groups:
   as65000:
     config: [ bgp-addpath.j2 ]
   as65101:
-    config: [ bgp-anycast-loopback.j2 ]
     node_data:
       bgp.anycast: 10.42.42.42/32
 
