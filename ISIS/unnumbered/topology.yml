@@ -1,0 +1,29 @@
+#
+# Unnumbered IS-IS test lab
+#
+
+addressing:
+  loopback:
+    ipv4: 10.0.0.0/24
+    ipv6: 2001:db8:1::/48
+
+defaults.device: csr   # CSR has newer code than IOSv
+
+module: [ isis ]
+
+nodes: [ r1, r2, r3 ]
+
+links:
+- r1:
+  r2:
+  unnumbered: True
+  isis.cost: 10
+- r2:
+  r3:
+  unnumbered: True
+  isis.cost: 10
+- r1:
+  r2:
+  r3:
+  unnumbered: True
+  isis.cost: 5

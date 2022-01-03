@@ -1,0 +1,24 @@
+#
+# Unnumbered OSPF test lab
+#
+
+defaults.device: csr   # CSR has newer code than IOSv
+
+module: [ ospf ]
+
+nodes: [ r1, r2, r3 ]
+
+links:
+- r1:
+  r2:
+  unnumbered: True
+  ospf.cost: 10
+- r2:
+  r3:
+  unnumbered: True
+  ospf.cost: 10
+- r1:
+  r2:
+  r3:
+  unnumbered: True
+  ospf.cost: 5

@@ -1,0 +1,23 @@
+graph {
+  bgcolor="transparent"
+  node [shape=box, style="rounded,filled" fontname=Verdana]
+  edge [fontname=Verdana labelfontsize=10 labeldistance=1.5]
+  r1 [
+    label=<r1 [csr]<br /><sub>10.0.0.1/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  r2 [
+    label=<r2 [csr]<br /><sub>10.0.0.2/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  r3 [
+    label=<r3 [csr]<br /><sub>10.0.0.3/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+ r1 -- r2 [ ]
+ r2 -- r3 [ ]
+ lan [ style=filled fillcolor="#d1bfab" fontsize=11 label="lan" ]
+ r1 -- lan [ ]
+ r2 -- lan [ ]
+ r3 -- lan [ ]
+}
