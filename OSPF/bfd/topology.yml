@@ -1,0 +1,17 @@
+provider: clab
+
+module: [ bfd, ospf ]
+
+ospf: # OSPFv2 (ipv4) only for now
+  bfd: True
+
+nodes:
+  r1:
+    device: sros
+    license: /Projects/SR_OS_VSR-SIM_license.txt
+
+  r2:
+    device: srlinux
+
+links:
+- r1-r2
