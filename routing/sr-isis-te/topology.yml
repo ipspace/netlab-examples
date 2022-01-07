@@ -31,6 +31,8 @@ addressing:
   lan:
     ipv4: 192.168.1.0/24 # "Must be longer than /24"
 
+isis.bfd.ipv4: True
+
 groups:
   sros:
     members: [ r1,r4 ]
@@ -70,6 +72,7 @@ links:
 - r2-r4
 - r3-r4
 
+# R1 side
 - type: lan
   # role: lan cannot use this, assigns different prefixes from pool
   prefix: 192.168.1.0/24
@@ -79,6 +82,16 @@ links:
   h1:
     ipv4: 1 # Relative IP addressing offset into prefix
 
+- interfaces:
+  - node: r1
+    epipe: r4
+    # traffic_engineering_path: [ r3, r2, r4 ]
+  - node: r1
+    local_epipe: 1
+    # macsec: SecureLink
+  prefix: False
+
+# R4 side
 - type: lan
   # role: lan
   prefix: 192.168.1.0/24
@@ -89,20 +102,11 @@ links:
     ipv4: 2
 
 - interfaces:
-  - node: r1
-    epipe: r4
-    traffic_engineering_path: [ r3, r2, r4 ]
-  - node: r1
-    local_epipe: 1
-    macsec: SecureLink
-  prefix: False
-
-- interfaces:
   - node: r4
     epipe: r1
   - node: r4
     local_epipe: 1
-    macsec: SecureLink
+    # macsec: SecureLink
   prefix: False
 
 # Could model ePipe service as a special type of 'link', but custom types not allowed

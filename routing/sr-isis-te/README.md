@@ -4,8 +4,8 @@ See [original use case by Derek Cheung](https://medium.com/r/?url=https%3A%2F%2F
 
 Netsim-Tools release 1.0.6 introduces support for [custom plugins](https://github.com/ipspace/netsim-tools/blob/master/docs/plugins.md).
 This example illustrates 3 of them:
-* An MPLS-TE plugin to define custom MPLS paths
 * An SDP ePipe plugin to build ePipe services (both local and distributed)
+* An MPLS-TE plugin to define custom MPLS paths (depends on SDP plugin)
 * A MACsec plugin to configure security parameters
 
 All plugins are relatively simple, by design; following the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy):
