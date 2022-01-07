@@ -1,6 +1,6 @@
-{# epipe modeled as a virtual link between r1-r4 #}
+{% set links_with_te_path = links|selectattr('te_path_ips')|list %}
 updates:
-{% for l in links if 'te_path_ips' in l %}
+{% for l in links_with_te_path %}
 {% set lsp_name = "lsp_" + l.traffic_engineering_path|join('-') + "-TE" %}
 - path: configure/router[router-name=Base]/mpls
   val:
@@ -31,7 +31,7 @@ updates:
    - lsp-name: "{{ lsp_name }}"
 
 {% endfor %}
-
+{% if links_with_te_path|length > 0 %}
 # RSVP must be present along with mpls, even though it is not used here
 - path: configure/router[router-name=Base]/rsvp
   val: {}
@@ -39,3 +39,4 @@ updates:
 # Remove system interface from MPLS
 delete:
 - configure/router[router-name=Base]/mpls/interface[interface-name=system]
+{% endif %}
