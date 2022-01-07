@@ -1,5 +1,20 @@
 {% set links_with_te_path = interfaces|selectattr('te_path_ips','defined')|list %}
+{% if links_with_te_path|length > 0 %}
+
+# Remove system interface from MPLS
+delete:
+- configure/router[router-name=Base]/mpls/interface[interface-name=system]
+
 updates:
+{# Enable traffic engineering for IS-IS, else service goes down #}
+- path: configure/router[router-name=Base]/isis[isis-instance=0]
+  val:
+   traffic-engineering: True
+
+# RSVP must be present along with mpls, even though it is not used here
+- path: configure/router[router-name=Base]/rsvp
+  val: {}
+
 {% for l in links_with_te_path %}
 {% set lsp_name = "lsp_" + l.traffic_engineering_path|join('-') + "-TE" %}
 - path: configure/router[router-name=Base]/mpls
@@ -31,12 +46,4 @@ updates:
    - lsp-name: "{{ lsp_name }}"
 
 {% endfor %}
-{% if links_with_te_path|length > 0 %}
-# RSVP must be present along with mpls, even though it is not used here
-- path: configure/router[router-name=Base]/rsvp
-  val: {}
-
-# Remove system interface from MPLS
-delete:
-- configure/router[router-name=Base]/mpls/interface[interface-name=system]
 {% endif %}

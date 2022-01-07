@@ -85,7 +85,7 @@ links:
 - interfaces:
   - node: r1
     epipe: r4
-    # traffic_engineering_path: [ r3, r2, r4 ]
+    traffic_engineering_path: [ r3, r2, r4 ]
   - node: r1
     local_epipe: 1
     # macsec: SecureLink
