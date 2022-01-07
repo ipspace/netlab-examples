@@ -1,4 +1,4 @@
-{% set links_with_te_path = links|selectattr('te_path_ips')|list %}
+{% set links_with_te_path = interfaces|selectattr('te_path_ips','defined')|list %}
 updates:
 {% for l in links_with_te_path %}
 {% set lsp_name = "lsp_" + l.traffic_engineering_path|join('-') + "-TE" %}

@@ -10,7 +10,7 @@ provider: clab
 
 module: [ bfd, isis, sr ]
 
-plugin: [ epipe, mpls-te ]
+plugin: [ epipe, mpls-te, macsec ]
 
 defaults:
   # custom_link_types: [ epipe ]
@@ -75,8 +75,7 @@ links:
   prefix: 192.168.1.0/24
   r1:
     ipv4: False
-    epipe: r4
-    traffic_engineering_path: [ r3, r2, r4 ]
+    local_epipe: 1
   h1:
     ipv4: 1 # Relative IP addressing offset into prefix
 
@@ -85,9 +84,26 @@ links:
   prefix: 192.168.1.0/24
   r4:
     ipv4: False
-    epipe: r1
+    local_epipe: 1
   h2:
     ipv4: 2
+
+- interfaces:
+  - node: r1
+    epipe: r4
+    traffic_engineering_path: [ r3, r2, r4 ]
+  - node: r1
+    local_epipe: 1
+    macsec: SecureLink
+  prefix: False
+
+- interfaces:
+  - node: r4
+    epipe: r1
+  - node: r4
+    local_epipe: 1
+    macsec: SecureLink
+  prefix: False
 
 # Could model ePipe service as a special type of 'link', but custom types not allowed
 # Also, this does not make the association with the port on which h1/h2 are connected
