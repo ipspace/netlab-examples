@@ -1,6 +1,6 @@
 {# epipe modeled as a virtual link between r1-r4 #}
 updates:
-{% for l in links if 'epipe_peer' in l %}
+{% for l in interfaces if 'epipe_peer' in l %}
 {% set peer=l.epipe_peer|ipaddr('address') %}
 - path: configure/router[router-name=Base]/ldp
   val:
@@ -18,19 +18,42 @@ updates:
     ip-address: "{{ peer }}"
 
 # Note: could set md-auto-id service range
+{% set port_id = l.ifname + ('/1' if 'c' in l.ifname else '') %}
 {% set svc_id = 100 + l.ifindex %}
 - path: configure/service/epipe[service-name=to-{{l.epipe}}]
   val:
    admin-state: enable
    customer: "1"
    service-id: {{ svc_id }}
+   # service-mtu: {{ 1514 + 32 }}
    spoke-sdp:
    - sdp-bind-id: "{{ l.ifindex }}:{{ svc_id }}"
      admin-state: enable
      # Could enable BFD here too...
    sap:
-   - sap-id: "{{ l.ifname }}{{ '/1' if 'c' in l.ifname else '' }}"
+   - sap-id: "{{ port_id }}"
      admin-state: enable
+
+# - path: configure/port[port-id={{port_id}}]/ethernet
+#   val:
+#    mtu: {{ 1514 + 32 }} # To support MACsec
+
 {% endfor %}
 
 {# FFS: MACsec encryption #}
+
+{% for l in interfaces if 'local_epipe' in l %}
+{% for l2 in interfaces if 'local_epipe' in l2 and l.ifindex<l2.ifindex and l.local_epipe==l2.local_epipe %}
+{% set svc_id = 100 + l.ifindex %}
+- path: configure/service/epipe[service-name=local-{{l.local_epipe}}]
+  val:
+   admin-state: enable
+   customer: "1"
+   service-id: {{ svc_id }}
+   sap:
+   - sap-id: "{{ l.ifname }}{{ '/1' if 'c' in l.ifname else '' }}"
+     admin-state: enable
+   - sap-id: "{{ l2.ifname }}{{ '/1' if 'c' in l2.ifname else '' }}"
+     admin-state: enable
+{% endfor %}
+{% endfor %}
