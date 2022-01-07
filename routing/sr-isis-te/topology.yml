@@ -15,17 +15,17 @@ plugin: [ epipe, mpls-te ]
 defaults:
   # custom_link_types: [ epipe ]
   device: sros
-  devices:
-   sros:
+  #devices:
+  # sros:
      # interface_name: 1/1/%d # sr-a4 does not use connectors
-     interface_name: 1/x1/1/c%d # sr-1s use connectors and XIOM
+     # interface_name: 1/x1/1/c%d # sr-1s use connectors and XIOM
   providers:
     clab:
       devices:
         srlinux:
           provider_type: ixr6  # Need IXR for MPLS support
         sros:
-          provider_type: sr-1s-macsec # Added to vrnetlab to support macsec
+          provider_type: sr-1e-macsec # Added to vrnetlab to support macsec
 
 isis.traffic_engineering: True
 isis.loop_free_alternate: True

@@ -5,8 +5,8 @@ See [original use case by Derek Cheung](https://medium.com/r/?url=https%3A%2F%2F
 Netsim-Tools release 1.0.6 introduces support for [custom plugins](https://github.com/ipspace/netsim-tools/blob/master/docs/plugins.md).
 This example illustrates 3 of them:
 * An MPLS-TE plugin to define custom MPLS paths
-* An SDP ePipe plugin to build ePipe services
-* A MACSEC plugin to configure security parameters
+* An SDP ePipe plugin to build ePipe services (both local and distributed)
+* A MACsec plugin to configure security parameters
 
 All plugins are relatively simple, by design; following the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy):
 * Make each program do one thing well. To do a new job, build afresh rather than complicate old programs by adding new "features".
@@ -21,5 +21,15 @@ separated by an MPLS network topology that features a traffic-engineered ePipe s
 Netsim-Tools currently assumes 'atomic' links, i.e. different links are assigned different prefixes from a pool.
 This example uses custom manual addressing; including these concepts in Netsim-Tools is FFS.
 
-## MACsec: For Future Study / work in progress
-Note that the MACsec association doesn't currently work in this setup: MACsec is designed for hop-by-hop security, and this multi-hop MPLS scenario requires more thought/knobs.
+## MACsec on 7x50
+MACsec ([IEEE 802.1AE](https://1.ieee802.org/security/802-1ae/)) is designed to provide hop-by-hop security through encryption and replay protection.
+Two (or more) peer nodes form a security association by exchanging EAPOL messages (MKA protocol), establishing encryption keys.
+
+On 7x50, MACsec is supported on a select set of device types and MDAs:
+* SR-1s/2s/7s/14s: ms8-100gb-sfpdd+2-100gb-qsfp28 and ms16-100gb-sfpdd+4-100gb-qsfp28
+* SR-1e/2e/3e/7/12(e): me12-10/1gb-sfp+ (iom-e)
+* SR-a4/a8: maxp10-10/1gb-msec-sfp+ (iom-a)
+* IXR-6/10: imm36-100g-qsfp28 and imm48-sfp+2-qsfp28
+
+The [vSIM installation guide](https://documentation.nokia.com/cgi-bin/dbaccessfilename.cgi/3HE17166AAADTQZZA01_V1_vSIM%20Installation%20and%20Setup%20Guide%2021.10.R1.pdf) lists the supported combinations
+and the resource requirements for each option.
