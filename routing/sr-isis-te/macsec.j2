@@ -1,24 +1,38 @@
-{# assumes addressing pools are extended with MACsec parameters #}
+{# assumes links are extended with MACsec parameters #}
 updates:
-{% for l in links if l.type=='lan' and 'macsec' in pools['lan'] %}
-{% set macsec = pools['lan'].macsec %}
+{% for l in interfaces if 'macsec' in l %}
+{% set macsec = l.macsec %}
 {% set port_id = l.ifname + ('/1' if 'c' in l.ifname else '') %}
-{% set ca_name = "to-%s" | format( l.epipe|default('wherever') ) %}
-- path: configure/macsec/connectivity-association[ca-name={{ ca_name }}]
+- path: configure/macsec/connectivity-association[ca-name={{ macsec.ca_name }}]
   val:
    admin-state: enable
    macsec-encrypt: True
    static-cak:
     pre-shared-key:
     - psk-id: 1
-      encryption-type: aes-128-cmac
+      encryption-type: {{ macsec.encryption_type }}
       cak: {{ macsec.cak }}
       cak-name: {{ macsec.cak_name }}
 
-- path: configure/port[port-id={{port_id}}]/ethernet/dot1x/macsec/sub-port[sub-port-id=1]
+- path: configure/port[port-id={{port_id}}]/ethernet
   val:
-   admin-state: disable # Disable for now, still missing some way to establish multi-hop MACsec
-   ca-name: "{{ ca_name }}"
-   max-peers: 1
+   # mtu: {{ 1514 + 32 }} # Operational MTU reduced by 32 due to MACsec
+   dot1x:
+    macsec:
+     sub-port:
+     - sub-port-id: 1
+       admin-state: enable # while fixing mtu
+       ca-name: "{{ macsec.ca_name }}"
+       max-peers: 1
+
+{# Enable 802.1x tunneling on the peer port #}
+{% for l2 in interfaces if 'macsec' not in l2 and l.linkindex==l2.linkindex %}
+{% set port2_id = l2.ifname + ('/1' if 'c' in l2.ifname else '') %}
+- path: configure/port[port-id={{port2_id}}]/ethernet
+  val:
+   # mtu: {{ 1514 + 32 }} # To support MACsec
+   dot1x:
+    tunneling: True
+{% endfor %}
 
 {% endfor %}
