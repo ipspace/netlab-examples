@@ -1,0 +1,35 @@
+#
+# Baseline OSPF+BGP topology
+#
+# Anycast nodes are in AS 65101, core network is AS 65000
+# Anycast prefixes are advertised via EBGP
+#
+
+module: [ ospf, bgp ]
+
+defaults.bgp.extra_attributes.node: [ anycast ]
+
+defaults:
+  device: iosv
+
+bgp:
+  as_list:
+    65000:
+      members: [ l1, l2, l3, s1 ]
+      rr: [ s1 ]
+    65101:
+      members: [ a1,a2,a3 ]
+
+groups:
+  as65000:
+    config: [ bgp-addpath/ios.j2 ]
+  as65101:
+    config: [ bgp-anycast/ios.j2 ]
+    node_data:
+      bgp.anycast: 10.42.42.42/32
+      bgp.advertise_loopback: False
+
+nodes: 
+  [ l1, l2, l3, s1, a1, a2, a3 ]
+
+links: [ s1-l1, s1-l2, s1-l3, l2-a1, l2-a2, l3-a3 ]
