@@ -20,5 +20,4 @@ links:
 - r1:
   r2:
   r3:
-  unnumbered: True
   ospf.cost: 5
