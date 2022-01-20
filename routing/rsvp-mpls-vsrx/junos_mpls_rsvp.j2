@@ -1,0 +1,43 @@
+interfaces {
+{% for l in links | default([]) %}
+{% if l.neighbors is defined %}
+{% for neigh in l.neighbors %}
+{% if not neigh.startswith('ext') %}
+    {{ l.ifname }} {
+        mtu 9192;
+        unit 0 {
+            family mpls;
+        }
+    }
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+}
+protocols {
+    rsvp {
+{% for l in links|default([]) %}
+{% if l.neighbors is defined %}
+{% for neigh in l.neighbors %}
+{% if not neigh.startswith('ext') %}
+        interface {{ l.ifname }}.0;
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+    }
+    mpls {
+{% for l in links|default([]) %}
+{% if l.neighbors is defined %}
+{% for neigh in l.neighbors %}
+{% if not neigh.startswith('ext') %}
+        interface {{ l.ifname }}.0;
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+    }
+}
+routing-options {
+    router-id {{ loopback.ipv4 | ansible.netcommon.ipaddr('address') }};
+}

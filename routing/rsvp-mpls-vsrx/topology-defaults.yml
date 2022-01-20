@@ -1,0 +1,5 @@
+---
+devices:
+  vsrx:
+    memory:
+      libvirt: 4096
