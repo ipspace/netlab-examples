@@ -1,43 +1,33 @@
 interfaces {
-{% for l in links | default([]) %}
-{% if l.neighbors is defined %}
-{% for neigh in l.neighbors %}
-{% if not neigh.startswith('ext') %}
+{% for l in interfaces | default([]) %}
+{%   if not (l.role is defined and l.role == "external") %}
     {{ l.ifname }} {
         mtu 9192;
         unit 0 {
             family mpls;
         }
     }
-{% endif %}
-{% endfor %}
-{% endif %}
+{%   endif %}
 {% endfor %}
 }
 protocols {
     rsvp {
-{% for l in links|default([]) %}
-{% if l.neighbors is defined %}
-{% for neigh in l.neighbors %}
-{% if not neigh.startswith('ext') %}
+{% for l in interfaces | default([]) %}
+{%   if not (l.role is defined and l.role == "external") %}
         interface {{ l.ifname }}.0;
-{% endif %}
-{% endfor %}
-{% endif %}
+{%   endif %}
 {% endfor %}
     }
     mpls {
-{% for l in links|default([]) %}
-{% if l.neighbors is defined %}
-{% for neigh in l.neighbors %}
-{% if not neigh.startswith('ext') %}
+{% for l in interfaces | default([]) %}
+{%   if not (l.role is defined and l.role == "external") %}
         interface {{ l.ifname }}.0;
-{% endif %}
-{% endfor %}
-{% endif %}
+{%   endif %}
 {% endfor %}
     }
 }
+{% if bgp.router_id is defined %}
 routing-options {
-    router-id {{ loopback.ipv4 | ansible.netcommon.ipaddr('address') }};
+    router-id {{ bgp.router_id|ipv4 }};
 }
+{% endif %}

@@ -2,6 +2,14 @@
 .vagrant
 .DS_Store
 
+# Ignore netsim-tools files
+host_vars/
+group_vars/
+config/
+hosts.yml
+Vagrantfile
+ansible.cfg
+
 # Ignore text files
 !requirements.txt
 *.txt
