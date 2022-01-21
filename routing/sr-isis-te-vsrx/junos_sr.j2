@@ -1,0 +1,83 @@
+{% set rtr_id = loopback.ipv4 | ansible.netcommon.ipaddr('address')|string %}
+interfaces {
+{% for l in links|default([]) %}
+{% if l.neighbors is defined %}
+{% for neigh in l.neighbors %}
+{% if not neigh.startswith('ext') %}
+    {{ l.ifname }} {
+        mtu 9192;
+        unit 0 {
+            family mpls;
+        }
+    }
+{% if inventory_hostname == 'ext1' %}
+    lo0 {
+        unit 0 {
+            family inet {
+                address 172.16.1.1/32;
+            }
+        }
+    }
+{% endif %}
+{% if inventory_hostname == 'ext2' %}
+    lo0 {
+        unit 0 {
+            family inet {
+                address 172.17.1.1/32;
+            }
+        }
+    }
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+}
+protocols {
+    isis {
+{% for l in links|default([]) %}
+{% if l.neighbors is defined %}
+{% for neigh in l.neighbors %}
+{% if not neigh.startswith('ext') %}
+        interface {{ l.ifname }} {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+{% if (inventory_hostname.startswith('c') and neigh.startswith('r')) or (inventory_hostname.startswith('r') and (neigh.startswith('c') or neigh.startswith('r'))) %}
+                metric 100;
+{% endif %}
+            }
+        }
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+        source-packet-routing {
+            node-segment {
+                ipv4-index {{ 400 + rtr_id.split('.')[-1]|int }};
+                ipv6-index {{ 600 + rtr_id.split('.')[-1]|int }};
+            }
+        }
+        level 1 disable;
+        level 2 wide-metrics-only;
+        backup-spf-options {
+            use-post-convergence-lfa maximum-backup-paths 2;
+            use-source-packet-routing;
+            }
+    }
+    mpls {
+{% for l in links|default([]) %}
+{% if l.neighbors is defined %}
+{% for neigh in l.neighbors %}
+{% if not neigh.startswith('ext') %}
+        interface {{ l.ifname }}.0;
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+    }
+}
+routing-options {
+    router-id {{ rtr_id }};
+}
