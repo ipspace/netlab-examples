@@ -1,0 +1,8 @@
+# Ansible inventory created from ['topology.yml', 'package:topology-defaults.yml']
+#
+---
+ansible_connection: netconf
+ansible_network_os: junos
+ansible_ssh_pass: Vagrant
+ansible_user: vagrant
+netsim_console_connection: ssh

@@ -1,0 +1,197 @@
+# Ansible inventory created from ['topology.yml', 'package:topology-defaults.yml']
+#
+---
+bgp:
+  advertise_loopback: true
+  as: 65000
+  community:
+    ebgp:
+    - standard
+    ibgp:
+    - standard
+    - extended
+  ipv4: true
+  ipv6: true
+  neighbors:
+  - as: 65000
+    ipv4: 10.0.0.1
+    ipv6: 2001:db8:cafe:1::1
+    name: r1
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.2
+    ipv6: 2001:db8:cafe:2::1
+    name: r2
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.3
+    ipv6: 2001:db8:cafe:3::1
+    name: r3
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.4
+    ipv6: 2001:db8:cafe:4::1
+    name: r4
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.5
+    ipv6: 2001:db8:cafe:5::1
+    name: r5
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.6
+    ipv6: 2001:db8:cafe:6::1
+    name: r6
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.7
+    ipv6: 2001:db8:cafe:7::1
+    name: r7
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.8
+    ipv6: 2001:db8:cafe:8::1
+    name: r8
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.11
+    ipv6: 2001:db8:cafe:b::1
+    name: c1
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.13
+    ipv6: 2001:db8:cafe:d::1
+    name: c3
+    type: ibgp
+  next_hop_self: true
+  router_id: 10.0.0.12
+box: juniper/vsrx3
+interfaces:
+- ifindex: 0
+  ifname: ge-0/0/0
+  ipv4: true
+  ipv6: true
+  isis:
+    network_type: point-to-point
+    passive: false
+  linkindex: 9
+  name: c2 -> c1
+  neighbors:
+  - ifname: ge-0/0/5
+    ipv4: true
+    ipv6: true
+    node: c1
+  remote_id: 11
+  remote_ifindex: 5
+  type: p2p
+  unnumbered: true
+- ifindex: 1
+  ifname: ge-0/0/1
+  ipv4: true
+  ipv6: true
+  isis:
+    metric: 100
+    network_type: point-to-point
+    passive: false
+  linkindex: 10
+  name: c2 -> r3
+  neighbors:
+  - ifname: ge-0/0/1
+    ipv4: true
+    ipv6: true
+    node: r3
+  remote_id: 3
+  remote_ifindex: 1
+  type: p2p
+  unnumbered: true
+- ifindex: 2
+  ifname: ge-0/0/2
+  ipv4: true
+  ipv6: true
+  isis:
+    metric: 100
+    network_type: point-to-point
+    passive: false
+  linkindex: 11
+  name: c2 -> r7
+  neighbors:
+  - ifname: ge-0/0/1
+    ipv4: true
+    ipv6: true
+    node: r7
+  remote_id: 7
+  remote_ifindex: 1
+  type: p2p
+  unnumbered: true
+- ifindex: 3
+  ifname: ge-0/0/3
+  ipv4: true
+  ipv6: true
+  isis:
+    metric: 100
+    network_type: point-to-point
+    passive: false
+  linkindex: 12
+  name: c2 -> r4
+  neighbors:
+  - ifname: ge-0/0/0
+    ipv4: true
+    ipv6: true
+    node: r4
+  remote_id: 4
+  remote_ifindex: 0
+  type: p2p
+  unnumbered: true
+- ifindex: 4
+  ifname: ge-0/0/4
+  ipv4: true
+  ipv6: true
+  isis:
+    metric: 100
+    network_type: point-to-point
+    passive: false
+  linkindex: 13
+  name: c2 -> r6
+  neighbors:
+  - ifname: ge-0/0/0
+    ipv4: true
+    ipv6: true
+    node: r6
+  remote_id: 6
+  remote_ifindex: 0
+  type: p2p
+  unnumbered: true
+- ifindex: 5
+  ifname: ge-0/0/5
+  ipv4: true
+  ipv6: true
+  isis:
+    network_type: point-to-point
+    passive: false
+  linkindex: 14
+  name: c2 -> c3
+  neighbors:
+  - ifname: ge-0/0/0
+    ipv4: true
+    ipv6: true
+    node: c3
+  remote_id: 13
+  remote_ifindex: 0
+  type: p2p
+  unnumbered: true
+isis:
+  area: 49.0001
+  ipv4: true
+  ipv6: true
+  type: level-2
+loopback:
+  ipv4: 10.0.0.12/32
+  ipv6: 2001:db8:cafe:c::1/64
+mgmt:
+  ifname: fxp0
+  ipv4: 192.168.121.112
+  mac: 08-4F-A9-00-00-0C
+module:
+- bgp
+- isis
+- sr

@@ -1,0 +1,47 @@
+# Ansible inventory created from ['topology.yml', 'package:topology-defaults.yml']
+#
+---
+bgp:
+  advertise_loopback: true
+  as: 65200
+  community:
+    ebgp:
+    - standard
+    ibgp:
+    - standard
+    - extended
+  ipv4: true
+  neighbors:
+  - as: 65000
+    ifindex: 0
+    ipv4: 10.10.11.2
+    name: r5
+    type: ebgp
+  next_hop_self: true
+  originate:
+  - 172.17.0.0/19
+  router_id: 172.17.1.1
+box: juniper/vsrx3
+interfaces:
+- ifindex: 0
+  ifname: ge-0/0/0
+  ipv4: 10.10.11.1/24
+  linkindex: 20
+  name: ext2 -> r5
+  neighbors:
+  - ifname: ge-0/0/3
+    ipv4: 10.10.11.2/24
+    node: r5
+  remote_id: 5
+  remote_ifindex: 3
+  role: external
+  type: p2p
+loopback:
+  ipv4: 172.17.1.1/32
+  ipv6: 2001:db8:cafe:16::1/64
+mgmt:
+  ifname: fxp0
+  ipv4: 192.168.121.122
+  mac: 08-4F-A9-00-00-16
+module:
+- bgp

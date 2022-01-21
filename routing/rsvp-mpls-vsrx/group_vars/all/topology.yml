@@ -1,0 +1,24 @@
+# Ansible inventory created from ['topology.yml', 'package:topology-defaults.yml']
+#
+---
+netlab_provider: libvirt
+pools:
+  l2only: {}
+  lan:
+    ipv4: 172.16.0.0/16
+    prefix: 24
+  loopback:
+    ipv4: 10.0.0.0/24
+    ipv6: 2001:db8:cafe::/48
+    prefix: 32
+  mgmt:
+    ipv4: 192.168.121.0/24
+    mac: 08-4F-A9-00-00-00
+    prefix: 24
+    start: 100
+  p2p:
+    prefix: 30
+    unnumbered: true
+  router_id:
+    ipv4: 10.0.0.0/24
+    prefix: 32

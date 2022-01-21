@@ -32,11 +32,15 @@ nodes:
     bgp:
       originate:
         - "172.16.0.0/19"
+    loopback:
+      ipv4: 172.16.1.1/32
   ext2:
     module: [bgp]
     bgp:
       originate:
         - "172.17.0.0/19"
+    loopback:
+      ipv4: 172.17.1.1/32
   r1:
   r2:
   r3:
@@ -55,22 +59,58 @@ links:
     prefix: 10.10.10.0/24
   - r1-r2
   - r1-r8
-  - r1-c1
-  - r2-c1
-  - r8-c1
-  - c1-r3
-  - c1-r7
+  - r1:
+    c1:
+    isis:
+      metric: 100
+  - r2:
+    c1:
+    isis:
+      metric: 100
+  - r8:
+    c1:
+    isis:
+      metric: 100
+  - c1:
+    r3:
+    isis:
+      metric: 100
+  - c1:
+    r7:
+    isis:
+      metric: 100
   - c1-c2
-  - r3-c2
-  - r7-c2
-  - c2-r4
-  - c2-r6
+  - r3:
+    c2:
+    isis:
+      metric: 100
+  - r7:
+    c2:
+    isis:
+      metric: 100
+  - c2:
+    r4:
+    isis:
+      metric: 100
+  - c2:
+    r6:
+    isis:
+      metric: 100
   - c2-c3
-  - r4-c3
-  - r6-c3
+  - r4:
+    c3:
+    isis:
+      metric: 100
+  - r6:
+    c3:
+    isis:
+      metric: 100
   - r4-r5
   - r6-r5
-  - c3-r5
+  - c3:
+    r5:
+    isis:
+      metric: 100
   - r5:
     ext2:
     prefix: 10.10.11.0/24

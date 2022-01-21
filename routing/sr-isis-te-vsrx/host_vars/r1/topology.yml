@@ -1,0 +1,158 @@
+# Ansible inventory created from ['topology.yml', 'package:topology-defaults.yml']
+#
+---
+bgp:
+  advertise_loopback: true
+  as: 65000
+  community:
+    ebgp:
+    - standard
+    ibgp:
+    - standard
+    - extended
+  ipv4: true
+  ipv6: true
+  neighbors:
+  - as: 65000
+    ipv4: 10.0.0.2
+    ipv6: 2001:db8:cafe:2::1
+    name: r2
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.3
+    ipv6: 2001:db8:cafe:3::1
+    name: r3
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.4
+    ipv6: 2001:db8:cafe:4::1
+    name: r4
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.5
+    ipv6: 2001:db8:cafe:5::1
+    name: r5
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.6
+    ipv6: 2001:db8:cafe:6::1
+    name: r6
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.7
+    ipv6: 2001:db8:cafe:7::1
+    name: r7
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.8
+    ipv6: 2001:db8:cafe:8::1
+    name: r8
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.11
+    ipv6: 2001:db8:cafe:b::1
+    name: c1
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.12
+    ipv6: 2001:db8:cafe:c::1
+    name: c2
+    type: ibgp
+  - as: 65000
+    ipv4: 10.0.0.13
+    ipv6: 2001:db8:cafe:d::1
+    name: c3
+    type: ibgp
+  - as: 65100
+    ifindex: 0
+    ipv4: 10.10.10.1
+    name: ext1
+    type: ebgp
+  next_hop_self: true
+  router_id: 10.0.0.1
+box: juniper/vsrx3
+interfaces:
+- ifindex: 0
+  ifname: ge-0/0/0
+  ipv4: 10.10.10.2/24
+  linkindex: 1
+  name: r1 -> ext1
+  neighbors:
+  - ifname: ge-0/0/0
+    ipv4: 10.10.10.1/24
+    node: ext1
+  remote_id: 21
+  remote_ifindex: 0
+  role: external
+  type: p2p
+- ifindex: 1
+  ifname: ge-0/0/1
+  ipv4: true
+  ipv6: true
+  isis:
+    network_type: point-to-point
+    passive: false
+  linkindex: 2
+  name: r1 -> r2
+  neighbors:
+  - ifname: ge-0/0/0
+    ipv4: true
+    ipv6: true
+    node: r2
+  remote_id: 2
+  remote_ifindex: 0
+  type: p2p
+  unnumbered: true
+- ifindex: 2
+  ifname: ge-0/0/2
+  ipv4: true
+  ipv6: true
+  isis:
+    network_type: point-to-point
+    passive: false
+  linkindex: 3
+  name: r1 -> r8
+  neighbors:
+  - ifname: ge-0/0/0
+    ipv4: true
+    ipv6: true
+    node: r8
+  remote_id: 8
+  remote_ifindex: 0
+  type: p2p
+  unnumbered: true
+- ifindex: 3
+  ifname: ge-0/0/3
+  ipv4: true
+  ipv6: true
+  isis:
+    metric: 100
+    network_type: point-to-point
+    passive: false
+  linkindex: 4
+  name: r1 -> c1
+  neighbors:
+  - ifname: ge-0/0/0
+    ipv4: true
+    ipv6: true
+    node: c1
+  remote_id: 11
+  remote_ifindex: 0
+  type: p2p
+  unnumbered: true
+isis:
+  area: 49.0001
+  ipv4: true
+  ipv6: true
+  type: level-2
+loopback:
+  ipv4: 10.0.0.1/32
+  ipv6: 2001:db8:cafe:1::1/64
+mgmt:
+  ifname: fxp0
+  ipv4: 192.168.121.101
+  mac: 08-4F-A9-00-00-01
+module:
+- bgp
+- isis
+- sr
