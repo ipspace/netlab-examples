@@ -10,19 +10,7 @@ provider: clab
 defaults:
   device: srlinux
   sr.extra_attributes.global: [ srgb_range_start, srgb_range_size ]
-  providers:
-    clab:
-      devices:
-        srlinux:
-          provider_type: ixr6 # SR-MPLS only supported on 7250 IXR platform
-
-addressing:
-  unnumbered:
-    unnumbered: True
-  # p2p:
-  #   ipv6: 2001:db8:1234::/48 # Links need ipv6 in order to form ISIS adjacencies
-  # loopback:
-  #   ipv6: 2001:db8:cafe::/48
+  devices.srlinux.clab.node.type: ixr6 # SR-MPLS only supported on 7250 IXR platform
 
 # SR Global Block label range
 sr.srgb_range_start: 500000
@@ -42,8 +30,7 @@ nodes:
     module: [ isis,sr ]
   c2:
     module: [ isis,sr ]
-    device: sros
-    license: /Projects/SR_OS_VSR-SIM_license.txt
+    # device: sros
 
   # EDGE
   e1:
@@ -52,8 +39,7 @@ nodes:
       as: 65000
   e2:
     module: [ isis, bgp, sr ]
-    device: sros
-    license: /Projects/SR_OS_VSR-SIM_license.txt
+    # device: sros
     bgp:
       as: 65000
 
@@ -74,11 +60,7 @@ links:
 - e1-c1
 - e1-c2
 - e2-c1
-
-- e2:
-  c2:
-  # unnumbered: True
-  role: unnumbered
+- e2-c2
 
 # External links
 - x1-e1
