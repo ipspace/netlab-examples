@@ -79,8 +79,8 @@ A:e1# info
 
 ### Router E1 ISIS adjacencies:
 ```
---{ + running }--[  ]--                                                                                                                                            
-A:e1# show network-instance default protocols isis adjacency                                                                                                                                    
+--{ + running }--[  ]-
+A:e1# show network-instance default protocols isis adjacency
 ---------------------------------------------------------------------------------------------------------------------------------------------
 Network Instance: default
 Instance        : Gandalf
