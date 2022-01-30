@@ -1,0 +1,19 @@
+#
+# Using FRR on containerlab to make it fast
+#
+defaults.device: iosv
+#
+module: [ isis, bgp ]
+
+bgp.as: 65000
+bgp.rr_cluster_id: False
+
+nodes:
+  rr1:
+    bgp.rr: True
+  rr2:
+    bgp.rr: True
+  pe1:
+  pe2:
+
+links: [ rr1-pe1, rr1-pe2, rr2-pe1, rr2-pe2 ]
