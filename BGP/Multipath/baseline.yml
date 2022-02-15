@@ -1,5 +1,6 @@
+provider: clab
 module: [ bgp, ospf ]
-defaults.device: iosv
+defaults.device: eos
 bgp.as: 65000
 
 nodes:
@@ -14,4 +15,4 @@ nodes:
     bgp.as: 65100
     bgp.originate: [ 10.42.42.0/24 ]
 
-links: [ a-b, a-c, b-d, c-d, b-rr, d-rr, c-y, d-y, m-c, m-d ]
+links: [ a-b, a-c, b-d, c-d, b-rr, d-rr, c-y, d-y ]
