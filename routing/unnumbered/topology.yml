@@ -1,0 +1,23 @@
+addressing:
+  p2p:
+    unnumbered: true
+
+module: [ ospf ]
+
+nodes:
+  c_nxos:
+    device: nxos
+  c_csr:
+    device: csr
+  a_eos:
+    device: eos
+  j_vsrx:
+    device: vsrx
+
+links:
+- c_nxos-a_eos
+- c_nxos-c_csr
+- c_nxos-j_vsrx
+- a_eos-j_vsrx
+- a_eos-c_csr
+- c_csr-j_vsrx

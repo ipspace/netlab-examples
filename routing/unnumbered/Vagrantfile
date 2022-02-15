@@ -1,19 +1,57 @@
 Vagrant.configure("2") do |config|
+
+VAGRANT_COMMAND = ARGV[0]
+
+$cumulus_script = <<-SCRIPT
+function set_cumulus_password(){
+    echo "### Setting cumulus user password to 'cumulus' ###"
+    echo "cumulus ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/10_cumulus
+    echo "cumulus:cumulus" | chpasswd
+    mkdir /home/cumulus/.ssh/
+    cat /home/vagrant/.ssh/authorized_keys >> /home/cumulus/.ssh/authorized_keys
+    chown -R cumulus:cumulus /home/cumulus/.ssh/
+    chmod 0700 /home/cumulus/.ssh/
+    chmod 0600 /home/cumulus/.ssh/authorized_keys
+}
+function disable_ztp(){
+    echo "### Disabling ZTP service..."
+    systemctl stop ztp.service
+    ztp -d 2>&1
+}
+if grep -q -i 'cumulus' /etc/lsb-release &> /dev/null; then
+    echo "### RUNNING CUMULUS EXTRA CONFIG ###"
+    set_cumulus_password
+    disable_ztp
+fi
+SCRIPT
+
   config.vm.define "c_nxos" do |c_nxos|
     c_nxos.vm.provider :libvirt do |domain|
       domain.management_network_mac = "08-4F-A9-00-00-01"
+      domain.qemu_use_session = false
     end
     c_nxos.vm.box = "cisco/nexus9300v"
     c_nxos.vm.synced_folder ".", "/vagrant", disabled: true
     c_nxos.ssh.insert_key = false
+    c_nxos.ssh.shell = "run bash"
     c_nxos.vm.boot_timeout = 360
     c_nxos.vm.guest = :freebsd
 
     c_nxos.vm.provider :libvirt do |domain|
-      domain.memory = 6144
       domain.cpus = 2
+      domain.features = ['acpi']
+      domain.loader = "/usr/share/OVMF/OVMF_CODE.fd"
+      domain.memory = 6144
+      domain.disk_bus = "sata"
+      domain.disk_device = "sda"
+      domain.disk_driver :cache => "none"
+      domain.nic_model_type = "e1000"
+      domain.graphics_type = "none"
       domain.driver = "kvm"
     end
+    c_nxos.vm.provider :libvirt do |domain|
+    end
+
     c_nxos.vm.network :private_network,
                   :libvirt__tunnel_type => "udp",
                   :libvirt__tunnel_local_ip => "127.1.1.1",
@@ -42,11 +80,12 @@ Vagrant.configure("2") do |config|
   config.vm.define "c_csr" do |c_csr|
     c_csr.vm.provider :libvirt do |domain|
       domain.management_network_mac = "08-4F-A9-00-00-02"
+      domain.qemu_use_session = false
     end
     c_csr.vm.box = "cisco/csr1000v"
     c_csr.vm.synced_folder ".", "/vagrant", disabled: true
     c_csr.ssh.insert_key = false
-    c_csr.vm.boot_timeout = 180
+    c_csr.vm.boot_timeout = 240
     c_csr.vm.guest = :freebsd
 
     c_csr.vm.provider :libvirt do |domain|
@@ -55,6 +94,9 @@ Vagrant.configure("2") do |config|
       domain.cpus = 2
       domain.driver = "kvm"
     end
+    c_csr.vm.provider :libvirt do |domain|
+    end
+
     c_csr.vm.network :private_network,
                   :libvirt__tunnel_type => "udp",
                   :libvirt__tunnel_local_ip => "127.1.2.2",
@@ -83,6 +125,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "a_eos" do |a_eos|
     a_eos.vm.provider :libvirt do |domain|
       domain.management_network_mac = "08-4F-A9-00-00-03"
+      domain.qemu_use_session = false
     end
     a_eos.vm.box = "arista/veos"
     a_eos.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
@@ -96,6 +139,9 @@ Vagrant.configure("2") do |config|
       domain.memory = 2048
       domain.driver = "kvm"
     end
+    a_eos.vm.provider :libvirt do |domain|
+    end
+
     a_eos.vm.network :private_network,
                   :libvirt__tunnel_type => "udp",
                   :libvirt__tunnel_local_ip => "127.1.3.1",
@@ -124,10 +170,11 @@ Vagrant.configure("2") do |config|
   config.vm.define "j_vsrx" do |j_vsrx|
     j_vsrx.vm.provider :libvirt do |domain|
       domain.management_network_mac = "08-4F-A9-00-00-04"
+      domain.qemu_use_session = false
     end
+    j_vsrx.vm.box = "juniper/vsrx3"
     cwd = Dir.pwd.split("/").last
     guest_name = "j_vsrx"
-    j_vsrx.vm.box = "juniper/vsrx3"
     j_vsrx.vm.guest = :tinycore
     j_vsrx.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
@@ -146,6 +193,9 @@ Vagrant.configure("2") do |config|
       domain.memory = 4096
       domain.disk_bus = "ide"
     end
+    j_vsrx.vm.provider :libvirt do |domain|
+    end
+
     j_vsrx.vm.network :private_network,
                   :libvirt__tunnel_type => "udp",
                   :libvirt__tunnel_local_ip => "127.1.4.0",
