@@ -1,0 +1,23 @@
+defaults.device: linux
+
+vrfs:
+  red:
+  blue:
+
+nodes:
+  rtr:
+    module: [ vrf ]
+  h1:
+  h2:
+  h3:
+  h4:
+
+links:
+- rtr: { vrf: red }
+  h1:
+- rtr: { vrf: red } 
+  h2:
+- rtr: { vrf: blue }
+  h3:
+- rtr: { vrf: blue }
+  h4:

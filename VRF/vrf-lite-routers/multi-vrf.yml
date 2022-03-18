@@ -1,0 +1,42 @@
+defaults.device: cumulus
+
+vrfs:
+  red:
+  blue:
+
+module: [ vrf,ospf,bgp ]
+bgp.as: 65000
+
+nodes:
+  pe1:
+  pe2:
+  cr1:
+    module: [ ospf ]
+  cr2:
+    module: [ ospf ]
+  cb1:
+    module: [ bgp ]
+    bgp.as: 65101
+  cb2:
+    module: [ bgp ]
+    bgp.as: 65102
+
+links:
+- pe1: { vrf: red }
+  pe2: { vrf: red }
+  cr1:
+  ospf.cost: 10
+- pe1: { vrf: red }
+  cr2:
+  ospf.cost: 10
+- pe2: { vrf: red }
+  cr2:
+  ospf.cost: 10
+- pe1: { vrf: blue }
+  cb1:
+- pe2: { vrf: blue }
+  cb1:
+- pe1: { vrf: blue }
+  cb2:
+- pe2: { vrf: blue }
+  cb2:
