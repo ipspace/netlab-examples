@@ -8,7 +8,13 @@ The central autonomous system has a route reflector and a P-router that is not r
 
 ![Physical lab topology](topology.link.png)
 
-The lab topology uses a mix of Cisco IOSv and Arista vEOS devices with *libvirt* provider.
+The lab topology uses Cisco IOSv devices with *libvirt* provider.
+
+To start the lab with a different default device (for example, replacing Cisco IOSv with Arista vEOS), use `-d` argument of **netlab up** command:
+
+```
+netlab up -d <type>
+```
 
 To test MPLS configuration module with other devices without changing the lab topology file, change the PE1 device type with `-s` argument of **netlab up** command:
 
