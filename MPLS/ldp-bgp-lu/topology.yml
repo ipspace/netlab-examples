@@ -1,0 +1,32 @@
+defaults.device: iosv
+
+module: [ ospf, mpls, bgp ]
+bgp.as: 65000
+mpls.ldp:
+  explicit_null: True
+mpls.bgp:
+  ipv4: True
+  explicit_null: True
+
+nodes:
+  pe1:
+  pe2:
+    device: eos
+    mpls.ldp.disable_unlabeled: False
+  p:
+    module: [ ospf, mpls ]
+    mpls.bgp: False
+    bgp.as: 65000
+  rr:
+    bgp.rr: True
+  ce1:
+    bgp.as: 65101
+  ce2:
+    bgp.as: 65102
+
+links:
+- pe1-ce1
+- pe2-ce2
+- pe1-p
+- pe2-p
+- rr-p
