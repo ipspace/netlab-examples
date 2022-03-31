@@ -1,5 +1,5 @@
 ---
-defaults.device: iosv
+defaults.device: eos
 
 module: [ bgp, ospf ]
 bgp.as: 65000
@@ -9,8 +9,8 @@ nodes:
     id: 1
     bgp.rr: true
   e1:
-    device: iosv
   e2:
-    device: iosv
+  x1:
+    bgp.as: 65100
 
-links: [ e1-rr, rr-e2 ]
+links: [ e1-rr, e2-rr, x1-rr ]
