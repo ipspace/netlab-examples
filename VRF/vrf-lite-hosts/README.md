@@ -32,15 +32,20 @@ The `multi-vrf.yml` topology contains two isolated VRFs:
 * VRF *red* containing Linux hosts h1 and h2
 * VRF *blue* containing Linux hosts h3 and h4
 
+![Isolated VRFs topology](vrf-lite-simple.png)
+
 After starting the lab, h1 should be able to ping h2 but not h3 or h4, and h3 should be able to ping h4 but not h1 or h2.
 
 ## Inter-VRF Route Leaking
 
-The `vrf-route-leaking.yml` topology contains two VRFs:
+The `vrf-route-leaking.yml` topology contains three VRFs:
 
-* VRF *red* containing Linux hosts h1 and h2
-* VRF *blue* containing Linux hosts h3 and h4
+* VRF *red* containing Linux host h1
+* VRF *blue* containing Linux host h2
+* VRF *common* contains Linux host srv
 
-Routes from *red* VRF are imported into *red* and *blue* VRF. Likewise, the routes from *blue* VRF are imported into both VRFs.
+A simple common services VPN topology is set up to enable h1 and h2 to communicate with srv, but not with each other:
 
-After starting the lab, all hosts (h1..h4) should be able to ping all other hosts.
+![Common services VRFs](vrf-lite-common.png)
+
+After starting the lab, h1 and h2 should be able to ping srv but not each other.

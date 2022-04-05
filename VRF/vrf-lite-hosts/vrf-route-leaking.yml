@@ -2,25 +2,24 @@ defaults.device: linux
 
 vrfs:
   red:
-    import: [ red, blue ]
+    import: [ red, common ]
   blue:
-    import: [ red, blue ]
+    import: [ blue, common ]
+  common:
+    import: [ red, blue, common ]
 
 nodes:
   rtr:
     module: [ vrf ]
-    bgp.as: 65000
+    device: eos
   h1:
   h2:
-  h3:
-  h4:
+  srv:
 
 links:
 - rtr: { vrf: red }
   h1:
-- rtr: { vrf: red } 
+- rtr: { vrf: blue } 
   h2:
-- rtr: { vrf: blue }
-  h3:
-- rtr: { vrf: blue }
-  h4:
+- rtr: { vrf: common }
+  srv:
