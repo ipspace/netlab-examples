@@ -1,0 +1,6 @@
+router bgp {{ bgp.as }}
+ maximum-paths 16
+ bgp additional-paths install ecmp-primary
+{% for n in bgp.neighbors if n.type == 'ibgp' %}
+ neighbor {{ n.ipv4 }} additional-paths send any
+{% endfor %}
