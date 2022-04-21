@@ -1,4 +1,4 @@
-defaults.device: iosv
+defaults.device: eos
 
 vrfs:
   red:
