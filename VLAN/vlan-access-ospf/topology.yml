@@ -1,0 +1,25 @@
+groups:
+  routers:
+    members: [ r1, r2 ]
+    device: cumulus
+    module: [ ospf ]
+  switches:
+    members: [ s1, s2 ]
+    module: [ vlan, ospf ]
+    device: iosv
+
+vlans:
+  red:
+
+nodes: [ r1, r2, s1, s2 ]
+
+links:
+- r1:
+  s1:
+    vlan.access: red
+- s1:
+  s2:
+  vlan.access: red
+- s2:
+    vlan.access: red
+  r2:

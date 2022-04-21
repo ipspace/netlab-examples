@@ -4,7 +4,7 @@ This lab illustrates the *netsim-tools* multi-platform custom configuration temp
 
 ![Lab topology](multi-platform-bgp-anycast.png)
 
-Notes:
+**Notes:**
 * Anycast nodes are a mix of Cisco IOSv, Arista vEOS, and Cumulus VX
 * Leaf nodes are a mix of Cisco IOSv and Arista vEOS
 * Anycast configuration templates are in the `bgp-anycast` directory

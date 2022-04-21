@@ -1,0 +1,36 @@
+groups:
+  hosts:
+    members: [ h1, h2, h3, h4 ]
+    device: linux
+  switches:
+    members: [ s1, s2 ]
+    device: iosv
+    module: [ vlan ]
+
+nodes:
+  h1:
+  h2:
+  h3:
+  h4:
+  s1:
+    vlans:
+      red:
+  s2:
+    vlans:
+      blue:
+
+links:
+- h1:
+  s1:
+    vlan.access: red
+- h2:
+  s1:
+    vlan.access: red
+- s1:
+  s2:
+- s2:
+    vlan.access: blue
+  h3:
+- s2:
+    vlan.access: blue
+  h4:
