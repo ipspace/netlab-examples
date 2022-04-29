@@ -10,7 +10,7 @@ provider: clab
 
 module: [ bfd, isis, sr ]
 
-plugin: [ epipe, mpls-te, macsec ]
+plugin: [ epipe, mpls-te ]
 
 defaults:
   # custom_link_types: [ epipe ]
