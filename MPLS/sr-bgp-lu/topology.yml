@@ -1,0 +1,30 @@
+module: [ isis, sr, mpls, bgp ]
+
+defaults.device: eos
+
+bgp.as: 65000
+mpls.bgp:
+  ipv4: True
+  explicit_null: True
+
+nodes:
+  pe1:
+  pe2:
+  p:
+    module: [ isis, sr ]
+    mpls.bgp: False
+    bgp.as: 65000
+  rr:
+    bgp.rr: True
+  ce1:
+    bgp.as: 65101
+    mpls.bgp: False
+  ce2:
+    bgp.as: 65102
+
+links:
+- pe1-ce1
+- pe2-ce2
+- pe1-p
+- pe2-p
+- rr-p
