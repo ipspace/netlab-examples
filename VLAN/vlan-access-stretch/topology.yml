@@ -1,3 +1,7 @@
+provider: clab
+
+nodes: [ h1, h2, s1, s2 ]
+
 groups:
   hosts:
     members: [ h1, h2 ]
@@ -5,12 +9,10 @@ groups:
   switches:
     members: [ s1, s2 ]
     module: [ vlan ]
-    device: iosv
+    device: eos
 
 vlans:
   red:
-
-nodes: [ h1, h2, s1, s2 ]
 
 links:
 - h1:
