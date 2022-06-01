@@ -1,10 +1,10 @@
-# VLAN Trunk
+# Combining VLANs with VRFs
 
-This directory contains *netsim-tools* topology file for a simple VLAN trunk scenario with a two VLANs stretched across two switches.
+This directory contains *netsim-tools* topology file for a VLAN trunk combined with VRFs: *red* VLAN is in *red* VRF, *blue* VLAN is in *blue* VRF
 
-![VLAN trunk topology](vlan-trunk.png)
+![VLAN+VRF topology](vlan-vrf.png)
 
-After starting the lab, all hosts should be able to ping each other and the VLAN interfaces of s1 and s2, but they should not be able to ping s1 *and* s2 loopback interfaces as the lab is not using dynamic routing.
+After starting the lab, h1 should be able to ping h2, but not h3 or h4 (they are in different VRF).
 
 ## Changing Device Types
 
