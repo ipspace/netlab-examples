@@ -44,13 +44,13 @@ links:
   vlan.trunk: [ red, blue ]  
 - h1:
   r1:
-    vlan.access: red
+    vrf: red
 - h3:
   r1:
-    vlan.access: blue
+    vrf: blue
 - h2:
-  r2:
-    vlan.access: red
+  r3:
+    vrf: red
 - h4:
-  r2:
-    vlan.access: blue
+  r3:
+    vrf: blue
