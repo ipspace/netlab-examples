@@ -6,7 +6,7 @@ This lab illustrates the need for IBGP sessions between BGP route reflectors. Th
 
 To set up this lab:
 
-* [Install netsim-tools](https://netsim-tools.readthedocs.io/en/latest/install.html) on a Ubuntu machine with **pip3 install --upgrade netsim-tools**
+* [Install netlab](https://netsim-tools.readthedocs.io/en/latest/install.html) on a Ubuntu machine with **pip3 install --upgrade networklab**
 * Install Docker and Containerlab on the same machine with **netlab install containerlab**
 * Copy topology.yml into an empty directory
 * Execute **netlab up**

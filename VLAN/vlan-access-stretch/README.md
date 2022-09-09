@@ -1,6 +1,6 @@
 # Single VLAN Stretched Across Two Switches
 
-This directory contains *netsim-tools* topology file for a simple VLAN scenario with a single VLAN stretched across two switches.
+This directory contains *netlab* topology file for a simple VLAN scenario with a single VLAN stretched across two switches.
 
 ![Single VLAN topology](vlan-simple.png)
 
@@ -8,7 +8,7 @@ After starting the lab, h1 and h2 should be able to ping each other and the VLAN
 
 ## Changing Device Types
 
-This topology can be used with all network devices supporting VLAN configuration module and all virtualization providers supported by *netsim-tools*:
+This topology can be used with all network devices supporting VLAN configuration module and all virtualization providers supported by *netlab*:
 
 * To change the switch device type, use `-s groups.switches.device=xxx` CLI argument
 * To change the virtualization provider, use `-p` CLI argument.

@@ -6,15 +6,11 @@ This directory contains topology files, Vagrantfile, Ansible inventory, and rout
 
 You could use router configurations from the `config` directory (EIGRP + OSPF combo) or follow this recipe that works out-of-the box with *vagrant-libvirt* (some assembly required for other environments):
 
-* [Install *netsim-tools*](https://netsim-tools.readthedocs.io/en/latest/install.html) and add the top directory to your path.
-* Create Ansible and Vagrant configuration files with **netlab create _filename_**
-* Create virtual lab with **vagrant up**
-* Deploy device configurations with **netlab initial**
+* [Install *netlab*](https://netsim-tools.readthedocs.io/en/latest/install.html).
+* Start the lab with **netlab up _topology-file_**
 
 **Notes:**
 
-* EIGRP is supported in *netsim-tools* in release 0.7.
-* **netlab** CLI was introduced in *netsim-tools* release 0.8.
 * To run your tests with a different virtualization provider, add **provider: virtualbox** or **provider: clab** to the topology file(s).
 
 Sample topology files:

@@ -12,8 +12,6 @@ This directory contains test Ansible playbooks that interact with Junos and Nexu
 To test these examples on your own:
 
 * Clone the repository.
-* [Install *netsim-tools*](https://netsim-tools.readthedocs.io/en/latest/install.html)
-* Within the `Ansible/XML` directory execute `netlab create`  to create *Vagrantfile*, Ansible inventory, and *ansible.cfg*
+* [Install *netlab*](https://netsim-tools.readthedocs.io/en/latest/install.html)
+* Within the `Ansible/XML` directory execute `netlab up`  to start the lab
 * Have fun
-
-**Note:** The *Vagrantfile* created by the **netlab create** tool will be usable on a Linux system with *vagrant-libvirt* plugin. Please feel free to [add support for VirtualBox Vagrant boxes](https://netsim-tools.readthedocs.io/en/latest/contribute.html) to *[netsim-tools](https://github.com/ipspace/netsim-tools)* and submit a pull request.

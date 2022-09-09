@@ -5,28 +5,23 @@ This example is a variation on this [BGP Add Path example](../Multipath), using
 a pair of SR OS nodes (RR and M) and a set of SR Linux devices instead.
 
 # Prerequisites
-* [NetSim PR](https://github.com/ipspace/netsim-tools/pull/57) to add SROS/SRLinux support
 * License file for the SR OS vSR VMs
 
 # Instructions
 ```
-netsim up
+netlab up
 ```
 
 # Deep dive
-This example uses the Initial, [OSPF](https://netsim-tools.readthedocs.io/en/latest/module/ospf.html)
-and [BGP](https://netsim-tools.readthedocs.io/en/latest/module/bgp.html) modules to
-provision a topology consisting of 7 nodes, 6 of which represent a network peering with an external network (Y).
+This example uses the Initial, [OSPF](https://netsim-tools.readthedocs.io/en/latest/module/ospf.html) and [BGP](https://netsim-tools.readthedocs.io/en/latest/module/bgp.html) modules to provision a topology consisting of 7 nodes, 6 of which represent a network peering with an external network (Y).
 
-The 6 internal nodes use a BGP Route Reflector (RR) for iBGP peering, and the use case
-revolves around providing optimal paths for each node in this asymmetric case. Specifically,
-node M could use multiple ECMP paths to reach external node Y - using BGP Add Path.
+The 6 internal nodes use a BGP Route Reflector (RR) for iBGP peering, and the use case revolves around providing optimal paths for each node in this asymmetric case. Specifically, node M could use multiple ECMP paths to reach external node Y - using BGP Add Path.
 
-In terms of capabilities, Nokia SR OS supports BGP Add Path ([RFC7911](https://datatracker.ietf.org/doc/html/rfc7911))
-but SR Linux does not. That is why nodes RR and M are implemented using SR OS, while the rest can use SRLinux.
+In terms of capabilities, Nokia SR OS supports BGP Add Path ([RFC7911](https://datatracker.ietf.org/doc/html/rfc7911)) but SR Linux does not. That is why nodes RR and M are implemented using SR OS, while the rest can use SRLinux.
 
 ## Base state without BGP Add Path
-After commenting out the 'bgp-addpath.js' custom config template, the initial state is as follows:
+
+After commenting out the 'bgp-addpath.j2' custom config template, the initial state is as follows:
 
 Every node is fully connected to OSPF neighbors:
 ```
@@ -47,8 +42,7 @@ No. of Neighbors: 2
 ===============================================================================
 ```
 
-The Route Reflector (RR) receives the external prefix 10.42.42.0/24 from both C and D,
-picking D because of the lower IGP cost from its perspective, 1 (via D) versus 17 via D(10.0.0.5) and then C(10.0.0.4):
+The Route Reflector (RR) receives the external prefix 10.42.42.0/24 from both C and D, picking D because of the lower IGP cost from its perspective, 1 (via D) versus 17 via D(10.0.0.5) and then C(10.0.0.4):
 ```
 A:admin@rr# show router bgp neighbor "10.0.0.4" received-routes | match 10.42.42.0 post-lines 2
 *?    10.42.42.0/24                                      100         None

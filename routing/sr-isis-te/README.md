@@ -2,8 +2,8 @@
 
 See [original use case by Derek Cheung](https://medium.com/r/?url=https%3A%2F%2Fderekcheung.medium.com%2Fsegment-routing-b69f6ea2e3f5)
 
-Netsim-Tools release 1.0.6 introduces support for [custom plugins](https://github.com/ipspace/netsim-tools/blob/master/docs/plugins.md).
-This example illustrates 3 of them:
+This example uses three *netlab* [custom plugins](https://github.com/ipspace/netsim-tools/blob/master/docs/plugins.md):
+
 * An SDP ePipe plugin to build ePipe services (both local and distributed)
 * An MPLS-TE plugin to define custom MPLS paths (depends on SDP plugin)
 * A MACsec plugin to configure security parameters
@@ -18,7 +18,7 @@ All plugins are relatively simple, by design; following the [Unix philosophy](ht
 This use case is different in that it models an extended L2 service: Host 1 and host 2 are both on the same subnet,
 separated by an MPLS network topology that features a traffic-engineered ePipe service over SR-ISIS.
 
-Netsim-Tools currently assumes 'atomic' links, i.e. different links are assigned different prefixes from a pool.
+netlab currently assumes 'atomic' links, i.e. different links are assigned different prefixes from a pool.
 This example uses custom manual addressing, selectively removing IP addresses from interfaces as needed.
 
 ## MACsec on 7x50

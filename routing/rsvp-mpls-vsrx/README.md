@@ -14,6 +14,6 @@ This lab creates a network topology with:
 
 ## To recreate the lab
 
-* [Install *netsim-tools*](https://netsim-tools.readthedocs.io/en/latest/install.html) and [create your lab environment](https://netsim-tools.readthedocs.io/en/latest/install.html#building-the-lab-environment)
+* [Install *netlab*](https://netsim-tools.readthedocs.io/en/latest/install.html) and [create your lab environment](https://netsim-tools.readthedocs.io/en/latest/install.html#building-the-lab-environment)
 * Clone this repository (or download the contents of this directory)
 * Create the configuration files and start the simulation with `netlab up vsrx_rsvp.yml`

@@ -150,11 +150,3 @@ IPv4 tunnel table of network-instance "default"
 -------------------------------------------------------------------------------------------------------------------------------------------------
 3 SR-ISIS tunnels, 3 active, 0 inactive
 ```
-
-## netsim-tools requirements
-
-This example requires ISIS and SR modules for SR Linux and SR OS introduced in _netsim-tools_ release 1.0.6. Use the following command to install or upgrade _netsim-tools_:
-
-```
-python3 -m pip install --upgrade 'netsim-tools>=1.0.6*'
-```

@@ -5,7 +5,7 @@ defaults:
 nodes:
 - name: pe1
   as: 65000
-  device: csr
+  device: eos
 - p1
 - p2
 - name: pe2

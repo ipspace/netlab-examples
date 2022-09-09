@@ -6,11 +6,9 @@ This lab setup was used to produce printouts in the _[Unequal-Cost Multipath wit
 
 The final router configurations are in the [config](config) directory. To recreate the lab:
 
-* [Install *netsim-tools*](https://netsim-tools.readthedocs.io/en/latest/install.html) and [create your lab environment](https://netsim-tools.readthedocs.io/en/latest/install.html#building-the-lab-environment)
+* [Install *netlab*](https://netsim-tools.readthedocs.io/en/latest/install.html) and [create your lab environment](https://netsim-tools.readthedocs.io/en/latest/install.html#building-the-lab-environment)
 * Copy [lab.yml](lab.yml) and Jinja2 templates into an empty directory (or clone this repository)
-* Create the configuration files with **netlab create lab.yml**
-* Start the lab with **vagrant up**
-* Configure the lab with **netlab initial**
+* Start the lab with **netlab up lab.yml**
 * Configure BGP DMZ Bandwidth on the edge devices with
 
 ```

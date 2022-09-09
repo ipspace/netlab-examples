@@ -1,8 +1,8 @@
 # VRF Lite with Hosts Test Cases
 
-This directory contains *netsim-tools* topology files describing several simple VRF Lite test cases containing a set of hosts attached to a single router.
+This directory contains *netlab* topology files describing several simple VRF Lite test cases containing a set of hosts attached to a single router.
 
-The test cases can be used with all network devices supporting VRF configuration module and all virtualization providers supported by *netsim-tools*:
+The test cases can be used with all network devices supporting VRF configuration module and all virtualization providers supported by *netlab*:
 
 * To change the router device type, use `-s nodes.rtr.device=xxx` CLI argument
 * To change the virtualization provider, use `-p` CLI argument.

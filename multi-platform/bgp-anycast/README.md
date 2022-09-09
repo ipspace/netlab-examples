@@ -1,6 +1,6 @@
 # Multi-Platform BGP Anycast Lab
 
-This lab illustrates the *netsim-tools* multi-platform custom configuration templates.
+This lab illustrates the *netlab* multi-platform custom configuration templates.
 
 ![Lab topology](multi-platform-bgp-anycast.png)
 

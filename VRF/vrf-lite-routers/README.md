@@ -1,8 +1,8 @@
 # VRF Lite with CE Routers Test Cases
 
-This directory contains *netsim-tools* topology files describing several simple VRF Lite test cases containing a set of CE routers attached to a pair of PE routers running VRF Lite.
+This directory contains *netlab* topology files describing several simple VRF Lite test cases containing a set of CE routers attached to a pair of PE routers running VRF Lite.
 
-The test cases can be used with all network devices supporting VRF configuration module and all virtualization providers supported by *netsim-tools*:
+The test cases can be used with all network devices supporting VRF configuration module and all virtualization providers supported by *netlab*:
 
 * To change the router device type for **pe1**, use `-s nodes.pe1.device=xxx` CLI argument
 * To change the router device type for **pe2**, use `-s nodes.pe2.device=xxx` CLI argument

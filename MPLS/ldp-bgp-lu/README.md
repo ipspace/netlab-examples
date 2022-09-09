@@ -10,7 +10,7 @@ The central autonomous system has a route reflector and a P-router that is not r
 
 We're using LDP with OSPF to establish end-to-end MPLS paths across the central autonomous system.
 
-The lab topology uses Arista EOS devices with *libvirt* provider. Use *[netsim-tools](https://netsim-tools.readthedocs.io/en/latest/)* release 1.2 or later to create the lab.
+The lab topology uses Arista EOS devices with *libvirt* provider. Use *[netlab](https://netsim-tools.readthedocs.io/en/latest/)* release 1.2 or later to create the lab.
 
 To start the lab with a different default device (for example, Cisco IOSv), use `-d` argument of **netlab up** command:
 

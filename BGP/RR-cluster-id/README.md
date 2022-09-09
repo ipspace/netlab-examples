@@ -6,7 +6,7 @@ You can use this lab to investigate the impact of BGP RR Cluster ID on BGP updat
 
 To set up this lab:
 
-* [Install netsim-tools](https://netsim-tools.readthedocs.io/en/latest/install.html) and a [virtualization environment of your choice](https://netsim-tools.readthedocs.io/en/latest/install.html#building-the-lab-environment)
+* [Install netlab](https://netsim-tools.readthedocs.io/en/latest/install.html) and a [virtualization environment of your choice](https://netsim-tools.readthedocs.io/en/latest/install.html#building-the-lab-environment)
 * Copy topology.yml into an empty directory
 * Execute **netlab up**
 

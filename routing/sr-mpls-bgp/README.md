@@ -18,6 +18,6 @@ IGP routing and MPLS:
 To set up this lab:
 
 * Copy topology.yml into an empty directory
-* [Install netsim-tools](https://netsim-tools.readthedocs.io/en/latest/install.html)
+* [Install netlab](https://netsim-tools.readthedocs.io/en/latest/install.html)
 * [Install a virtualization environment](https://netsim-tools.readthedocs.io/en/latest/install.html#building-the-lab-environment) and vEOS and CSR VM images.
 * Execute **netlab up**
