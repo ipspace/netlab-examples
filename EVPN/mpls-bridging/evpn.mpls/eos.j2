@@ -4,7 +4,7 @@ router bgp {{ bgp.as }}
 !
 {% for vname,vdata in vlans.items() %}
    vlan {{ vdata.id }}
-      rd {{ bgp.as }}:{{ vdata.id }}
+      rd {{ loopback.ipv4|ipaddr('address') }}:{{ vdata.id }}
       route-target both {{ bgp.as }}:{{ vdata.id }}
       redistribute learned
 {% endfor %}
