@@ -1,0 +1,37 @@
+# May need to configure these, default seems to work
+# mpls label range l2evpn {{ 405000 + 10000 * id }} 1000
+# mpls label range l2evpn ethernet-segment 415000 1000
+
+# See https://documentation.nokia.com/cgi-bin/dbaccessfilename.cgi/3HE14991AAAFTQZZA01_V1_7450%20ESS%207750%20SR%207950%20XRS%20Advanced%20Configuration%20Guide%20for%20Releases%20up%20to%2021.5.R2-Part%20II.pdf
+# EVPN for MPLS Tunnels
+
+{% macro mpls_interface(vrf,type,vni,evi) %}
+- path: configure/service/vpls[service-name={{ vrf }}]
+  val:
+{# May get created for first time here, when not referenced from any interfaces #}
+   customer: '1'
+   admin-state: enable
+   service-id: {{ vni if type=='l3' else (vrf[4:]|int + 10000) }} # transit VNI for l3, should not overlap
+
+   bgp:
+   - bgp-instance: 1
+     # route-distinguisher: xxx # Don't configure this, use auto RD
+     route-target:
+      export: "target:{{ bgp.as }}:{{ vrf[4:]|int }}"
+      import: "target:{{ bgp.as }}:{{ vrf[4:]|int }}"
+   bgp-evpn:
+    evi: {{ evi }}
+    mpls:
+    - bgp-instance: 1
+      admin-state: enable
+      ingress-replication-bum-label: True
+      ecmp: 8
+      auto-bind-tunnel:
+       resolution: any
+       ecmp: 8
+{% endmacro %}
+
+updates:
+{% for vname,vdata in vlans.items() if vdata.vni is defined %}
+{{ mpls_interface('vlan'+vdata.id|string,'l2',vdata.vni,vdata.id) }}
+{% endfor %}
