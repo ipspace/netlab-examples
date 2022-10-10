@@ -1,0 +1,57 @@
+message: |
+  This lab builds two L2 domains (VLAN 1000 and 1001) across three PE-routers running
+  EVPN with MPLS transport. The EVPN VLANs are provisioned using VLAN-aware Bundle
+  Service.
+
+  Hosts in the same VLAN (h1 and h3, h2 and h4) should be able to ping each other.
+
+defaults.device: eos
+
+bgp.as: 65000
+
+vrfs:
+  tenant:
+
+vlans:
+  red:
+    mode: bridge
+    vrf: tenant
+  blue:
+    mode: bridge
+    vrf: tenant
+
+evpn:
+  vlan_bundle_service: True
+  vlans: [ red, blue ]
+  vrfs: [ tenant ]
+  transport: mpls
+
+groups:
+  hosts:
+    members: [ h1, h2, h3, h4 ]
+    device: linux
+  pe:
+    members: [ pe1, pe2, pe3 ]
+    module: [ bgp, ospf, mpls, vlan, vrf, evpn ]
+  core:
+    members: [ p ]
+    module: [ ospf, mpls ]
+
+nodes: [ pe1, pe2, pe3, p, h1, h2, h3, h4 ]
+
+links:
+- pe1-p
+- pe2-p
+- pe3-p
+- pe1:
+  h1:
+  vlan.access: red
+- pe2:
+  h2:
+  vlan.access: blue
+- pe3:
+  h3:
+  vlan.access: red
+- pe3:
+  h4:
+  vlan.access: blue
