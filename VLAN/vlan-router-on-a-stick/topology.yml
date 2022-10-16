@@ -1,0 +1,42 @@
+provider: clab
+
+groups:
+  hosts:
+    members: [ h1, h3 ]
+    device: linux
+  switches:
+    members: [ s1, s2 ]
+    module: [ vlan ]
+    device: eos
+  routers:
+    members: [ ros ]
+    module: [ vlan ]
+    device: eos 
+
+vlans:
+  red:
+    mode: bridge
+  blue:
+    mode: bridge
+
+nodes:
+  h1:
+  h3:
+  s1:
+  s2:
+  ros:
+    vlan.mode: route
+
+links:
+- h1:
+  s1:
+    vlan.access: red
+- h3:
+  s1:
+    vlan.access: blue
+- s1:
+  s2:
+  vlan.trunk: [ red, blue ]
+- s2:
+  ros:
+  vlan.trunk: [ red, blue ]
