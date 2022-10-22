@@ -1,0 +1,35 @@
+---
+message: |
+  This topology demonstrates how to segregate tenant routing from transport
+  (underlay) routing in a VXLAN IRB environment.
+
+provider: clab
+
+vrfs:
+  tenant:
+
+vlans:
+  red:
+    vrf: tenant
+
+groups:
+  switch:
+    members: [ s1, s2 ]
+    module: [ vxlan, vlan, ospf, vrf ]
+    device: eos
+  host:
+    members: [ h1, h2 ]
+    device: linux
+
+nodes: [ s1, s2, h1, h2 ]
+
+links:
+- h1:
+  s1:
+  vlan.access: red
+- h2:
+  s2:
+  vlan.access: red
+- s1:
+  s2:
+  ospf.cost: 2000
