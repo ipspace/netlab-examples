@@ -1,0 +1,43 @@
+message: |
+  The topology implements VXLAN-to-VXLAN routing using router-on-a-stick.
+  All hosts should be able to ping each other.
+
+provider: clab
+defaults.device: eos
+
+vrfs:
+  tenant:
+
+vlans:
+  red:
+    vrf: tenant
+  blue:
+    vrf: tenant
+
+groups:
+  hosts:
+    members: [ h1, h2 ]
+    device: linux
+  switches:
+    members: [ s1, s2 ]
+    module: [ vlan,vxlan,ospf ]
+    vlan.mode: bridge
+  routers:
+    members: [ ros ]
+    module: [ vlan,vxlan,ospf,vrf ]
+    vlans:
+      red:
+      blue:
+
+nodes: [ h1, h2, s1, s2, ros ]
+
+
+links:
+- h1:
+  s1:
+    vlan.access: red
+- h2:
+  s1:
+    vlan.access: blue
+- s1-s2
+- s2-ros
