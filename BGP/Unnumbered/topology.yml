@@ -1,0 +1,18 @@
+---
+module: [ bgp ]
+defaults.device: cumulus
+provider: clab
+
+nodes:
+  r1:
+    bgp.as: 65001
+  r2:
+    bgp.as: 65002
+
+links:
+- r1:
+  r2:
+  unnumbered: True
+- r1:
+  r2:
+  unnumbered: True
