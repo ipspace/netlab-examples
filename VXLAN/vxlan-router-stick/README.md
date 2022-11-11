@@ -8,7 +8,7 @@ After starting the lab, *h1* should be able to ping *h2*.
 
 ## Changing Device Types
 
-This topology can be used with all network devices supporting VLAN configuration module and all virtualization providers supported by *netlab*:
+This topology can be used with all network devices supporting VLAN, VXLAN, and VRF configuration modules, and all virtualization providers supported by *netlab*:
 
 * To change all devices in the topology (apart from Linux hosts), use the `-d xxx` CLI argument
 * To change the switch device type, use `-s groups.switches.device=xxx` CLI argument
