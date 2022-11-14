@@ -1,0 +1,37 @@
+provider: clab
+
+nodes: [ s1, s2, h1, h2, h3, h4 ]
+
+groups:
+  hosts:
+    members: [ h1, h2, h3, h4 ]
+    device: linux
+  switches:
+    members: [ s1, s2 ]
+    module: [ vlan, gateway ]
+    device: eos
+
+gateway.id: 1
+
+vlans:
+  red:
+    gateway: True
+  blue:
+    gateway: True
+
+links:
+- h1:
+  s1:
+    vlan.access: red
+- h3:
+  s1:
+    vlan.access: blue
+- s1:
+  s2:
+  vlan.trunk: [ red, blue ]
+- h2:
+  s2:
+    vlan.access: red
+- h4:
+  s2:
+    vlan.access: blue
