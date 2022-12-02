@@ -1,0 +1,69 @@
+message: |
+  The devices under test are routers implementing VRF Lite in two
+  VRFs using VXLAN transport
+
+  * rh1, rh2, and rh3 should be able to ping each other
+  * bh1 and bh2 should be able to ping each other
+  * hosts in red or blue VRF should not be able to reach any other hosts
+
+defaults.device: eos
+
+groups:
+  hosts:
+    members: [ rh1, rh2, rh3, bh1, bh2 ]
+    module: []
+    device: linux
+  pe:
+    module: [ vxlan,ospf ]
+    members: [ s1,s2,s3 ]
+  core:
+    members: [ c ]
+    module: [ ospf ]
+  red_team:
+    module: [ vlan,vrf ]
+    members: [ s1, s2, s3 ]
+    vlans:
+      red_transport:
+  blue_team:
+    module: [ vlan,vrf ]
+    members: [ s1, s2 ]
+    vlans:
+      blue_transport:
+
+vrfs:
+  red:
+  blue:
+
+vlans:
+  red_transport:
+    vrf: red
+  blue_transport:
+    vrf: blue
+
+vxlan.vlans: [ red_transport, blue_transport ]
+
+nodes: [ rh1, rh2, rh3, bh1, bh2, s1, s2, s3, c ]
+
+links:
+- s1-c
+- s2-c
+- s3-c
+
+# Red VRF
+- rh1:
+  s1:
+  vrf: red
+- rh2:
+  s2:
+  vrf: red
+- rh3:
+  s3:
+  vrf: red
+
+# Blue VRF
+- bh1:
+  s1:
+  vrf: blue
+- bh2:
+  s2:
+  vrf: blue
