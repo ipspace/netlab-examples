@@ -57,10 +57,13 @@ This lab creates a network topology with:
 
 ## Additional config files
 
-* eos_vxlan.cfg - to enable multi-agent routing model
+BGP EVPN will not start without the multi-agent routing model. Recent cEOS versions
+and Vagrant vEOS boxes built with the _netlab_ recipe already use multi-agent routing model,
+but just in case you're using a Vagrant box without that setting, the `eos_vxlan.cfg`
+configuration template enables is. When changing the routing model, you have to save the
+VM config (with `wr mem`) and reload the device(s).
 
-> BGP EVPN will not start operating without the multi-agent
-> All switches must be reloaded with saved config (wr mem) after initial boot
+* eos_vxlan.cfg - to enable multi-agent routing model
 
 ## CLI outputs
 
