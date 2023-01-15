@@ -1,0 +1,62 @@
+message: |
+    VXLAN with OSPF, iBGP and EVPN running on five Arista nodes:
+    * distribution nodes v1xsw01 and v1xsw02 have both two connection to each of
+      the access nodes v1xsw03-05
+    Linux Servers are connected as access endpoints in their particular VLANs
+    * red1 <> v1xsw03
+    * red2 <> v1xsw05
+    * blue1 <> v1xsw03
+    * blue2 <> v1xsw04 are endpoints in each vrf
+    VRF `tenant` is shared for both VLANs
+
+defaults.device: eos
+
+groups:
+  hosts:
+    members: [ red1, red2, blue1, blue2 ]
+    role: host
+    device: linux
+  nodes:
+    module: [ vlan, vxlan, ospf, bgp, evpn, vrf ]
+    members: [ v1xsw01, v1xsw02, v1xsw03, v1xsw04, v1xsw05 ]
+    bgp.as: 65530
+    vrfs:
+      tenant:
+        ospf: False
+    vlans:
+      red:
+        vrf: tenant
+      blue:
+        vrf: tenant
+    config: [src/eos_vxlan.cfg]
+
+nodes: [ v1xsw01, v1xsw02, v1xsw03, v1xsw04, v1xsw05, red1, red2, blue1, blue2 ]
+
+links:
+  # Dist to dist
+  - v1xsw01-v1xsw02
+
+  # Dist to acc
+  - v1xsw01-v1xsw03
+  - v1xsw01-v1xsw04
+  - v1xsw01-v1xsw05
+
+  - v1xsw02-v1xsw03
+  - v1xsw02-v1xsw04
+  - v1xsw02-v1xsw05
+
+  # Red VLAN access
+  - red1:
+    v1xsw03:
+    vlan.access: red
+  - red2:
+    v1xsw05:
+    vlan.access: red
+
+  # Blue VLAN access
+  - blue1:
+    v1xsw03:
+    vlan.access: blue
+  - blue2:
+    v1xsw04:
+    vlan.access: blue
