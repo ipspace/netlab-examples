@@ -1,0 +1,35 @@
+provider: clab
+defaults.device: eos
+
+nodes: [ l1, l2, s1, s2, h1, h2 ]
+module: [ vlan ]
+
+groups:
+  hosts:
+    members: [ h1, h2 ]
+    device: linux
+
+vlans:
+  fabric:
+    id: 100
+    mode: bridge
+
+links:
+- l1:
+  s1:
+  vlan.access: fabric
+- l2:
+  s1:
+  vlan.access: fabric
+- l1:
+  s2:
+  vlan.access: fabric
+- l2:
+  s2:
+  vlan.access: fabric
+- l1:
+  h1:
+  vlan.access: fabric
+- l2:
+  h2:
+  vlan.access: fabric

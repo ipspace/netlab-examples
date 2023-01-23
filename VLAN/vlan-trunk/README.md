@@ -1,6 +1,6 @@
 # VLAN Trunk
 
-This directory contains *netlab* topology file for a simple VLAN trunk scenario with a two VLANs stretched across two switches.
+This directory contains *netlab* topology file for a simple VLAN trunk scenario with a two VLANs stretched across two switches. Both switches are running IRB on both VLANs.
 
 ![VLAN trunk topology](vlan-trunk.png)
 

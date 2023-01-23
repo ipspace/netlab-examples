@@ -1,0 +1,47 @@
+graph {
+  bgcolor="transparent"
+  node [shape=box, style="rounded,filled" fontname=Verdana]
+  edge [fontname=Verdana labelfontsize=10 labeldistance=1.5]
+  "l1" [
+    label=<l1 [eos]<br /><sub>10.0.0.1/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  "l2" [
+    label=<l2 [eos]<br /><sub>10.0.0.2/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  "s1" [
+    label=<s1 [eos]<br /><sub>10.0.0.3/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  "s2" [
+    label=<s2 [eos]<br /><sub>10.0.0.4/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  "h1" [
+    label=<h1 [linux]<br /><sub>172.16.0.5/24</sub>>
+    fillcolor="#ff9f01"
+  ]
+  "h2" [
+    label=<h2 [linux]<br /><sub>172.16.0.6/24</sub>>
+    fillcolor="#ff9f01"
+  ]
+  "l2-fabric_1" [style=filled fillcolor="#d1bfab" fontsize=11 label="172.16.0.0/24"]
+ "l1" -- "l2-fabric_1" [  ]
+ "s1" -- "l2-fabric_1" [  ]
+  "l2-fabric_2" [style=filled fillcolor="#d1bfab" fontsize=11 label="172.16.0.0/24"]
+ "l2" -- "l2-fabric_2" [  ]
+ "s1" -- "l2-fabric_2" [  ]
+  "l2-fabric_3" [style=filled fillcolor="#d1bfab" fontsize=11 label="172.16.0.0/24"]
+ "l1" -- "l2-fabric_3" [  ]
+ "s2" -- "l2-fabric_3" [  ]
+  "l2-fabric_4" [style=filled fillcolor="#d1bfab" fontsize=11 label="172.16.0.0/24"]
+ "l2" -- "l2-fabric_4" [  ]
+ "s2" -- "l2-fabric_4" [  ]
+  "l2-fabric_5" [style=filled fillcolor="#d1bfab" fontsize=11 label="172.16.0.0/24"]
+ "l1" -- "l2-fabric_5" [  ]
+ "h1" -- "l2-fabric_5" [  ]
+  "l2-fabric_6" [style=filled fillcolor="#d1bfab" fontsize=11 label="172.16.0.0/24"]
+ "l2" -- "l2-fabric_6" [  ]
+ "h2" -- "l2-fabric_6" [  ]
+}
