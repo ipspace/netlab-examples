@@ -2,17 +2,15 @@
 # OSPF-only topology
 #
 
-module: [ ospf ]
+module: [ ospf,mpls ]
 
 defaults.device: eos
-provider: clab
+mpls.ldp.explicit_null: True
 
 groups:
   anycast:
     members: [ a1, a2, a3 ]
     config: [ ospf-anycast-loopback.j2 ]
-  all:
-    config: [ mpls-ldp.j2 ]
 
 nodes: [ l1, l2, l3, s1, a1, a2, a3 ]
 
