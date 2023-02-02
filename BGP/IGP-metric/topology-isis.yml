@@ -1,5 +1,4 @@
-defaults:
-  device: iosv
+defaults.device: eos
 
 module: [ isis, ospf, bgp ]
 
@@ -8,22 +7,28 @@ bgp:
   advertise_loopback: False
 
 nodes:
-- name: e1
-  bgp:
-    originate: [ 172.16.0.0/16 ]
-- name: e2
-  module: [ isis, bgp ]
-  bgp:
-    originate: [ 172.16.0.0/16 ]
-- name: pe1
-  device: csr
+  e1:
+    bgp:
+      originate: [ 172.16.0.0/16 ]
+  e2:
+    module: [ isis, bgp ]
+    bgp:
+      originate: [ 172.16.0.0/16 ]
+  pe1:
 
+#
+# The lab topology uses static OSPF and ISIS costs because Arista vEOS cannot
+# set bandwidth of its Ethernet interfaces
+#
 links:
 - pe1:
   e1:
-  ospf:
-    cost: 1000
+  bandwidth: 1000
+  ospf.cost: 1000
+  isis.cost: 10
 
 - pe1:
   e2:
-  bandwidth: 1000
+  bandwidth: 100
+  ospf: False
+  isis.cost: 100

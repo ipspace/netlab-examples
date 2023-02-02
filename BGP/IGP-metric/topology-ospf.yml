@@ -1,5 +1,4 @@
-defaults:
-  device: iosv
+defaults.device: iosv
 
 bgp:
   as: 65000
@@ -11,18 +10,18 @@ ospf:
 module: [ ospf, bgp ]
 
 nodes:
-- name: e1
-  bgp:
-    originate: [ 172.16.0.0/16 ]
-- name: e2
-  bgp:
-    originate: [ 172.16.0.0/16 ]
-- name: pe1
-  device: csr
+  e1:
+    bgp:
+      originate: [ 172.16.0.0/16 ]
+  e2:
+    bgp:
+      originate: [ 172.16.0.0/16 ]
+  pe1:
 
 links:
 - pe1:
   e1:
 - pe1:
   e2:
-  bandwidth: 100000
+  ospf.cost: 100
+  bandwidth: 1000
