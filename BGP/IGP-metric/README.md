@@ -9,17 +9,13 @@ You could use router configurations from the `config` directory (EIGRP + OSPF co
 * [Install *netlab*](https://netsim-tools.readthedocs.io/en/latest/install.html).
 * Start the lab with **netlab up _topology-file_**
 
+Sample topology files:
+
+* *topology-ospf.yml*: OSPF-only topology on Cisco IOSv
+* *topology-2igp.yml*: Network-wide OSPF + EIGRP between PE1 and E1 on Cisco IOSv
+*topology-isis.yml*: Network-wide IS-IS + OSPF between PE1 and E1 on Arista vEOS. 
+
 **Notes:**
 
 * To run your tests with a different virtualization provider, execute **netlab up** with **-p _provider_** argument.
-
-Sample topology files:
-
-*topology-ospf.yml*
-: OSPF-only topology
-
-*topology-2igp.yml*
-: Network-wide OSPF + EIGRP between PE1 and E1
-
-*topology-isis.yml*
-: Network-wide IS-IS + OSPF between PE1 and E1. To check the behavior of various network operating systems, execute **netlab up** with **-d _device_** argument using any [network device of your choice](https://netsim-tools.readthedocs.io/en/latest/platforms.html).
+* To check the behavior of various network operating systems, execute **netlab up** with **-d _device_** argument using any [network device of your choice](https://netsim-tools.readthedocs.io/en/latest/platforms.html).
