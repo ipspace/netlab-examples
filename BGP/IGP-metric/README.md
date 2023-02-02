@@ -13,7 +13,7 @@ Sample topology files:
 
 * *topology-ospf.yml*: OSPF-only topology on Cisco IOSv
 * *topology-2igp.yml*: Network-wide OSPF + EIGRP between PE1 and E1 on Cisco IOSv
-*topology-isis.yml*: Network-wide IS-IS + OSPF between PE1 and E1 on Arista vEOS. 
+* *topology-isis.yml*: Network-wide IS-IS + OSPF between PE1 and E1 on Arista vEOS. 
 
 **Notes:**
 
