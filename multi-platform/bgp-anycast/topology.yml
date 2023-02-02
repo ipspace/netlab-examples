@@ -6,7 +6,7 @@
 #
 
 module: [ ospf, bgp ]
-defaults.bgp.extra_attributes.node: [ anycast ]
+defaults.bgp.attributes.node.anycast: { type: ipv4, use: prefix }
 
 bgp:
   as_list:
