@@ -1,5 +1,4 @@
-defaults:
-  device: iosv
+defaults.device: eos
 
 module: [ isis, ospf, bgp ]
 
@@ -8,15 +7,14 @@ bgp:
   advertise_loopback: False
 
 nodes:
-- name: e1
-  bgp:
-    originate: [ 172.16.0.0/16 ]
-- name: e2
-  module: [ isis, bgp ]
-  bgp:
-    originate: [ 172.16.0.0/16 ]
-- name: pe1
-  device: csr
+  e1:
+    bgp:
+      originate: [ 172.16.0.0/16 ]
+  e2:
+    module: [ isis, bgp ]
+    bgp:
+      originate: [ 172.16.0.0/16 ]
+  pe1:
 
 links:
 - pe1:
@@ -27,3 +25,4 @@ links:
 - pe1:
   e2:
   bandwidth: 1000
+  ospf: False
