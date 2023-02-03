@@ -8,10 +8,8 @@
 
 module: [ ospf, bgp ]
 
-defaults.bgp.extra_attributes.node: [ anycast ]
-
-defaults:
-  device: iosv
+defaults.bgp.attributes.node.anycast: { type: ipv4, use: prefix }
+defaults.device: iosv
 
 bgp:
   ebgp_role: stub
