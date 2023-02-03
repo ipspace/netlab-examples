@@ -8,7 +8,7 @@ from box import Box
 from netsim import api
 
 def init(topo: Box) -> None:
-  topo.defaults.bgp.attributes.node.append('anycast')
+  topo.defaults.bgp.attributes.node.anycast = { 'type': 'ipv4', 'use': 'prefix' }
 
 def post_transform(topo: Box) -> None:
   for name,node in topo.nodes.items():
