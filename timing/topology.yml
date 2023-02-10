@@ -1,0 +1,7 @@
+#
+# Lab topology used to test VM start times
+#
+nodes: [ dut ]
+
+links:
+- dut
