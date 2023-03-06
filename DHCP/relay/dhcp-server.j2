@@ -1,0 +1,20 @@
+logging buffered
+no service timestamp debug
+!
+do debug ip dhcp server packet
+do debug ip dhcp server event
+!
+{% for h,v in hostvars.items() %}
+{%   for intf in v.interfaces if intf.dhcp.server is defined and intf.ipv4 is defined %}
+ip dhcp excluded-address {{ intf.ipv4|ipaddr('address') }}
+{%   endfor %}
+{% endfor %}
+!
+{% for h,v in hostvars.items() %}
+{%   for intf in v.interfaces if intf.dhcp.server is defined and intf.ipv4 is defined %}
+!
+ip dhcp pool p_{{ intf.ipv4|ipaddr('network') }}
+ network {{ intf.ipv4|ipaddr('network') }} {{ intf.ipv4|ipaddr('netmask') }} 
+ default-router {{ intf.ipv4|ipaddr('address') }}
+{%   endfor %}
+{% endfor %}

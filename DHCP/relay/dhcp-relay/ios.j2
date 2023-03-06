@@ -1,0 +1,4 @@
+{% for intf in interfaces if intf.dhcp.server is defined %}
+interface {{ intf.ifname }}
+ ip helper-address {{ hostvars[intf.dhcp.server].loopback.ipv4|ipaddr('address') }}
+{% endfor %}
