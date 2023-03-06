@@ -1,0 +1,21 @@
+graph {
+  bgcolor="transparent"
+  node [shape=box, style="rounded,filled" fontname=Verdana]
+  edge [fontname=Verdana labelfontsize=10 labeldistance=1.5]
+  "srv" [
+    label=<srv [iosv]<br /><sub>10.0.0.1/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  "relay" [
+    label=<relay [iosv]<br /><sub>10.0.0.2/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+  "user" [
+    label=<user [iosv]<br /><sub>10.0.0.3/32</sub>>
+    fillcolor="#ff9f01"
+  ]
+ "relay" -- "srv" [ width=5 ]
+  "relay_2" [style=filled fillcolor="#ff8080" fontsize=11 label=<172.16.0.0/24<br />VRF client>]
+ "user" -- "relay_2" [ color="#800000"  width=5 ]
+ "relay" -- "relay_2" [ color="#800000"  width=5 ]
+}

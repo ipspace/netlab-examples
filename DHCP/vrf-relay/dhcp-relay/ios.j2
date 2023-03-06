@@ -1,0 +1,15 @@
+{% for intf in interfaces if intf.dhcp.server is defined and intf.vrf is defined %}
+{%   if loop.first %}
+ip dhcp relay information option vpn
+{%   endif %}
+{% endfor %}
+!
+{% for intf in interfaces if intf.dhcp.server is defined %}
+{%   set helper = hostvars[intf.dhcp.server].loopback.ipv4|ipaddr('address') %}
+interface {{ intf.ifname }}
+{%   if intf.vrf is defined %}
+ ip helper-address global {{ helper }}
+{%   else %}
+ ip helper-address {{ helper }}
+{%   endif %}
+{% endfor %}

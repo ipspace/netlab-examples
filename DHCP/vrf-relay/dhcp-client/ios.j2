@@ -1,0 +1,5 @@
+{% for intf in interfaces if intf.dhcp.client is defined and intf.dhcp.client %}
+interface {{ intf.ifname }}
+ no ip address
+ ip address dhcp
+{% endfor %}

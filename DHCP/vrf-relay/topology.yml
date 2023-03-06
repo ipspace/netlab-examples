@@ -1,0 +1,41 @@
+message: |
+  This topology sets up a simple network using VRF-aware DHCP relay
+  functionality. It includes a DHCP server (running on Cisco
+  IOSv), DHCP client (also on Cisco IOSv) and an intermediate
+  node.
+
+defaults.attributes:
+  link.dhcp:
+    client: bool
+    server: str
+
+defaults.device: iosv
+
+groups:
+  dhcp_server:
+    members: [ srv ]
+    module: [ ospf ]
+    config: [ dhcp-server ]
+    device: csr
+  dhcp_client:
+    members: [ user ]
+    config: [ dhcp-client ]
+    device: iosv
+  switch:
+    members: [ relay ]
+    module: [ ospf,vrf ]
+    config: [ dhcp-relay ]
+
+vrfs:
+  client:
+
+nodes: [ srv, relay, user ]
+
+links:
+- relay-srv
+- user:
+    dhcp.client: True
+  relay:
+    dhcp.server: srv
+  type: lan
+  vrf: client
