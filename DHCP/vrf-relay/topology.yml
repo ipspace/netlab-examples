@@ -1,8 +1,7 @@
 message: |
   This topology sets up a simple network using VRF-aware DHCP relay
-  functionality. It includes a DHCP server (running on Cisco
-  IOSv), DHCP client (also on Cisco IOSv) and an intermediate
-  node.
+  functionality. It includes a DHCP server (running on Cisco IOSv),
+  DHCP client (also on Cisco IOSv) and an intermediate node.
 
 defaults.attributes:
   link.dhcp:
@@ -39,3 +38,6 @@ links:
     dhcp.server: srv
   type: lan
   vrf: client
+
+defaults.outputs:
+  _include: [ outputs/format.yml ]

@@ -2,7 +2,7 @@
 
 This directory contains *netlab* topology file for a simple VRF-aware DHCP relaying scenario.
 
-![DHCP relaying topology](dhcp-relay.png)
+![DHCP relaying topology](vrf-dhcp-relay.png)
 
 After starting the lab, the *user* device should get DHCP-assigned IP address on its lab-facing interface.
 
