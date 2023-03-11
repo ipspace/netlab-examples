@@ -1,4 +1,4 @@
-# DHCP relaying
+# DHCP relaying from a VXLAN segment
 
 This directory contains *netlab* topology file used to test DHCP relaying in a VXLAN environment with redundant access switches using an anycast gateway.
 
