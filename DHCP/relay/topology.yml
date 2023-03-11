@@ -1,8 +1,7 @@
 message: |
-  This topology sets up a simple network using DHCP relay
-  functionality. It includes a DHCP server (running on Cisco
-  IOSv), DHCP client (also on Cisco IOSv) and an intermediate
-  node.
+  This topology sets up a simple network using DHCP relay functionality.
+  It includes a DHCP server (running on Cisco IOSv), DHCP client (also
+  on Cisco IOSv) and an intermediate node.
 
 defaults.attributes:
   link.dhcp:
