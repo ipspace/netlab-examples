@@ -35,3 +35,7 @@ links:
   relay:
     dhcp.server: srv
   type: lan
+
+defaults.outputs:
+  _include:
+  - outputs/format.yml
