@@ -1,0 +1,93 @@
+00:08:51: DHCP: DHCP client process started: 10
+00:08:51: RAC: Starting DHCP discover on GigabitEthernet0/1
+00:08:51: DHCP: Try 1 to acquire address for GigabitEthernet0/1
+00:08:51: DHCP: allocate request
+00:08:51: DHCP: new entry. add to queue, interface GigabitEthernet0/1
+00:08:51: DHCP: Client socket is opened
+00:08:51: DHCP: SDiscover attempt # 1 for entry:
+00:08:51: Temp IP addr: 0.0.0.0  for peer on Interface: GigabitEthernet0/1
+00:08:51: Temp  sub net mask: 0.0.0.0
+00:08:51:    DHCP Lease server: 0.0.0.0, state: 3 Selecting
+00:08:51:    DHCP transaction id: 1108
+00:08:51:    Lease: 0 secs,  Renewal: 0 secs,  Rebind: 0 secs
+00:08:51:    Next timer fires after: 00:00:04
+00:08:51:    Retry count: 1   Client-ID: cisco-5254.007e.307e-Gi0/1
+00:08:51:    Client-ID hex dump: 636973636F2D353235342E303037652E
+00:08:51:                        333037652D4769302F31
+00:08:51:    Hostname: user
+00:08:51: DHCP: SDiscover placed class-id option: 636973636F706E70
+00:08:51: DHCP: SDiscover: sending 303 byte length DHCP packet
+00:08:51: DHCP: SDiscover 303 bytes 
+00:08:51:             B'cast on GigabitEthernet0/1 interface from 0.0.0.0
+00:08:53: DHCP: Received a BOOTREP pkt
+00:08:53: DHCP: Scan: Message type: DHCP Offer
+00:08:53: DHCP: Scan: Client ID: cisco-5254.007e.307e-Gi0/1
+00:08:53: DHCP: Scan: Server ID Option: 172.16.0.2 = AC100002
+00:08:53: DHCP: Scan: Lease Time: 86400
+00:08:53: DHCP: Scan: Renewal time: 43200
+00:08:53: DHCP: Scan: Rebind time: 75600
+00:08:53: DHCP: Scan: Subnet Address Option: 255.255.255.0
+00:08:53: DHCP: Scan: Router Option: 172.16.0.2
+00:08:53: DHCP: rcvd pkt source: 172.16.0.2,  destination:  255.255.255.255
+00:08:53:    UDP  sport: 43,  dport: 44,  length: 317
+00:08:53:    DHCP op: 2, htype: 1, hlen: 6, hops: 0
+00:08:53:    DHCP server identifier: 172.16.0.2
+00:08:53:         xid: 1108, secs: 0, flags: 8000
+00:08:53:         client: 0.0.0.0, your: 172.16.0.3
+00:08:53:         srvr:   0.0.0.0, gw: 172.16.0.2
+00:08:53:         options block length: 69
+
+00:08:53: DHCP Offer Message   Offered Address: 172.16.0.3
+00:08:53: DHCP: Lease Seconds: 86400    Renewal secs:  43200    Rebind secs:   75600
+00:08:53: DHCP: Server ID Option: 172.16.0.2
+00:08:53: DHCP: offer received from 172.16.0.2
+00:08:53: DHCP: SRequest attempt # 1 for entry:
+00:08:53: Temp IP addr: 172.16.0.3  for peer on Interface: GigabitEthernet0/1
+00:08:53: Temp  sub net mask: 255.255.255.0
+00:08:53:    DHCP Lease server: 172.16.0.2, state: 4 Requesting
+00:08:53:    DHCP transaction id: 1108
+00:08:53:    Lease: 86400 secs,  Renewal: 0 secs,  Rebind: 0 secs
+00:08:53:    Next timer fires after: 00:00:03
+00:08:53:    Retry count: 1   Client-ID: cisco-5254.007e.307e-Gi0/1
+00:08:53:    Client-ID hex dump: 636973636F2D353235342E303037652E
+00:08:53:                        333037652D4769302F31
+00:08:53:    Hostname: user
+00:08:53: DHCP: SRequest- Server ID option: 172.16.0.2
+00:08:53: DHCP: SRequest- Requested IP addr option: 172.16.0.3
+00:08:53: DHCP: SRequest placed class-id option: 636973636F706E70
+00:08:53: DHCP: SRequest: 315 bytes
+00:08:53: DHCP: SRequest: 315 bytes
+00:08:53:             B'cast on GigabitEthernet0/1 interface from 0.0.0.0
+00:08:53: DHCP: Received a BOOTREP pkt
+00:08:53: DHCP: Scan: Message type: DHCP Ack
+00:08:53: DHCP: Scan: Client ID: cisco-5254.007e.307e-Gi0/1
+00:08:53: DHCP: Scan: Server ID Option: 172.16.0.2 = AC100002
+00:08:53: DHCP: Scan: Lease Time: 86400
+00:08:53: DHCP: Scan: Renewal time: 43200
+00:08:53: DHCP: Scan: Rebind time: 75600
+00:08:53: DHCP: Scan: Subnet Address Option: 255.255.255.0
+00:08:53: DHCP: Scan: Router Option: 172.16.0.2
+00:08:53: DHCP: rcvd pkt source: 172.16.0.2,  destination:  255.255.255.255
+00:08:53:    UDP  sport: 43,  dport: 44,  length: 317
+00:08:53:    DHCP op: 2, htype: 1, hlen: 6, hops: 0
+00:08:53:    DHCP server identifier: 172.16.0.2
+00:08:53:         xid: 1108, secs: 0, flags: 8000
+00:08:53:         client: 0.0.0.0, your: 172.16.0.3
+00:08:53:         srvr:   0.0.0.0, gw: 172.16.0.2
+00:08:53:         options block length: 69
+
+00:08:53: DHCP Ack Message
+00:08:53: DHCP: Lease Seconds: 86400    Renewal secs:  43200    Rebind secs:   75600
+00:08:53: DHCP: Server ID Option: 172.16.0.2
+00:08:56: DHCP: Releasing ipl options:
+00:08:56: DHCP: Applying DHCP options:
+00:08:56:   Setting default_gateway to 172.16.0.2
+00:08:56:   Adding default route 172.16.0.2
+00:08:57: DHCP: Sending notification of ASSIGNMENT:
+00:08:57:   Address 172.16.0.3 mask 255.255.255.0
+00:08:57: DHCP Client Pooling: ***Allocated IP address: 172.16.0.3
+00:08:57: Allocated IP address = 172.16.0.3  255.255.255.0
+
+*Mar 15 09:54:52.861: %DHCP-6-ADDRESS_ASSIGN: Interface GigabitEthernet0/1 assigned DHCP address 172.16.0.3, mask 255.255.255.0, hostname user
+
+00:09:03: DHCP: Client socket is closed
