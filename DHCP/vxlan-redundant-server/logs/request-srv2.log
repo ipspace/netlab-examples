@@ -1,0 +1,143 @@
+00:12:18: Option 82 not present
+00:12:18: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:12:18: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:12:18: DHCPD: client's VPN is .
+00:12:18: DHCPD: No option 125
+00:12:18: DHCPD: No option 124
+00:12:18: DHCPD: Option 125 not present in the msg.
+00:12:18: Option 82 not present
+00:12:18: Option 82 not present
+00:12:18: DHCPD: Option 125 not present in the msg.
+00:12:18: DHCPD: Sending notification of DISCOVER:
+00:12:18:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:12:18:   DHCPD: remote id 020a00000a01000500000000
+00:12:18:   DHCPD: giaddr = 172.16.0.4
+00:12:18:   DHCPD: interface = GigabitEthernet2
+00:12:18:   DHCPD: class id 636973636f706e70
+00:12:18: DHCPD: DHCPDISCOVER received from client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31 through relay 172.16.0.4.
+00:12:18: DHCPD: Option 125 not present in the msg.
+00:12:18: Option 82 not present
+00:12:18: Option 82 not present
+00:12:18: DHCPD: Option 125 not present in the msg.
+00:12:18: DHCPD: Sending notification of DISCOVER:
+00:12:18:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:12:18:   DHCPD: remote id 020a00000a01000500000000
+00:12:18:   DHCPD: giaddr = 172.16.0.4
+00:12:18:   DHCPD: interface = GigabitEthernet2
+00:12:18:   DHCPD: class id 636973636f706e70
+00:12:18: DHCPD: FSM state change INVALID
+00:12:18: DHCPD: Workspace state changed from INIT to INVALID
+00:12:18: DHCPD: classname not set in msg
+00:12:18: DHCPD: Selecting relay q from pool
+00:12:18: DHCPD: Attempt ping to check address available
+00:12:18: DHCPD: Allocated binding 7FCA3A8488E0
+00:12:18: DHCPD: Adding binding to radix tree (172.16.0.131)
+00:12:18: DHCPD: Adding binding to hash tree 7FCA3A8488E0
+00:12:18: DHCPD:dhcpd_binding_add_to_mac_hash: index- 400 add binding 7FCA3A8488E0
+00:12:18: DHCPD: assigned IP address 172.16.0.131 to client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31.
+00:12:18: DHCPD: Saving workspace (ID=0x6000003)
+00:12:18: DHCPD: New packet workspace 0x7FCAA6F93E98 (ID=0x83000004)
+00:12:18: Option 82 not present
+00:12:18: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:12:18: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:12:18: DHCPD: client's VPN is .
+00:12:18: DHCPD: No option 125
+00:12:18: DHCPD: No option 124
+00:12:18: DHCPD: Option 125 not present in the msg.
+00:12:18: Option 82 not present
+00:12:18: Option 82 not present
+00:12:18: DHCPD: Option 125 not present in the msg.
+00:12:18: DHCPD: Sending notification of DISCOVER:
+00:12:18:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:12:18:   DHCPD: remote id 020a00000a01000500000000
+00:12:18:   DHCPD: giaddr = 172.16.0.5
+00:12:18:   DHCPD: interface = GigabitEthernet2
+00:12:18:   DHCPD: class id 636973636f706e70
+00:12:18: DHCPD: DHCPDISCOVER received from client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31 through relay 172.16.0.5.
+00:12:18: DHCPD: Option 125 not present in the msg.
+00:12:18: Option 82 not present
+00:12:18: Option 82 not present
+00:12:18: DHCPD: Option 125 not present in the msg.
+00:12:18: DHCPD: Sending notification of DISCOVER:
+00:12:18:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:12:18:   DHCPD: remote id 020a00000a01000500000000
+00:12:18:   DHCPD: giaddr = 172.16.0.5
+00:12:18:   DHCPD: interface = GigabitEthernet2
+00:12:18:   DHCPD: class id 636973636f706e70
+00:12:18: DHCPD: FSM state change INVALID
+00:12:18: DHCPD: Workspace state changed from INIT to INVALID
+00:12:18: DHCPD: Found previous server binding
+00:12:20: DHCPD: Reprocessing saved workspace (ID=0x6000003)
+00:12:20: DHCPD: Option 125 not present in the msg.
+00:12:20: Option 82 not present
+00:12:20: Option 82 not present
+00:12:20: DHCPD: Option 125 not present in the msg.
+00:12:20: DHCPD: Sending notification of DISCOVER:
+00:12:20:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:12:20:   DHCPD: remote id 020a00000a01000500000000
+00:12:20:   DHCPD: giaddr = 172.16.0.4
+00:12:20:   DHCPD: interface = GigabitEthernet2
+00:12:20:   DHCPD: class id 636973636f706e70
+00:12:20: DHCPD: DHCPDISCOVER received from client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31 through relay 172.16.0.4.
+00:12:20: DHCPD: Sending DHCPOFFER to client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31 (172.16.0.131).DHCPD: Setting only requested parameters
+
+00:12:20: DHCPD: Option 125 not present in the msg.
+00:12:20: DHCPD: egress Interfce GigabitEthernet2
+
+00:12:20: DHCPD: unicasting BOOTREPLY for client 5254.0064.6bd1 to relay 172.16.0.4.
+00:12:20: DHCPD: Freeing saved workspace (ID=0x6000003)
+00:12:21: Option 82 not present
+00:12:21: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:12:21: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:12:21: DHCPD: client's VPN is .
+00:12:21: DHCPD: No option 125
+00:12:21: DHCPD: No option 124
+00:12:21: DHCPD: DHCPREQUEST received from client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31.
+00:12:21: DHCPD: DHCPREQUEST received on interface GigabitEthernet2.
+00:12:21: DHCPD: no subnet configured for 10.1.0.5.
+00:12:21: DHCPD: FSM state change INVALID
+00:12:21: DHCPD: Workspace state changed from INIT to INVALID
+00:12:21: DHCPD : Client request received seeing the client for first time
+00:12:21: DHCPD: client rejected 172.16.0.131, sent 172.16.0.6.
+00:12:21: DHCPD: server-id specified by client (0) 10.1.0.1
+00:12:21: DHCPD: Destroy binding called for 7FCA3A8488E0
+00:12:21: DHCPD: removing ARP entry (172.16.0.131 vrf default).
+00:12:21: DHCPD: Sending notification of TERMINATION:
+00:12:21:  DHCPD: address 172.16.0.131 mask 255.255.255.0
+00:12:21:  DHCPD: reason flags: noalloc 
+00:12:21:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:12:21:   DHCPD: lease time remaining (secs) = 298
+00:12:21:   DHCPD: interface = GigabitEthernet2
+00:12:21: DHCPD: dhcpd_deactivate_binding binding removed from mac hash 7FCA3A8488E0 index 400
+00:12:21: DHCPD: returned 172.16.0.131 to address pool p_172.16.0.0.
+00:12:21: DHCPD: Freeing 7FCA3A8488E0 
+00:12:21: Option 82 not present
+00:12:21: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:12:21: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:12:21: DHCPD: client's VPN is .
+00:12:21: DHCPD: No option 125
+00:12:21: DHCPD: No option 124
+00:12:21: DHCPD: DHCPREQUEST received from client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31.
+00:12:21: DHCPD: DHCPREQUEST received on interface GigabitEthernet2.
+00:12:21: DHCPD: no subnet configured for 10.1.0.5.
+00:12:21: DHCPD: FSM state change INVALID
+00:12:21: DHCPD: Workspace state changed from INIT to INVALID
+00:12:21: DHCPD : Client request received seeing the client for first time
+00:12:21: DHCPD: excluded address: 172.16.0.6
+00:12:21: DHCPD: Finding a relay for client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31 through relay 172.16.0.5.
+00:12:21: DHCPD : Locating relay for Subnet 172.16.0.5
+00:12:21: DHCPD: Option 125 not present in the msg.
+00:12:21: DHCPD: Sending notification of ASSIGNMENT FAILURE:
+00:12:21:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:12:21:   DHCPD: remote id 020a00000a01000500000000
+00:12:21:   DHCPD: giaddr = 172.16.0.5
+00:12:21:   DHCPD: interface = GigabitEthernet2
+00:12:21:   DHCPD: class id 636973636f706e70
+00:12:21: DHCPD: Sending notification of ASSIGNMENT_FAILURE:
+00:12:21:  DHCPD: due to: CANT FORWARD
+00:12:21:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:12:21:   DHCPD: remote id 020a00000a01000500000000
+00:12:21:   DHCPD: giaddr = 172.16.0.5
+00:12:21:   DHCPD: interface = GigabitEthernet2
+00:12:21:   DHCPD: class id 636973636f706e70
+00:12:21: DHCPD: cannot find a relay

@@ -1,0 +1,65 @@
+message: |
+  This topology sets up a redundant DHCP relay on a VXLAN-extended VLAN.
+  It includes a pair of DHCP servers (running on Cisco CSR1000v), DHCP
+  clients (on Cisco IOSv) and three VXLAN-enabled Arista vEOS switches
+  forming the network core.
+
+defaults.attributes:
+  link.dhcp:
+    client: bool
+    server: list
+  node.dhcp:
+    excluded: list
+
+groups:
+  dhcp_server:
+    members: [ srv1,srv2 ]
+    module: [ ospf ]
+    config: [ dhcp-server ]
+    device: csr
+  dhcp_client:
+    members: [ cl_a, cl_b ]
+    config: [ dhcp-client ]
+    device: iosv
+  switch:
+    members: [ sw1, sw2,sw3 ]
+    module: [ ospf,vlan,vxlan,gateway ]
+    config: [ dhcp-relay ]
+    device: eos
+
+vlans:
+  cv1:
+    gateway: True
+    ospf.passive: True
+
+gateway.id: 1
+
+nodes:
+  srv1:
+  srv2:
+    dhcp.excluded: [ "172.16.0.1 172.16.0.128" ]
+  sw1:
+  sw2:
+  sw3:
+  cl_a:
+  cl_b:
+
+links:
+- srv1-sw3
+- srv2-sw3
+- sw1-sw2
+- sw1-sw3
+- sw2-sw3
+- cl_a:
+    dhcp.client: True
+  sw1:
+    dhcp.server: [ srv1, srv2 ]
+  vlan.access: cv1
+- cl_b:
+    dhcp.client: True
+  sw2:
+    dhcp.server: [ srv1, srv2 ]
+  vlan.access: cv1
+
+defaults.outputs:
+  _include: [ outputs/format.yml ]

@@ -1,17 +1,19 @@
 message: |
-  This topology sets up an inter-VRF DHCP relay on a VXLAN-extended
-  VLAN using EVPN control plane. It includes a DHCP server (running on
-  Cisco CSR1000v), DHCP clients (using Cisco IOSv) and two intermediate
-  VXLAN/EVPN-enabled switches running Arista vEOS.
+  This topology sets up a redundant inter-VRF DHCP relay on a VXLAN-extended
+  VLAN using EVPN control plane. It includes a pair of DHCP servers (running on
+  Cisco CSR1000v), DHCP clients (using Cisco IOSv) and three VXLAN/EVPN-enabled
+  Arista vEOS switches forming the network core.
 
 defaults.attributes:
   link.dhcp:
     client: bool
-    server: str
+    server: list
+  node.dhcp:
+    excluded: list
 
 groups:
   dhcp_server:
-    members: [ srv ]
+    members: [ srv1,srv2 ]
     module: [ ospf ]
     config: [ dhcp-server ]
     device: csr
@@ -20,7 +22,7 @@ groups:
     config: [ dhcp-client ]
     device: iosv
   switch:
-    members: [ sw1, sw2 ]
+    members: [ sw1, sw2,sw3 ]
     module: [ ospf,bgp,vrf,vlan,vxlan,gateway,evpn ]
     config: [ dhcp-relay ]
     device: eos
@@ -37,21 +39,31 @@ vlans:
 bgp.as: 65000
 gateway.id: 1
 
-nodes: [ srv, sw1, sw2, cl_a, cl_b ]
+nodes:
+  srv1:
+  srv2:
+    dhcp.excluded: [ "172.16.0.1 172.16.0.128" ]
+  sw1:
+  sw2:
+  sw3:
+  cl_a:
+  cl_b:
 
 links:
-- srv-sw1
-- srv-sw2
+- srv1-sw3
+- srv2-sw3
 - sw1-sw2
+- sw1-sw3
+- sw2-sw3
 - cl_a:
     dhcp.client: True
   sw1:
-    dhcp.server: srv
+    dhcp.server: [ srv1, srv2 ]
   vlan.access: cv1
 - cl_b:
     dhcp.client: True
   sw2:
-    dhcp.server: srv
+    dhcp.server: [ srv1, srv2 ]
   vlan.access: cv1
 
 defaults.outputs:

@@ -1,0 +1,75 @@
+00:14:52: Option 82 not present
+00:14:52: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:14:52: DHCPD: tableid for 10.1.0.1 on GigabitEthernet2 is 0
+00:14:52: DHCPD: client's VPN is .
+00:14:52: DHCPD: No option 125
+00:14:52: DHCPD: No option 124
+00:14:52: DHCPD: DHCPRELEASE message received from client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31 
+00:14:52: DHCPD: FSM state change INVALID
+00:14:52: DHCPD: Workspace state changed from INIT to INVALID(172.16.0.6).
+00:14:52: DHCPD: Option 125 not present in the msg.
+00:14:52: DHCPD: Sending notification of TERMINATION:
+00:14:52:  DHCPD: address 172.16.0.6 mask 255.255.255.0
+00:14:52:  DHCPD: reason flags: RELEASE 
+00:14:52:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:14:52:   DHCPD: lease time remaining (secs) = 86316
+00:14:52:   DHCPD: interface = GigabitEthernet2
+00:14:52: DHCPD: Destroy binding called for 7F90E30E2BB8
+00:14:52: DHCPD: removing ARP entry (172.16.0.6 vrf default).
+00:14:52: DHCPD: dhcpd_deactivate_binding binding removed from mac hash 7F90E30E2BB8 index 400
+00:14:52: DHCPD: returned 172.16.0.6 to address pool p_172.16.0.0.
+00:14:52: DHCPD: Freeing 7F90E30E2BB8 
+00:14:53: Option 82 not present
+00:14:53: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:14:53: DHCPD: tableid for 10.1.0.1 on GigabitEthernet2 is 0
+00:14:53: DHCPD: client's VPN is .
+00:14:53: DHCPD: No option 125
+00:14:53: DHCPD: No option 124
+00:14:53: DHCPD: DHCPRELEASE message received from client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31 
+00:14:53: DHCPD: FSM state change INVALID
+00:14:53: DHCPD: Workspace state changed from INIT to INVALID(172.16.0.6).
+00:14:53: DHCPD: No binding found for client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31
+00:14:53: DHCPD: FSM state change INVALID
+00:14:53: DHCPD: Finding a relay for client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31 on interface GigabitEthernet2.
+00:14:53: DHCPD : Locating relay for Subnet 10.1.0.1
+00:14:53: DHCPD: there is no pool for 10.1.0.1.
+00:14:53: DHCPD: Option 125 not present in the msg.
+00:14:53: DHCPD: Sending notification of ASSIGNMENT FAILURE:
+00:14:53:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:14:53:   DHCPD: remote id 020a00000a01000100000000
+00:14:53:   DHCPD: interface = GigabitEthernet2
+00:14:53:   DHCPD: class id 636973636f706e70
+00:14:53: DHCPD: Sending notification of ASSIGNMENT_FAILURE:
+00:14:53:  DHCPD: due to: CANT FORWARD
+00:14:53:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:14:53:   DHCPD: remote id 020a00000a01000100000000
+00:14:53:   DHCPD: interface = GigabitEthernet2
+00:14:53:   DHCPD: class id 636973636f706e70
+00:14:53: DHCPD: cannot find a relay
+00:14:55: Option 82 not present
+00:14:55: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:14:55: DHCPD: tableid for 10.1.0.1 on GigabitEthernet2 is 0
+00:14:55: DHCPD: client's VPN is .
+00:14:55: DHCPD: No option 125
+00:14:55: DHCPD: No option 124
+00:14:55: DHCPD: DHCPRELEASE message received from client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31 
+00:14:55: DHCPD: FSM state change INVALID
+00:14:55: DHCPD: Workspace state changed from INIT to INVALID(172.16.0.6).
+00:14:55: DHCPD: No binding found for client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31
+00:14:55: DHCPD: FSM state change INVALID
+00:14:55: DHCPD: Finding a relay for client 0063.6973.636f.2d35.3235.342e.3030.3634.2e36.6264.312d.4769.302f.31 on interface GigabitEthernet2.
+00:14:55: DHCPD : Locating relay for Subnet 10.1.0.1
+00:14:55: DHCPD: there is no pool for 10.1.0.1.
+00:14:55: DHCPD: Option 125 not present in the msg.
+00:14:55: DHCPD: Sending notification of ASSIGNMENT FAILURE:
+00:14:55:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:14:55:   DHCPD: remote id 020a00000a01000100000000
+00:14:55:   DHCPD: interface = GigabitEthernet2
+00:14:55:   DHCPD: class id 636973636f706e70
+00:14:55: DHCPD: Sending notification of ASSIGNMENT_FAILURE:
+00:14:55:  DHCPD: due to: CANT FORWARD
+00:14:55:   DHCPD: htype 1 chaddr 5254.0064.6bd1
+00:14:55:   DHCPD: remote id 020a00000a01000100000000
+00:14:55:   DHCPD: interface = GigabitEthernet2
+00:14:55:   DHCPD: class id 636973636f706e70
+00:14:55: DHCPD: cannot find a relay

@@ -1,0 +1,14 @@
+---
+addr: |
+  {{ "  {0:20} {1:>18}  {2}".format("Interface","IPv4 address","Description") }}
+  {{ "=" * 80 }}
+  {% for n,d in nodes.items() %}
+  {% if not loop.first %}
+
+  {% endif %}
+  {{ n }} ({{ d.loopback.ipv4 }})
+  {%   for intf in d.interfaces if 'ipv4' in intf %}
+    {{ "{0:20} {1:>18}  {2}".format(intf.ifname,intf.ipv4,intf.name) }}{% if 'vrf' in intf 
+      %} (VRF: {{ intf.vrf }}){% endif +%}
+  {%   endfor %}
+  {% endfor %}

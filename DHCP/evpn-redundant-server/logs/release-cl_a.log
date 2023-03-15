@@ -1,0 +1,66 @@
+00:17:12: DHCP: Release IPL called for interface GigabitEthernet0/1 in state 5
+00:17:12: DHCP: Sending notification of TERMINATION:
+00:17:12:   Address 172.16.0.131 mask 255.255.255.0
+00:17:12: DHCP: Client socket is opened
+00:17:12: DHCP: SRelease attempt # 1 for entry:
+00:17:12: Temp IP addr: 172.16.0.131  for peer on Interface: GigabitEthernet0/1
+00:17:12: Temp  sub net mask: 255.255.255.0
+00:17:12:    DHCP Lease server: 172.16.0.4, state: 10 Releasing
+00:17:12:    DHCP transaction id: 2691
+00:17:12:    Lease: 86400 secs,  Renewal: 43200 secs,  Rebind: 75600 secs
+00:17:12: Temp default-gateway addr: 172.16.0.1
+00:17:12:    Next timer fires after: 00:00:02
+00:17:12:    Retry count: 1   Client-ID: cisco-5254.0015.f24f-Gi0/1
+00:17:12:    Client-ID hex dump: 636973636F2D353235342E303031352E
+00:17:12:                        663234662D4769302F31
+00:17:12:    Hostname: cl_a
+00:17:12: DHCP: SRelease placed Server ID option: 172.16.0.4
+00:17:12: DHCP: SRelease placed class-id option: 636973636F706E70
+00:17:12: DHCP: SRelease: 289 bytes
+00:17:13: DHCP: SRelease attempt # 2 for entry:
+00:17:13: Temp IP addr: 172.16.0.131  for peer on Interface: GigabitEthernet0/1
+00:17:13: Temp  sub net mask: 255.255.255.0
+00:17:13:    DHCP Lease server: 172.16.0.4, state: 10 Releasing
+00:17:13:    DHCP transaction id: 2691
+00:17:13:    Lease: 86400 secs,  Renewal: 43200 secs,  Rebind: 75600 secs
+00:17:13: Temp default-gateway addr: 172.16.0.1
+00:17:13:    Next timer fires after: 00:00:02
+00:17:13:    Retry count: 2   Client-ID: cisco-5254.0015.f24f-Gi0/1
+00:17:13:    Client-ID hex dump: 636973636F2D353235342E303031352E
+00:17:13:                        663234662D4769302F31
+00:17:13:    Hostname: cl_a
+00:17:13: DHCP: SRelease placed Server ID option: 172.16.0.4
+00:17:13: DHCP: SRelease placed class-id option: 636973636F706E70
+00:17:13: DHCP: SRelease: 289 bytes
+00:17:15: DHCP: SRelease attempt # 3 for entry:
+00:17:15: Temp IP addr: 172.16.0.131  for peer on Interface: GigabitEthernet0/1
+00:17:15: Temp  sub net mask: 255.255.255.0
+00:17:15:    DHCP Lease server: 172.16.0.4, state: 10 Releasing
+00:17:15:    DHCP transaction id: 2691
+00:17:15:    Lease: 86400 secs,  Renewal: 43200 secs,  Rebind: 75600 secs
+00:17:15: Temp default-gateway addr: 172.16.0.1
+00:17:15:    Next timer fires after: 00:00:02
+00:17:15:    Retry count: 3   Client-ID: cisco-5254.0015.f24f-Gi0/1
+00:17:15:    Client-ID hex dump: 636973636F2D353235342E303031352E
+00:17:15:                        663234662D4769302F31
+00:17:15:    Hostname: cl_a
+00:17:15: DHCP: SRelease placed Server ID option: 172.16.0.4
+00:17:15: DHCP: SRelease placed class-id option: 636973636F706E70
+00:17:15: DHCP: SRelease: 289 bytes
+00:17:17: RAC: DHCP stopped on interface GigabitEthernet0/1
+00:17:17: DHCP: Releasing ipl options:
+00:17:17:   Clearing default gateway and route to 172.16.0.1
+00:17:17:   Removing old default route 172.16.0.1
+00:17:48: DHCP: QScan: Purging entry
+00:17:48: DHCP: deleting entry EA6F200 172.16.0.131 from list
+00:17:48: Temp IP addr: 172.16.0.131  for peer on Interface: GigabitEthernet0/1
+00:17:48: Temp  sub net mask: 255.255.255.0
+00:17:48:    DHCP Lease server: 172.16.0.4, state: 11 Purging
+00:17:48:    DHCP transaction id: 2691
+00:17:48:    Lease: 86400 secs,  Renewal: 43200 secs,  Rebind: 75600 secs
+00:17:48:    No timer running
+00:17:48:    Retry count: 0   Client-ID: cisco-5254.0015.f24f-Gi0/1
+00:17:48:    Client-ID hex dump: 636973636F2D353235342E303031352E
+00:17:48:                        663234662D4769302F31
+00:17:48:    Hostname: cl_a
+00:17:48: DHCP: Client socket is closed

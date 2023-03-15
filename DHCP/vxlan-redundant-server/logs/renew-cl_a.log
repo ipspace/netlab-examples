@@ -1,0 +1,48 @@
+00:13:27: DHCP: Attempting to speed up renewal timer
+00:13:27: DHCP: Client socket is opened
+00:13:28: DHCP: QScan: Bound..T1 fired..Renewing
+00:13:28: DHCP: SRequest attempt # 1 for entry:
+00:13:28: Temp IP addr: 172.16.0.6  for peer on Interface: GigabitEthernet0/1
+00:13:28: Temp  sub net mask: 255.255.255.0
+00:13:28:    DHCP Lease server: 10.1.0.1, state: 7 Renewing
+00:13:28:    DHCP transaction id: 91D
+00:13:28:    Lease: 86400 secs,  Renewal: 43200 secs,  Rebind: 75600 secs
+00:13:28: Temp default-gateway addr: 172.16.0.1
+00:13:28:    Next timer fires after: 04:30:01
+00:13:28:    Retry count: 1   Client-ID: cisco-5254.0064.6bd1-Gi0/1
+00:13:28:    Client-ID hex dump: 636973636F2D353235342E303036342E
+00:13:28:                        366264312D4769302F31
+00:13:28:    Hostname: cl_a
+00:13:28: DHCP: SRequest - ciaddr: 172.16.0.6
+00:13:28: DHCP: SRequest placed class-id option: 636973636F706E70
+00:13:28: DHCP: SRequest: 303 bytes
+00:13:28: DHCP: SRequest: 303 bytes
+00:13:28: DHCP: Received a BOOTREP pkt
+00:13:28: DHCP: Scan: Message type: DHCP Ack
+00:13:28: DHCP: Scan: Client ID: cisco-5254.0064.6bd1-Gi0/1
+00:13:28: DHCP: Scan: Server ID Option: 10.1.0.1 = A010001
+00:13:28: DHCP: Scan: Lease Time: 86400
+00:13:28: DHCP: Scan: Renewal time: 43200
+00:13:28: DHCP: Scan: Rebind time: 75600
+00:13:28: DHCP: Scan: Subnet Address Option: 255.255.255.0
+00:13:28: DHCP: Scan: Router Option: 172.16.0.1
+00:13:28: DHCP: rcvd pkt source: 10.1.0.1,  destination:  172.16.0.6
+00:13:28:    UDP  sport: 43,  dport: 44,  length: 317
+00:13:28:    DHCP op: 2, htype: 1, hlen: 6, hops: 0
+00:13:28:    DHCP server identifier: 10.1.0.1
+00:13:28:         xid: 91D, secs: 0, flags: 0
+00:13:28:         client: 172.16.0.6, your: 172.16.0.6
+00:13:28:         srvr:   0.0.0.0, gw: 0.0.0.0
+00:13:28:         options block length: 69
+
+00:13:28: DHCP Ack Message
+00:13:28: DHCP: Lease Seconds: 86400    Renewal secs:  43200    Rebind secs:   75600
+00:13:28: DHCP: Server ID Option: 10.1.0.1
+00:13:31: DHCP: Releasing ipl options:
+00:13:31: DHCP: Applying DHCP options:
+00:13:31:   Setting default_gateway to 172.16.0.1
+00:13:31:   Adding default route 172.16.0.1
+00:13:31: DHCP: Sending notification of ASSIGNMENT:
+00:13:31:   Address 172.16.0.6 mask 255.255.255.0
+00:13:31: DHCP Client Pooling: ***Allocated IP address: 172.16.0.6
+00:13:38: DHCP: Client socket is closed

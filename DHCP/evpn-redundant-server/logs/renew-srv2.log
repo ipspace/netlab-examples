@@ -1,0 +1,32 @@
+
+00:21:17: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:21:17: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:21:17: DHCPD: found subnet_info_addr 172.16.0.0
+00:21:17: DHCPD: Giaddr from server-id-override suboption 172.16.0.4
+00:21:17: DHCPD: Bad VPN information type: 99.
+00:21:17: DHCPD: client's VPN is .
+00:21:17: DHCPD: No option 125
+00:21:17: DHCPD: No option 124
+00:21:17: DHCPD: DHCPREQUEST received from client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31.
+00:21:17: DHCPD: DHCPREQUEST received on interface GigabitEthernet2.
+00:21:17: DHCPD: no subnet configured for 10.1.0.5.
+00:21:17: DHCPD: FSM state change INVALID
+00:21:17: DHCPD: Workspace state changed from INIT to INVALID
+00:21:17: DHCPD: Client either rebooted or rebinding we are seeing the client for first time
+00:21:17: DHCPD: client is confused about its IP address (requested 172.16.0.6, assigned 172.16.0.132).
+00:21:17: DHCPD: Option 125 not present in the msg.
+00:21:17: DHCPD: Sending notification of ASSIGNMENT FAILURE:
+00:21:17:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:21:17:   DHCPD: remote id 020a00000a01000500000000
+00:21:17:   DHCPD: giaddr = 10.0.0.4
+00:21:17:   DHCPD: interface = GigabitEthernet2
+00:21:17:   DHCPD: class id 636973636f706e70
+00:21:17: DHCPD: Sending notification of ASSIGNMENT_FAILURE:
+00:21:17:  DHCPD: due to: CLIENT CONFUSED ABOUT ADDRESS
+00:21:17:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:21:17:   DHCPD: remote id 020a00000a01000500000000
+00:21:17:   DHCPD: giaddr = 10.0.0.4
+00:21:17:   DHCPD: interface = GigabitEthernet2
+00:21:17:   DHCPD: class id 636973636f706e70
+00:21:17: DHCPD: Not sending DHCPNAK to client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 due toServer-id-override.
+00:21:27: DHCPD: checking for expired leases.

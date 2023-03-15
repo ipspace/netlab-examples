@@ -1,0 +1,87 @@
+00:17:16: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:17:16: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:17:16: DHCPD: found subnet_info_addr 172.16.0.0
+00:17:16: DHCPD: Giaddr from server-id-override suboption 172.16.0.4
+00:17:16: DHCPD: Bad VPN information type: 99.
+00:17:16: DHCPD: client's VPN is .
+00:17:16: DHCPD: No option 125
+00:17:16: DHCPD: No option 124
+00:17:16: DHCPD: DHCPRELEASE message received from client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 
+00:17:16: DHCPD: FSM state change INVALID
+00:17:16: DHCPD: Workspace state changed from INIT to INVALID
+00:17:16: DHCPD: server-id-override suboption used as valid server-id(172.16.0.131).
+00:17:16: DHCPD: Option 125 not present in the msg.
+00:17:16: DHCPD: Sending notification of TERMINATION:
+00:17:16:  DHCPD: address 172.16.0.131 mask 255.255.255.0
+00:17:16:  DHCPD: reason flags: RELEASE 
+00:17:16:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:17:16:   DHCPD: lease time remaining (secs) = 86280
+00:17:16:   DHCPD: interface = GigabitEthernet2
+00:17:16: DHCPD: Destroy binding called for 7FBFC4E6DD78
+00:17:16: DHCPD: removing ARP entry (172.16.0.131 vrf default).
+00:17:16: DHCPD: dhcpd_deactivate_binding binding removed from mac hash 7FBFC4E6DD78 index 191
+00:17:16: DHCPD: returned 172.16.0.131 to address pool p_172.16.0.0.
+00:17:16: DHCPD: Freeing 7FBFC4E6DD78 
+00:17:18: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:17:18: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:17:18: DHCPD: found subnet_info_addr 172.16.0.0
+00:17:18: DHCPD: Giaddr from server-id-override suboption 172.16.0.4
+00:17:18: DHCPD: Bad VPN information type: 99.
+00:17:18: DHCPD: client's VPN is .
+00:17:18: DHCPD: No option 125
+00:17:18: DHCPD: No option 124
+00:17:18: DHCPD: DHCPRELEASE message received from client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 
+00:17:18: DHCPD: FSM state change INVALID
+00:17:18: DHCPD: Workspace state changed from INIT to INVALID
+00:17:18: DHCPD: server-id-override suboption used as valid server-id(172.16.0.131).
+00:17:18: DHCPD: No binding found for client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31
+00:17:18: DHCPD: FSM state change INVALID
+00:17:18: DHCPD: Finding a relay for client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 through relay 10.0.0.4.
+00:17:18: DHCPD : Locating relay for Subnet 172.16.0.0
+00:17:18: DHCPD: Option 125 not present in the msg.
+00:17:18: DHCPD: Sending notification of ASSIGNMENT FAILURE:
+00:17:18:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:17:18:   DHCPD: remote id 020a00000a01000500000000
+00:17:18:   DHCPD: giaddr = 10.0.0.4
+00:17:18:   DHCPD: interface = GigabitEthernet2
+00:17:18:   DHCPD: class id 636973636f706e70
+00:17:18: DHCPD: Sending notification of ASSIGNMENT_FAILURE:
+00:17:18:  DHCPD: due to: CANT FORWARD
+00:17:18:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:17:18:   DHCPD: remote id 020a00000a01000500000000
+00:17:18:   DHCPD: giaddr = 10.0.0.4
+00:17:18:   DHCPD: interface = GigabitEthernet2
+00:17:18:   DHCPD: class id 636973636f706e70
+00:17:18: DHCPD: cannot find a relay
+00:17:20: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:17:20: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:17:20: DHCPD: found subnet_info_addr 172.16.0.0
+00:17:20: DHCPD: Giaddr from server-id-override suboption 172.16.0.4
+00:17:20: DHCPD: Bad VPN information type: 99.
+00:17:20: DHCPD: client's VPN is .
+00:17:20: DHCPD: No option 125
+00:17:20: DHCPD: No option 124
+00:17:20: DHCPD: DHCPRELEASE message received from client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 
+00:17:20: DHCPD: FSM state change INVALID
+00:17:20: DHCPD: Workspace state changed from INIT to INVALID
+00:17:20: DHCPD: server-id-override suboption used as valid server-id(172.16.0.131).
+00:17:20: DHCPD: No binding found for client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31
+00:17:20: DHCPD: FSM state change INVALID
+00:17:20: DHCPD: Finding a relay for client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 through relay 10.0.0.4.
+00:17:20: DHCPD : Locating relay for Subnet 172.16.0.0
+00:17:20: DHCPD: Option 125 not present in the msg.
+00:17:20: DHCPD: Sending notification of ASSIGNMENT FAILURE:
+00:17:20:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:17:20:   DHCPD: remote id 020a00000a01000500000000
+00:17:20:   DHCPD: giaddr = 10.0.0.4
+00:17:20:   DHCPD: interface = GigabitEthernet2
+00:17:20:   DHCPD: class id 636973636f706e70
+00:17:20: DHCPD: Sending notification of ASSIGNMENT_FAILURE:
+00:17:20:  DHCPD: due to: CANT FORWARD
+00:17:20:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:17:20:   DHCPD: remote id 020a00000a01000500000000
+00:17:20:   DHCPD: giaddr = 10.0.0.4
+00:17:20:   DHCPD: interface = GigabitEthernet2
+00:17:20:   DHCPD: class id 636973636f706e70
+00:17:20: DHCPD: cannot find a relay
+00:17:27: DHCPD: checking for expired leases.

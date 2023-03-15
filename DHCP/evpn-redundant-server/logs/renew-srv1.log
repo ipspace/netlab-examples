@@ -1,0 +1,31 @@
+00:21:13: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:21:13: DHCPD: tableid for 10.1.0.1 on GigabitEthernet2 is 0
+00:21:13: DHCPD: found subnet_info_addr 172.16.0.0
+00:21:13: DHCPD: Giaddr from server-id-override suboption 172.16.0.4
+00:21:13: DHCPD: Bad VPN information type: 99.
+00:21:13: DHCPD: client's VPN is .
+00:21:13: DHCPD: No option 125
+00:21:13: DHCPD: No option 124
+00:21:13: DHCPD: DHCPREQUEST received from client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31.
+00:21:13: DHCPD: DHCPREQUEST received on interface GigabitEthernet2.
+00:21:13: DHCPD: Found previous binding
+00:21:13: DHCPD: FSM state change INVALID
+00:21:13: DHCPD: Workspace state changed from INIT to INVALID
+00:21:13: DHCPD: Client is connected via Relay
+00:21:13: DHCPD: Option 125 not present in the msg.
+00:21:13: DHCPD: Sending notification of ASSIGNMENT:
+00:21:13:  DHCPD: address 172.16.0.6 mask 255.255.255.0
+00:21:13:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:21:13:   DHCPD: circuit id 566c616e31303030
+00:21:13:   DHCPD: lease time remaining (secs) = 86400
+00:21:13:   DHCPD: interface = GigabitEthernet2
+00:21:13: DHCPD: Appending system default domain
+00:21:13: DHCPD: Using hostname 'cl_a.lab.local.' for dynamic update (from hostname option)
+00:21:13: DHCPD: Sending DHCPACK to client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 (172.16.0.6).DHCPD: Setting only requested parameters
+
+00:21:13: DHCPD: using server-id-override 172.16.0.4
+00:21:13: DHCPD: Option 125 not present in the msg.
+00:21:13: DHCPD: egress Interfce GigabitEthernet2
+
+00:21:13: DHCPD: unicasting BOOTREPLY for client 5254.0015.f24f to relay 10.0.0.4.
+00:21:18: DHCPD: checking for expired leases.

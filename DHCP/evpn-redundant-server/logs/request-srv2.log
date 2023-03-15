@@ -1,0 +1,145 @@
+
+00:19:01: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:19:01: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:19:01: DHCPD: found subnet_info_addr 172.16.0.0
+00:19:01: DHCPD: Giaddr from server-id-override suboption 172.16.0.4
+00:19:01: DHCPD: Bad VPN information type: 99.
+00:19:01: DHCPD: client's VPN is .
+00:19:01: DHCPD: No option 125
+00:19:01: DHCPD: No option 124
+00:19:01: DHCPD: Option 125 not present in the msg.
+00:19:01: DHCPD: using received relay info.
+00:19:01: DHCPD: Sending notification of DISCOVER:
+00:19:01:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:19:01:   DHCPD: circuit id 566c616e31303030
+00:19:01:   DHCPD: giaddr = 10.0.0.4
+00:19:01:   DHCPD: interface = GigabitEthernet2
+00:19:01:   DHCPD: class id 636973636f706e70
+00:19:01: DHCPD: DHCPDISCOVER received from client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 through relay 10.0.0.4.
+00:19:01: DHCPD: Option 125 not present in the msg.
+00:19:01: DHCPD: using received relay info.
+00:19:01: DHCPD: Sending notification of DISCOVER:
+00:19:01:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:19:01:   DHCPD: circuit id 566c616e31303030
+00:19:01:   DHCPD: giaddr = 10.0.0.4
+00:19:01:   DHCPD: interface = GigabitEthernet2
+00:19:01:   DHCPD: class id 636973636f706e70
+00:19:01: DHCPD: FSM state change INVALID
+00:19:01: DHCPD: Workspace state changed from INIT to INVALID
+00:19:01: DHCPD: classname not set in msg
+00:19:01: DHCPD: Selecting relay q from pool
+00:19:01: DHCPD: Attempt ping to check address available
+00:19:01: DHCPD: Allocated binding 7FBFC4492828
+00:19:01: DHCPD: Adding binding to radix tree (172.16.0.132)
+00:19:01: DHCPD: Adding binding to hash tree 7FBFC4492828
+00:19:01: DHCPD:dhcpd_binding_add_to_mac_hash: index- 191 add binding 7FBFC4492828
+00:19:01: DHCPD: assigned IP address 172.16.0.132 to client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31.
+00:19:01: DHCPD: Saving workspace (ID=0x92000004)
+00:19:01: DHCPD: New packet workspace 0x7FBF5272E340 (ID=0xB7000005)
+00:19:01: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:19:01: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:19:01: DHCPD: found subnet_info_addr 172.16.0.0
+00:19:01: DHCPD: Giaddr from server-id-override suboption 172.16.0.5
+00:19:01: DHCPD: Bad VPN information type: 99.
+00:19:01: DHCPD: client's VPN is .
+00:19:01: DHCPD: No option 125
+00:19:01: DHCPD: No option 124
+00:19:01: DHCPD: Option 125 not present in the msg.
+00:19:01: DHCPD: using received relay info.
+00:19:01: DHCPD: Sending notification of DISCOVER:
+00:19:01:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:19:01:   DHCPD: circuit id 566c616e31303030
+00:19:01:   DHCPD: giaddr = 10.0.0.5
+00:19:01:   DHCPD: interface = GigabitEthernet2
+00:19:01:   DHCPD: class id 636973636f706e70
+00:19:01: DHCPD: DHCPDISCOVER received from client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 through relay 10.0.0.5.
+00:19:01: DHCPD: Option 125 not present in the msg.
+00:19:01: DHCPD: using received relay info.
+00:19:01: DHCPD: Sending notification of DISCOVER:
+00:19:01:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:19:01:   DHCPD: circuit id 566c616e31303030
+00:19:01:   DHCPD: giaddr = 10.0.0.5
+00:19:01:   DHCPD: interface = GigabitEthernet2
+00:19:01:   DHCPD: class id 636973636f706e70
+00:19:01: DHCPD: FSM state change INVALID
+00:19:01: DHCPD: Workspace state changed from INIT to INVALID
+00:19:01: DHCPD: Found previous server binding
+00:19:02: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:19:02: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:19:02: DHCPD: found subnet_info_addr 172.16.0.0
+00:19:02: DHCPD: Giaddr from server-id-override suboption 172.16.0.4
+00:19:02: DHCPD: Bad VPN information type: 99.
+00:19:02: DHCPD: client's VPN is .
+00:19:02: DHCPD: No option 125
+00:19:02: DHCPD: No option 124
+00:19:02: DHCPD: DHCPREQUEST received from client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31.
+00:19:02: DHCPD: DHCPREQUEST received on interface GigabitEthernet2.
+00:19:02: DHCPD: no subnet configured for 10.1.0.5.
+00:19:02: DHCPD: FSM state change INVALID
+00:19:02: DHCPD: Workspace state changed from INIT to INVALID
+00:19:02: DHCPD : Client request received seeing the client for first time
+00:19:02: DHCPD: client is confused about its IP address (requested 172.16.0.6, assigned 172.16.0.132).
+00:19:02: DHCPD: Option 125 not present in the msg.
+00:19:02: DHCPD: Sending notification of ASSIGNMENT FAILURE:
+00:19:02:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:19:02:   DHCPD: remote id 020a00000a01000500000000
+00:19:02:   DHCPD: giaddr = 10.0.0.4
+00:19:02:   DHCPD: interface = GigabitEthernet2
+00:19:02:   DHCPD: class id 636973636f706e70
+00:19:02: DHCPD: Sending notification of ASSIGNMENT_FAILURE:
+00:19:02:  DHCPD: due to: CLIENT CONFUSED ABOUT ADDRESS
+00:19:02:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:19:02:   DHCPD: remote id 020a00000a01000500000000
+00:19:02:   DHCPD: giaddr = 10.0.0.4
+00:19:02:   DHCPD: interface = GigabitEthernet2
+00:19:02:   DHCPD: class id 636973636f706e70
+00:19:02: DHCPD: Not sending DHCPNAK to client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 due toServer-id-override.
+00:19:02: DHCPD: Reload workspace interface GigabitEthernet2 tableid 0.
+00:19:02: DHCPD: tableid for 10.1.0.5 on GigabitEthernet2 is 0
+00:19:02: DHCPD: found subnet_info_addr 172.16.0.0
+00:19:02: DHCPD: Giaddr from server-id-override suboption 172.16.0.5
+00:19:02: DHCPD: Bad VPN information type: 99.
+00:19:02: DHCPD: client's VPN is .
+00:19:02: DHCPD: No option 125
+00:19:02: DHCPD: No option 124
+00:19:02: DHCPD: DHCPREQUEST received from client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31.
+00:19:02: DHCPD: DHCPREQUEST received on interface GigabitEthernet2.
+00:19:02: DHCPD: no subnet configured for 10.1.0.5.
+00:19:02: DHCPD: FSM state change INVALID
+00:19:02: DHCPD: Workspace state changed from INIT to INVALID
+00:19:02: DHCPD : Client request received seeing the client for first time
+00:19:02: DHCPD: client is confused about its IP address (requested 172.16.0.6, assigned 172.16.0.132).
+00:19:02: DHCPD: Option 125 not present in the msg.
+00:19:02: DHCPD: Sending notification of ASSIGNMENT FAILURE:
+00:19:02:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:19:02:   DHCPD: remote id 020a00000a01000500000000
+00:19:02:   DHCPD: giaddr = 10.0.0.5
+00:19:02:   DHCPD: interface = GigabitEthernet2
+00:19:02:   DHCPD: class id 636973636f706e70
+00:19:02: DHCPD: Sending notification of ASSIGNMENT_FAILURE:
+00:19:02:  DHCPD: due to: CLIENT CONFUSED ABOUT ADDRESS
+00:19:02:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:19:02:   DHCPD: remote id 020a00000a01000500000000
+00:19:02:   DHCPD: giaddr = 10.0.0.5
+00:19:02:   DHCPD: interface = GigabitEthernet2
+00:19:02:   DHCPD: class id 636973636f706e70
+00:19:02: DHCPD: Not sending DHCPNAK to client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 due toServer-id-override.
+00:19:03: DHCPD: Reprocessing saved workspace (ID=0x92000004)
+00:19:03: DHCPD: Option 125 not present in the msg.
+00:19:03: DHCPD: using received relay info.
+00:19:03: DHCPD: Sending notification of DISCOVER:
+00:19:03:   DHCPD: htype 1 chaddr 5254.0015.f24f
+00:19:03:   DHCPD: circuit id 566c616e31303030
+00:19:03:   DHCPD: giaddr = 10.0.0.4
+00:19:03:   DHCPD: interface = GigabitEthernet2
+00:19:03:   DHCPD: class id 636973636f706e70
+00:19:03: DHCPD: DHCPDISCOVER received from client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 through relay 10.0.0.4.
+00:19:03: DHCPD: Sending DHCPOFFER to client 0063.6973.636f.2d35.3235.342e.3030.3135.2e66.3234.662d.4769.302f.31 (172.16.0.132).DHCPD: Setting only requested parameters
+
+00:19:03: DHCPD: using server-id-override 172.16.0.4
+00:19:03: DHCPD: Option 125 not present in the msg.
+00:19:03: DHCPD: egress Interfce GigabitEthernet2
+
+00:19:03: DHCPD: unicasting BOOTREPLY for client 5254.0015.f24f to relay 10.0.0.4.
+00:19:03: DHCPD: Freeing saved workspace (ID=0x92000004)
+00:19:27: DHCPD: checking for expired leases.
