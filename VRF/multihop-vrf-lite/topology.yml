@@ -23,8 +23,9 @@ groups:
 
 vrfs:
   red:
+    links: [ h1-r1, h2-r3 ]
   blue:
-
+    links: [ h3-r1, h4-r3 ]
 vlans:
   red:
     mode: route
@@ -36,21 +37,6 @@ vlans:
 nodes: [r1, r2, r3, h1, h2, h3, h4 ]
 
 links:
-- r1:
-  r2:
+- group: core
   vlan.trunk: [ red, blue ]
-- r2:
-  r3:
-  vlan.trunk: [ red, blue ]  
-- h1:
-  r1:
-    vrf: red
-- h3:
-  r1:
-    vrf: blue
-- h2:
-  r3:
-    vrf: red
-- h4:
-  r3:
-    vrf: blue
+  members: [ r1-r2, r2-r3 ]
