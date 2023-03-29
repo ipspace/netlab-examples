@@ -1,0 +1,35 @@
+#
+# See https://documentation.nokia.com/cgi-bin/dbaccessfilename.cgi/3HE14991AAAFTQZZA01_V1_7450%20ESS%207750%20SR%207950%20XRS%20Advanced%20Configuration%20Guide%20for%20Releases%20up%20to%2021.5.R2-Part%20II.pdf
+# EVPN for MPLS Tunnels
+#
+
+{% macro mpls_interface(vrf,evi) %}
+- path: configure/service/vpls[service-name={{ vrf }}]
+  val:
+{# May get created for first time here, when not referenced from any interfaces #}
+   customer: '1'
+   admin-state: enable
+   service-id: {{ evi }}
+
+   bgp:
+   - bgp-instance: 1
+     # route-distinguisher: xxx # Don't configure this, use auto RD
+     route-target:
+      export: "target:{{ bgp.as }}:{{ evi }}"
+      import: "target:{{ bgp.as }}:{{ evi }}"
+   bgp-evpn:
+    evi: {{ evi }}
+    mpls:
+    - bgp-instance: 1
+      admin-state: enable
+      ingress-replication-bum-label: True
+      ecmp: 8
+      auto-bind-tunnel:
+       resolution: any
+       ecmp: 8
+{% endmacro %}
+
+updates:
+{% for vname,vdata in vlans.items() %}
+{{ mpls_interface('vlan'+vdata.id|string,vdata.id) }}
+{% endfor %}
