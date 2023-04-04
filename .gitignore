@@ -24,5 +24,8 @@ ansible.log
 # Ignore Python cache
 __pycache__/
 
+# Ignore Visual Studio Code files
+.vscode
+
 # Don't publish SFTP configuration
 sftp-config.json
