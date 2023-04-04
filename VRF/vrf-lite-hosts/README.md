@@ -36,6 +36,8 @@ The `multi-vrf.yml` topology contains two isolated VRFs:
 
 After starting the lab, h1 should be able to ping h2 but not h3 or h4, and h3 should be able to ping h4 but not h1 or h2.
 
+**Note:** the lab topology uses the [_VRF links_](https://netsim-tools.readthedocs.io/en/latest/module/vrf.html#module-vrf-links) functionality introduced in [netlab release 1.5.1](https://netsim-tools.readthedocs.io/en/latest/release/1.5.html#release-1-5-1).
+
 ## Inter-VRF Route Leaking
 
 The `vrf-route-leaking.yml` topology contains three VRFs:
