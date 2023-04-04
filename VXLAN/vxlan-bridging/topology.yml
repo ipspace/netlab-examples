@@ -20,23 +20,11 @@ groups:
 vlans:
   red:
     mode: bridge
+    links: [ h1-s1, h2-s2 ]
   blue:
     mode: bridge
+    links: [ h3-s1, h4-s2 ]
 
 nodes: [ h1, h2, h3, h4, s1, s2 ]
 
-links:
-- h1:
-  s1:
-    vlan.access: red
-- h2:
-  s2:
-    vlan.access: red
-- h3:
-  s1:
-    vlan.access: blue
-- h4:
-  s2:
-    vlan.access: blue
-- s1:
-  s2:
+links: [ s1-s2 ]
