@@ -53,7 +53,7 @@ O        192.168.2.1 [110/1] via 10.0.1.3, 02:24:52, GigabitEthernet0/1
 O        192.168.2.4 [110/1000] via 192.168.1.4, 02:23:33, Tunnel1
 O        192.168.2.5 [110/1000] via 192.168.1.5, 02:23:33, Tunnel1
 ```
-#### hub1
+#### hub2
 ```
 hub2#sh dmvpn 
 Legend: Attrb --> S - Static, D - Dynamic, I - Incomplete
