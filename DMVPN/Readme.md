@@ -1,5 +1,5 @@
 ## DMVPN lab topology
-In this lab topology a situation is simulated where an IPsec interconnect to a 4G IoT provider is used to connect 4G enabled spoke routers to local hub routers. After running `netlab up` run `netlab config iosv.j2` to deploy the DMVPN configuration.
+In this lab topology a situation is simulated where an IPsec interconnect to a 4G IoT provider is used to connect 4G enabled spoke routers to local hub routers and configure a DMVPN overlay over which anything can be routed. After running `netlab up` run `netlab config iosv.j2` to deploy the DMVPN configuration.
 
 ![DMVPN topology](dmvpn.png)
 
