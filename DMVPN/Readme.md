@@ -53,7 +53,48 @@ O        192.168.2.1 [110/1] via 10.0.1.3, 02:24:52, GigabitEthernet0/1
 O        192.168.2.4 [110/1000] via 192.168.1.4, 02:23:33, Tunnel1
 O        192.168.2.5 [110/1000] via 192.168.1.5, 02:23:33, Tunnel1
 ```
+#### hub1
+```
+hub2#sh dmvpn 
+Legend: Attrb --> S - Static, D - Dynamic, I - Incomplete
+	N - NATed, L - Local, X - No Socket
+	T1 - Route Installed, T2 - Nexthop-override
+	C - CTS Capable
+	# Ent --> Number of NHRP entries with same NBMA peer
+	NHS Status: E --> Expecting Replies, R --> Responding, W --> Waiting
+	UpDn Time --> Up or Down Time for a Tunnel
+==========================================================================
 
+Interface: Tunnel1, IPv4 NHRP Details 
+Type:Hub, NHRP Peers:2, 
+
+ # Ent  Peer NBMA Addr Peer Tunnel Add State  UpDn Tm Attrb
+ ----- --------------- --------------- ----- -------- -----
+     1 172.16.0.4          192.168.2.4    UP 02:27:21     D
+     1 172.16.0.5          192.168.2.5    UP 02:27:21     D
+
+```
+Routes:
+```
+S*    0.0.0.0/0 [1/0] via 10.0.1.1
+      10.0.0.0/8 is variably subnetted, 6 subnets, 2 masks
+O        10.0.0.2/32 [110/2] via 10.0.1.2, 02:28:54, GigabitEthernet0/1
+C        10.0.0.3/32 is directly connected, Loopback0
+O        10.0.0.4/32 [110/1001] via 192.168.2.4, 02:27:35, Tunnel1
+O        10.0.0.5/32 [110/1001] via 192.168.2.5, 02:27:35, Tunnel1
+C        10.0.1.0/29 is directly connected, GigabitEthernet0/1
+L        10.0.1.3/32 is directly connected, GigabitEthernet0/1
+      192.168.1.0/32 is subnetted, 3 subnets
+O        192.168.1.1 [110/1] via 10.0.1.2, 02:28:54, GigabitEthernet0/1
+O        192.168.1.4 [110/1000] via 192.168.2.4, 02:27:35, Tunnel1
+O        192.168.1.5 [110/1000] via 192.168.2.5, 02:27:35, Tunnel1
+      192.168.2.0/24 is variably subnetted, 4 subnets, 2 masks
+C        192.168.2.0/24 is directly connected, Tunnel1
+L        192.168.2.1/32 is directly connected, Tunnel1
+O        192.168.2.4/32 [110/1000] via 192.168.2.4, 02:27:35, Tunnel1
+O        192.168.2.5/32 [110/1000] via 192.168.2.5, 02:27:35, Tunnel1
+
+```
 #### spoke1
 ```
 spoke1#show dmvpn
