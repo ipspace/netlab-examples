@@ -1,0 +1,36 @@
+---
+provider: libvirt
+defaults:
+  device: iosv
+
+nodes: 
+  iotprovider:
+  hub1: 
+  hub2: 
+  spoke1: 
+  spoke2:
+  firewall: 
+
+groups:
+  spokes:
+    members: [ spoke1, spoke2 ]
+  central:
+    members: [ hub1, hub2 ]
+  iot:
+    members: [ firewall, iotprovider ]
+
+links:
+- iotprovider:
+  spoke1:
+  spoke2:
+  type: lan
+  prefix: 172.16.0.0/24
+- firewall:
+  hub1:
+  hub2:
+  type: lan
+  prefix: 10.0.1.0/29
+- iotprovider:
+  firewall:
+  type: p2p
+  prefix: 88.0.0.0/30
