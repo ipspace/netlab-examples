@@ -1,10 +1,10 @@
-{% set overlay_ip = {"hub1": "192.168.1.1", "hub2": "192.168.2.1" } %}
-{% set underlay_mobile = { "gw": "172.16.0.1", "network": "172.16.0.0"%}
-{% set underlay_ip = {"hub1": "10.0.1.2", "hub2": "10.0.1.3", "firewall": "10.0.1.1", "network": "10.0.1.0" } %}
-{% set 4g_iot_tunnel = {"a": "10.10.0.1","b": "10.10.0.2"} %}
-{% set internet_p2p = {"a": "88.0.0.1","b": "88.0.0.2"}%}
-{% set isakmp_key = "isakmp1234" %}
+{% set overlay_ip = {"hub1": "192.168.1.1", "hub2": "192.168.2.1"} %}
+{% set underlay_mobile = {"gw": "172.16.0.1", "network": "172.16.0.0"} %}
+{% set underlay_ip = {"hub1": "10.0.1.2", "hub2": "10.0.1.3", "firewall": "10.0.1.1", "network": "10.0.1.0"} %}
+{% set iot_tunnel = {"a": "10.10.0.1","b": "10.10.0.2"} %}
+{% set internet_p2p = {"a": "88.0.0.1","b": "88.0.0.2"} %}
 {% set nhrp_keys = {"hub1": "nhrp1234","hub2": "nhrp4321"} %}
+{% set isakmp_key = "isakmp1234" %}
 {% if inventory_hostname is regex('^(spoke).*$') %}
 {%   set spokenum = inventory_hostname | regex_replace('^spoke','') | int %}
 {%   set spoke_lastoctet = spokenum + 3 %}
@@ -53,7 +53,7 @@ interface Tunnel2
  ip nhrp map {{ overlay_ip["hub2"] }} {{ underlay_ip["hub2"] }}
  ip nhrp map multicast {{ overlay_ip["hub2"] }}
  ip nhrp network-id 2
- ip nhrp nhs {{ hub2_ip }}
+ ip nhrp nhs {{ overlay_ip["hub2"] }}
  ip tcp adjust-mss 1360
  ip ospf network point-to-multipoint
  ip ospf 1 area 0.0.0.0
@@ -114,7 +114,7 @@ crypto ipsec profile protect-IoT
 !
 interface Tunnel1
  description 4G-IoT-Tunnel
- ip address {{ 4g_iot_tunnel["a"] }} 255.255.255.252
+ ip address {{ iot_tunnel["a"] }} 255.255.255.252
  ip mtu 1400
  ip tcp adjust-mss 1400
  tunnel source GigabitEthernet0/2
@@ -122,7 +122,7 @@ interface Tunnel1
  tunnel path-mtu-discovery
  tunnel protection ipsec profile protect-IoT
 !
-ip route {{ underlay_mobile["network"] }} 255.255.255.0 {{ 4g_iot_tunnel["b"] }} name to_IoT
+ip route {{ underlay_mobile["network"] }} 255.255.255.0 {{ iot_tunnel["b"] }} name to_IoT
 {% endif %} 
 {% if inventory_hostname == "iotprovider" %}
 !
@@ -141,7 +141,7 @@ crypto ipsec profile protect-IoT
 !
 interface Tunnel1
  description 4G-IoT-Tunnel
- ip address {{ 4g_iot_tunnel["b"] }} 255.255.255.252
+ ip address {{ iot_tunnel["b"] }} 255.255.255.252
  ip mtu 1400
  ip tcp adjust-mss 1400
  tunnel source GigabitEthernet0/2
@@ -149,5 +149,5 @@ interface Tunnel1
  tunnel path-mtu-discovery
  tunnel protection ipsec profile protect-IoT
 !
-ip route {{ underlay_ip["network"] }} 255.255.255.0 {{ 4g_iot_tunnel["a"] }} name IPsec_P2_subnet_route 
+ip route {{ underlay_ip["network"] }} 255.255.255.0 {{ iot_tunnel["a"] }} name IPsec_P2_subnet_route 
 {% endif %} 
