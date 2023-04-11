@@ -1,0 +1,153 @@
+{% set overlay_ip = {"hub1": "192.168.1.1", "hub2": "192.168.2.1" } %}
+{% set underlay_mobile = { "gw": "172.16.0.1", "network": "172.16.0.0"%}
+{% set underlay_ip = {"hub1": "10.0.1.2", "hub2": "10.0.1.3", "firewall": "10.0.1.1", "network": "10.0.1.0" } %}
+{% set 4g_iot_tunnel = {"a": "10.10.0.1","b": "10.10.0.2"} %}
+{% set internet_p2p = {"a": "88.0.0.1","b": "88.0.0.2"}%}
+{% set isakmp_key = "isakmp1234" %}
+{% set nhrp_keys = {"hub1": "nhrp1234","hub2": "nhrp4321"} %}
+{% if inventory_hostname is regex('^(spoke).*$') %}
+{%   set spokenum = inventory_hostname | regex_replace('^spoke','') | int %}
+{%   set spoke_lastoctet = spokenum + 3 %}
+!
+router ospf 1
+ router-id 10.0.0.{{ spokenum + 3 }}
+!
+interface loopback0
+ ip ospf 1 area 0.0.0.0
+!
+ip route {{ underlay_ip["network"] }} 255.255.255.0 {{ underlay_mobile["gw"] }} name IPsec_P2_subnet_route
+ip route {{ underlay_ip["network"] }} 255.255.255.248 {{ underlay_mobile["gw"] }} name Prevent_recursive_routing
+!
+!
+ip access-list standard NO_INTER_SPOKE_TRAFFIC
+ permit {{ underlay_mobile["gw"] }}
+ deny {{ underlay_mobile["network"] }} 0.0.0.255
+ permit any
+!
+interface GigabitEthernet0/1
+ ip access-group NO_SPOKE_TRAFFIC in
+!
+interface Tunnel1
+ ip address 192.168.1.{{ spoke_lastoctet }} 255.255.255.0
+ ip mtu 1400
+ ip nhrp authentication {{ nhrp_keys["hub1"] }}
+ ip nhrp map multicast dynamic
+ ip nhrp map {{ overlay_ip["hub1"] }} {{ underlay_ip["hub1"] }}
+ ip nhrp map multicast {{ overlay_ip["hub1"] }}
+ ip nhrp network-id 1
+ ip nhrp nhs {{ overlay_ip["hub1"] }}
+ ip tcp adjust-mss 1360
+ ip ospf network point-to-multipoint
+ ip ospf 1 area 0.0.0.0
+ load-interval 30
+ keepalive 5 10
+ tunnel source GigabitEthernet0/1
+ tunnel destination {{ underlay_ip["hub1"] }}
+ tunnel path-mtu-discovery
+!
+interface Tunnel2
+ ip address 192.168.2.{{ spoke_lastoctet }} 255.255.255.0
+ ip mtu 1400
+ ip nhrp authentication {{ nhrp_keys["hub2"] }}
+ ip nhrp map multicast dynamic
+ ip nhrp map {{ overlay_ip["hub2"] }} {{ underlay_ip["hub2"] }}
+ ip nhrp map multicast {{ overlay_ip["hub2"] }}
+ ip nhrp network-id 2
+ ip nhrp nhs {{ hub2_ip }}
+ ip tcp adjust-mss 1360
+ ip ospf network point-to-multipoint
+ ip ospf 1 area 0.0.0.0
+ load-interval 30
+ keepalive 5 10
+ tunnel source GigabitEthernet0/1
+ tunnel destination {{ underlay_ip["hub2"] }}
+ tunnel path-mtu-discovery
+!
+{% endif %}
+{% if inventory_hostname is regex('^(hub).*$') %}
+{%   set hubnum = inventory_hostname | regex_replace('^hub','') %}
+!
+router ospf 1
+ router-id 10.0.0.{{ hubnum }}
+!
+interface Loopback0
+ ip ospf 1 area 0.0.0.0
+!
+interface GigabitEthernet0/1
+ ip ospf network point-to-point
+ ip ospf 1 area 0.0.0.0
+!
+ip route 0.0.0.0 0.0.0.0 {{ underlay_ip["firewall"]  }} name default_to_firewall
+!
+interface Tunnel1
+ description DMVPN Tunnel
+ ip address 192.168.{{ hubnum }}.1 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp authentication {{ nhrp_keys[inventory_hostname] }}
+ ip nhrp map multicast dynamic
+ ip nhrp network-id {{ hubnum }}
+ ip tcp adjust-mss 1360
+ ip ospf network point-to-multipoint
+ ip ospf 1 area 0.0.0.0
+ load-interval 30
+ keepalive 5 10
+ tunnel source GigabitEthernet0/1
+ tunnel mode gre multipoint
+ tunnel path-mtu-discovery
+!
+{% endif %} 
+{% if inventory_hostname == "firewall" %}
+!
+crypto isakmp policy 1
+ encr aes
+ authentication pre-share
+ group 2
+crypto isakmp key {{ isakmp_key }} address 0.0.0.0        
+!
+crypto ipsec transform-set TS esp-aes esp-sha-hmac 
+ mode tunnel
+!
+crypto ipsec profile protect-IoT
+ set security-association lifetime seconds 86400
+ set transform-set TS 
+!
+interface Tunnel1
+ description 4G-IoT-Tunnel
+ ip address {{ 4g_iot_tunnel["a"] }} 255.255.255.252
+ ip mtu 1400
+ ip tcp adjust-mss 1400
+ tunnel source GigabitEthernet0/2
+ tunnel destination {{ internet_p2p["b"] }}
+ tunnel path-mtu-discovery
+ tunnel protection ipsec profile protect-IoT
+!
+ip route {{ underlay_mobile["network"] }} 255.255.255.0 {{ 4g_iot_tunnel["b"] }} name to_IoT
+{% endif %} 
+{% if inventory_hostname == "iotprovider" %}
+!
+crypto isakmp policy 1
+ encr aes
+ authentication pre-share
+ group 2
+crypto isakmp key {{ isakmp_key }} address 0.0.0.0        
+!
+crypto ipsec transform-set TS esp-aes esp-sha-hmac 
+ mode tunnel
+!
+crypto ipsec profile protect-IoT
+ set security-association lifetime seconds 86400
+ set transform-set TS 
+!
+interface Tunnel1
+ description 4G-IoT-Tunnel
+ ip address {{ 4g_iot_tunnel["b"] }} 255.255.255.252
+ ip mtu 1400
+ ip tcp adjust-mss 1400
+ tunnel source GigabitEthernet0/2
+ tunnel destination {{ internet_p2p["a"] }}
+ tunnel path-mtu-discovery
+ tunnel protection ipsec profile protect-IoT
+!
+ip route {{ underlay_ip["network"] }} 255.255.255.0 {{ 4g_iot_tunnel["a"] }} name IPsec_P2_subnet_route 
+{% endif %} 
