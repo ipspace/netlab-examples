@@ -1,0 +1,42 @@
+authoritative;
+
+{% set subnets = {} %}
+{% for h,v in hostvars.items() %}
+{%   for intf in v.interfaces if 'dhcp' in intf and intf.dhcp.relay is defined and intf.ipv4 is defined %}
+{%     set _ = subnets.update( { intf.ipv4|ipaddr('network') : {
+                                 'mask': intf.ipv4|ipaddr('netmask'),
+                                 'gw'  : intf.gateway.ipv4|ipaddr('address') if 'gateway' in intf else None,
+                                 'start': intf.ipv4|ipaddr('subnet')|ipaddr(1)|ipaddr('address'),
+                                 'end': intf.ipv4|ipaddr('subnet')|ipaddr(-2)|ipaddr('address')
+                               } } ) %}
+
+# Exclude interface IPs by declaring them as static hosts
+host {{ h }}-{{ intf.ifname }} {
+  fixed-address {{ intf.ipv4|ipaddr('address') }};
+}
+
+{%   endfor %}
+{% endfor %}
+
+{% for n,s in subnets.items() %}
+
+subnet {{ n }} netmask {{ s.mask }} {
+{%       if s.gw %}
+        option routers                  {{ s.gw }};
+{%       endif %}
+        option subnet-mask              {{ s.mask }};
+
+        option domain-name              "example.com";
+
+        option time-offset              -18000;     # Eastern Standard Time
+
+	range {{ s.start }} {{ s.end }};
+}
+
+{% if s.gw %}
+host gw {
+ fixed-address {{ s.gw }};
+}
+{% endif %}
+
+{% endfor %}

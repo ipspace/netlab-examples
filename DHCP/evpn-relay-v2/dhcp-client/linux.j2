@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+set -e
+
+# Remove any static IPs
+{% for intf in interfaces if intf.dhcp.client is defined and intf.dhcp.client %}
+ip addr flush dev {{ intf.ifname }}
+{% endfor %}
+
+exit 0

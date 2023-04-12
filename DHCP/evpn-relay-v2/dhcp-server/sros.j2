@@ -1,0 +1,50 @@
+{% from "templates/initial/sros.j2" import if_name, declare_router with context %}
+updates:
+
+{% for i in interfaces if i.dhcp.server|default(False) %}
+{{ declare_router(i) }}
+  val:
+   dhcp-server:
+    dhcpv4:
+    - name: "dhcp-server"
+      admin-state: enable
+      user-identification: remote-id # or mac
+      pool-selection:
+        use-gi-address:
+          scope: pool
+      pool:
+      - pool-name: default
+        subnet:
+{%   for h,v in hostvars.items() %}
+{%     for intf in v.interfaces if intf.dhcp.relay is defined and intf.ipv4 is defined %}
+
+        - ipv4-prefix: {{ intf.ipv4|ipaddr('subnet') }}
+          address-range:
+          - start: {{ intf.ipv4|ansible.utils.ipaddr('subnet')|ipaddr(1)|ipaddr('address') }}
+            end:   {{ intf.ipv4|ansible.utils.ipaddr('subnet')|ipaddr(-2)|ipaddr('address') }}
+          exclude-addresses:
+          - start: {{ intf.ipv4|ipaddr('address') }}
+            end: {{ intf.ipv4|ipaddr('address') }}
+{%       if intf.gateway is defined and 'ipv4' in intf.gateway %}
+{%         set gw = intf.gateway.ipv4|ipaddr('address') %}
+          - start: {{ gw }}
+            end: {{ gw }}
+          options:
+            option:
+            - number: "default-router"
+              ipv4-address: ["{{ gw }}"]
+{%       endif %}
+{%     endfor %}
+{%   endfor %}
+{% endfor %}
+
+{% for i in interfaces if i.type=='loopback' and i.ipv4 is defined %}
+{{ declare_router(i) }}
+  val:
+   interface:
+   - interface-name: {{ if_name(i.ifname) }}
+     ipv4:
+      local-dhcp-server: dhcp-server
+      primary:
+        address: {{ loopback.ipv4|ipaddr('address') }}
+{% endfor %}
