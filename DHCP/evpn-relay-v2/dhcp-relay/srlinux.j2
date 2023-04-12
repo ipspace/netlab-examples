@@ -1,0 +1,25 @@
+updates:
+{% for intf in interfaces if intf.dhcp.relay is defined %}
+{%   set if_name_index = intf.ifname.split('.') %}
+{%   set if_name = if_name_index[0] if intf.type!='stub' else "lo0" %}
+{%   set if_index = if_name_index[1] if if_name_index|length > 1 else intf.ifindex if intf.type=='stub' else '0' %}
+- path: interface[name={{ if_name }}]/subinterface[index={{ if_index }}]
+  val:
+   ipv4:
+    dhcp-relay:
+     admin-state: enable
+     # use-gi-addr-as-src-ip-addr: True
+{%   if intf.vrf is defined %}
+     # network-instance: default
+     # Cannot do this - gi-address used to select pool
+     # gi-address: {{ loopback.ipv4|ipaddr('address') }}
+{%   endif %}
+     server:
+{% for i in hostvars[intf.dhcp.relay].interfaces if 'ipv4' in i %}
+     - {{ i.ipv4|ipaddr('address') }}
+{% endfor %}
+     option: [ "circuit-id", "remote-id" ]
+     # trace-options:
+     #  trace: ["messages"]
+
+{% endfor %}

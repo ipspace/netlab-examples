@@ -1,0 +1,86 @@
+message: |
+  This topology sets up an inter-VRF DHCP relay on a VXLAN-extended
+  VLAN using EVPN control plane. It includes a DHCP server (dnsmasq),
+  DHCP clients (using Alpine Linux) and two intermediate
+  VXLAN/EVPN-enabled switches running SR Linux
+
+provider: clab
+
+defaults.attributes:
+  link.dhcp:
+    client: bool
+    relay: str
+    server: bool
+
+groups:
+  dhcp_server:
+    members: [ srv ]
+    device: linux
+    config: [ dhcp-server ]
+
+    # device: sros
+    # module: [ ospf, vrf ]
+
+    clab.image: strm/dnsmasq
+    clab.config_templates:
+      dnsmasq: "/etc/dnsmasq.conf"
+
+  dhcp_client:
+    members: [ cl_a, cl_b ]
+    device: linux
+    config: [ dhcp-client ]
+    clab.image: alpine
+    clab.binds:
+      "dhcp-client/alpine.interfaces": "/etc/network/interfaces"
+  switch:
+    members: [ sw1, sw2 ]
+    module: [ ospf,bgp,vrf,vlan,vxlan,gateway,evpn ]
+    config: [ dhcp-relay ]
+    device: srlinux
+
+vrfs:
+  client:
+    evpn.transit_vni: True
+  # dhcp:
+  #   loopback: True
+
+vlans:
+  cv1:
+    gateway: True
+    ospf.passive: True
+    vrf: client
+
+  dhcp1:
+    ospf.passive: True
+    vrf: client
+
+  dhcp2:
+    ospf.passive: True
+    vrf: client
+
+bgp.as: 65000
+gateway.id: 1
+
+nodes: [ srv, sw1, sw2, cl_a, cl_b ]
+
+links:
+- srv:
+  sw1:
+    vlan.access: dhcp1
+- srv:
+  sw2:
+    vlan.access: dhcp2
+- sw1-sw2
+- cl_a:
+    dhcp.client: True
+  sw1:
+    dhcp.relay: srv
+  vlan.access: cv1
+- cl_b:
+    dhcp.client: True
+  sw2:
+    dhcp.relay: srv
+  vlan.access: cv1
+
+defaults.outputs:
+  _include: [ outputs/format.yml ]

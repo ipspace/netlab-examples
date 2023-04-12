@@ -1,0 +1,12 @@
+# Create static routes for giaddress of each leaf
+# Note that giaddress is used for subnet pool selection, so it cannot be a router loopback IP
+
+{% for h,v in hostvars.items() %}
+{%   for i in v.interfaces if 'dhcp' in i and i.dhcp.relay is defined and i.ipv4 is defined %}
+{%     for j in interfaces %}
+{%      for n in j.neighbors if n.node==h %}
+ip route add {{ i.ipv4|ipaddr('address') }}/32 via {{ n.ipv4|ipaddr('address') }}
+{%       endfor %}
+{%     endfor %}
+{%   endfor %}
+{% endfor %}
