@@ -56,8 +56,8 @@ interface {{ intf.ifname }}
 ip route {{ intff.ipv4|ipaddr('network') }} {{ intff.ipv4|ipaddr('netmask') }} {{ iotip.ipv4|ipaddr('address') }} name Prevent_recursive_routing
 !
 ip access-list standard NO_INTER_SPOKE_TRAFFIC
- permit {{ iotip.ipv4|ipaddr('address')}}
- deny {{ iotip.ipv4|ipaddr('network') }} {{ iotip.ipv4|ipaddr('netmask') }} 
+ permit host {{ iotip.ipv4|ipaddr('address')}}
+ deny {{ iotip.ipv4|ipaddr('network') }} {{ iotip.ipv4|ipaddr('wildcard') }} 
 {%       endif %}
 {%     endfor %}
 {%   endif %}
