@@ -1,0 +1,65 @@
+---
+provider: libvirt
+defaults:
+  device: iosv
+  attributes:
+    node:
+      dmvpn: dict
+ 
+nodes: 
+  hub1: 
+  hub2: 
+  spoke1: 
+  spoke2:
+  iotprovider:
+  firewall: 
+
+groups:
+  hubs:
+    members: [ hub1, hub2 ]
+    config: hub.j2
+  spokes:
+    members: [ spoke1, spoke2 ]
+    config: spoke.j2
+  iot:
+    members: [ firewall, iotprovider ]
+    config: iot.j2
+    dmvpn:
+      isakmp_key: "isakmp4321"
+  vpn: 
+    members: [ hubs, spokes ]
+    dmvpn:
+      nhrp_keys: {"hub1": "nhrp1234","hub2": "nhrp4321"}
+      isakmp_key: "isakmp1234"
+
+links:
+- iotprovider:
+    ipv4: 172.16.0.1
+  spoke1:
+  spoke2:
+  type: lan
+  prefix: 172.16.0.0/24
+- firewall:
+  hub1:
+  hub2:
+  type: lan
+  prefix: 10.0.1.0/29
+- iotprovider:
+  firewall:
+  type: p2p
+  prefix: 88.0.0.0/30
+  role: wan
+- hub1:
+  spoke1:
+  spoke2:
+  type: tunnel
+  prefix: 192.168.1.0/24
+- hub2:
+  spoke1:
+  spoke2:
+  type: tunnel
+  prefix: 192.168.2.0/24
+- iotprovider:
+  firewall:
+  type: tunnel
+  prefix: 10.10.0.0/30
