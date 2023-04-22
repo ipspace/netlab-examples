@@ -1,0 +1,69 @@
+!
+router ospf 1
+ router-id 10.0.0.{{ id }}
+!
+interface loopback0
+ ip ospf 1 area 0.0.0.0
+!
+{% for intf in hostvars[inventory_hostname].interfaces if intf.type is defined and intf.type == "tunnel" %}
+interface {{ intf.ifname }}
+ description DMVPN Tunnel
+ ip address {{ intf.ipv4|ipaddr('address') }} {{ intf.ipv4|ipaddr('netmask') }} 
+ ip mtu 1400
+{%   for i in intf.neighbors %}
+{%     if i.node is defined and i.node is regex('(hub1).*$') %}
+ ip nhrp authentication {{ dmvpn.nhrp_keys["hub1"] }}
+ ip nhrp nhs {{ i.ipv4|ipaddr('address') }}
+ ip nhrp network-id 1
+ ip nhrp map multicast {{ i.ipv4|ipaddr('address') }}
+{%       for intunderlay in hostvars['firewall'].interfaces  if intunderlay.type is defined and intunderlay.type == "lan" %}
+{%         for j in intunderlay.neighbors if j.node is defined and j.node == "hub1" %}
+ ip nhrp map {{ i.ipv4|ipaddr('address') }} {{ j.ipv4|ipaddr('address') }} 
+ tunnel destination {{ j.ipv4|ipaddr('address') }}
+ tunnel source {{ intunderlay.ifname }}
+{%         endfor %}
+{%       endfor %}
+{%     elif i.node is defined and i.node is regex('(hub2).*$') %}
+ ip nhrp authentication {{ dmvpn.nhrp_keys["hub2"] }}
+ ip nhrp nhs {{ i.ipv4|ipaddr('address') }}
+ ip nhrp network-id 2
+ ip nhrp map multicast {{ i.ipv4|ipaddr('address') }}
+{%       for intunderlay in hostvars['firewall'].interfaces  if intunderlay.type is defined and intunderlay.type == "lan" %}
+{%         for j in intunderlay.neighbors if j.node is defined and j.node == "hub2" %}
+ ip nhrp map {{ i.ipv4|ipaddr('address') }} {{ j.ipv4|ipaddr('address') }} 
+ tunnel destination {{ j.ipv4|ipaddr('address') }}
+ tunnel source {{ intunderlay.ifname }}
+{%         endfor %}
+{%       endfor %}
+{%     endif %}
+{%   endfor %}
+ ip nhrp map multicast dynamic
+ ip tcp adjust-mss 1360
+ ip ospf network point-to-multipoint
+ ip ospf 1 area 0.0.0.0
+ load-interval 30
+ keepalive 5 10
+ tunnel path-mtu-discovery
+!
+{% endfor %}
+!
+!
+{% for intf in hostvars['iotprovider'].interfaces %}
+{%   if intf.type is defined and intf.type == "lan" %}
+{%     set iotip = intf %}
+{%     for intff in hostvars['firewall'].interfaces %}
+{%       if intff.type is defined and intff.type == "lan" %}
+ip route {{ intff.ipv4|ipaddr('network') }} {{ intff.ipv4|ipaddr('netmask') }} {{ iotip.ipv4|ipaddr('address') }} name Prevent_recursive_routing
+!
+ip access-list standard NO_INTER_SPOKE_TRAFFIC
+ permit host {{ iotip.ipv4|ipaddr('address')}}
+ deny {{ iotip.ipv4|ipaddr('network') }} {{ iotip.ipv4|ipaddr('wildcard') }} 
+{%       endif %}
+{%     endfor %}
+{%   endif %}
+{% endfor%}
+ permit any
+!
+interface GigabitEthernet0/1
+ ip access-group NO_SPOKE_TRAFFIC in
+!
