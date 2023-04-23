@@ -1,3 +1,4 @@
+!
 router ospf 1
  router-id 10.0.0.{{ id }}
 !
@@ -8,8 +9,7 @@ interface GigabitEthernet0/1
  ip ospf network point-to-point
  ip ospf 1 area 0.0.0.0
 !
-{% for intf in hostvars[inventory_hostname].interfaces %}
-{%   if intf.type is defined and intf.type == "tunnel" %}
+{% for intf in interfaces if intf.type is defined and intf.type == "tunnel" %}
 interface {{ intf.ifname }}
  description DMVPN Tunnel
  ip address {{ intf.ipv4|ipaddr('address') }} {{ intf.ipv4|ipaddr('netmask') }}
@@ -26,16 +26,14 @@ interface {{ intf.ifname }}
  tunnel source GigabitEthernet0/1
  tunnel mode gre multipoint
  tunnel path-mtu-discovery
-{%   endif %}
 {% endfor%}
 !
-{% for intf in hostvars[inventory_hostname].interfaces %}
-{%   if intf.type is defined and intf.type == "lan" %}
-{%     for n in intf.neighbors %}
-{%       if n.node == "firewall" %}
+{% for intf in interfaces if intf.type is defined and intf.type == "lan" %}
+{%   for n in intf.neighbors %}
+{%     if n.node == "firewall" %}
 ip route 0.0.0.0 0.0.0.0 {{ n.ipv4|ipaddr('address') }} name default_to_firewall
-{%       endif %}
-{%     endfor%}
-{%   endif %}
+{%     endif %}
+{%   endfor%}
 {% endfor%}
 !
+an
