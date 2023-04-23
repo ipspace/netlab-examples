@@ -5,7 +5,7 @@ router ospf 1
 interface loopback0
  ip ospf 1 area 0.0.0.0
 !
-{% for intf in hostvars[inventory_hostname].interfaces if intf.type is defined and intf.type == "tunnel" %}
+{% for intf in interfaces if intf.type is defined and intf.type == "tunnel" %}
 interface {{ intf.ifname }}
  description DMVPN Tunnel
  ip address {{ intf.ipv4|ipaddr('address') }} {{ intf.ipv4|ipaddr('netmask') }} 
@@ -48,19 +48,17 @@ interface {{ intf.ifname }}
 {% endfor %}
 !
 !
-{% for intf in hostvars['iotprovider'].interfaces %}
-{%   if intf.type is defined and intf.type == "lan" %}
-{%     set iotip = intf %}
-{%     for intff in hostvars['firewall'].interfaces %}
-{%       if intff.type is defined and intff.type == "lan" %}
+{% for intf in hostvars['iotprovider'].interfaces if intf.type is defined and intf.type == "lan" %}
+{%   set iotip = intf %}
+{%   for intff in hostvars['firewall'].interfaces %}
+{%     if intff.type is defined and intff.type == "lan" %}
 ip route {{ intff.ipv4|ipaddr('network') }} {{ intff.ipv4|ipaddr('netmask') }} {{ iotip.ipv4|ipaddr('address') }} name Prevent_recursive_routing
 !
 ip access-list standard NO_INTER_SPOKE_TRAFFIC
  permit host {{ iotip.ipv4|ipaddr('address')}}
  deny {{ iotip.ipv4|ipaddr('network') }} {{ iotip.ipv4|ipaddr('wildcard') }} 
-{%       endif %}
-{%     endfor %}
-{%   endif %}
+{%     endif %}
+{%   endfor %}
 {% endfor%}
  permit any
 !
