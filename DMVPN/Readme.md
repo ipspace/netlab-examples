@@ -3,7 +3,7 @@ In this lab topology a situation is simulated where an IPsec interconnect to a 4
 
 ![DMVPN topology](dmvpn.png)
 
-###Overlay network
+### Overlay network
 
 The diagram below display the resulting overlay network. Each hub is connected to each spoke with its own NHRP instance and subnet.
 
