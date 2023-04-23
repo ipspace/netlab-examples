@@ -12,7 +12,7 @@ crypto ipsec profile protect-IoT
  set security-association lifetime seconds 86400
  set transform-set TS 
 !
-{%- for intf in hostvars[inventory_hostname].interfaces -%} 
+{%- for intf in interfaces -%} 
 {%   if intf.type is defined and intf.type == "tunnel" %}
 
 interface {{ intf.ifname }}
@@ -33,7 +33,7 @@ interface {{ intf.ifname }}
  tunnel path-mtu-discovery
  tunnel protection ipsec profile protect-IoT
 !
-{% for tunint in hostvars[inventory_hostname].interfaces if tunint.type is defined and tunint.type == "tunnel" %}
+{% for tunint in interfaces if tunint.type is defined and tunint.type == "tunnel" %}
 {%   for n in tunint.neighbors %}
 {%     for intf in hostvars['iotprovider'].interfaces %}
 {%       if intf.type is defined and intf.type == "lan" %}
