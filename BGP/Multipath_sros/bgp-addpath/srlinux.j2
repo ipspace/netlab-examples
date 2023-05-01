@@ -1,0 +1,13 @@
+updates:
+- path: network-instance[name=default]/protocols/bgp
+  val:
+   afi-safi:
+   - afi-safi-name: ipv4-unicast
+     add-paths:
+      receive: True
+      send: True
+      send-multipath: [null]
+{% if bgp.rr|default(0)|bool %}
+   # best-path-selection: # Need this, else D wins over C due to OSPF cost metric
+   #  ignore-nh-metric: True
+{% endif %}
