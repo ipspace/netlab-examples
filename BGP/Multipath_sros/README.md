@@ -2,7 +2,7 @@
 ![plot](Multipath_sros.PNG)
 
 This example is a variation on this [BGP Add Path example](../Multipath), using
-a pair of SR OS nodes (RR and M) and a set of SR Linux devices instead.
+an SR OS node for RR and a set of SR Linux devices instead.
 
 # Prerequisites
 * License file for the SR OS vSR VMs
@@ -17,7 +17,7 @@ This example uses the Initial, [OSPF](https://netsim-tools.readthedocs.io/en/lat
 
 The 6 internal nodes use a BGP Route Reflector (RR) for iBGP peering, and the use case revolves around providing optimal paths for each node in this asymmetric case. Specifically, node M could use multiple ECMP paths to reach external node Y - using BGP Add Path.
 
-In terms of capabilities, Nokia SR OS supports BGP Add Path ([RFC7911](https://datatracker.ietf.org/doc/html/rfc7911)) but SR Linux does not. That is why nodes RR and M are implemented using SR OS, while the rest can use SRLinux.
+In terms of capabilities, both Nokia SR OS and Nokia SR Linux (since R23.3.1) support BGP Add Path ([RFC7911](https://datatracker.ietf.org/doc/html/rfc7911)). Node RR is implemented using SR OS, while the rest can use SR Linux.
 
 ## Base state without BGP Add Path
 
@@ -66,7 +66,7 @@ A:admin@rr# show router bgp neighbor "10.0.0.6" advertised-routes | match 10.42.
 
 ### Adding BGP Add Path
 ```
-netlab config bgp-addpath.j2
+netlab config bgp-addpath
 ```
 
 This configures both RR and M to support BGP Add path extensions, and in addition
