@@ -11,7 +11,7 @@ groups:
     members: [ a,b,c,d,m,rr ]
   add_path:
     members: [ m, rr ]
-    config: [ bgp-addpath.j2 ]
+    config: [ bgp-addpath ]
   ext:
     members: [ y ]
     # config: [ test-loopback.j2 ] # using 'generate-icmp true' in SRL
@@ -21,12 +21,10 @@ nodes:
   b:
   c:
   d:
-  m: # SRL does not support ADD_PATH capabiility
-    device: sros
-    license: /Projects/SR_OS_VSR-SIM_license.txt
+  m: # Starting with R23.3.1 SRL now supports ADD_PATH capability
+    device: srlinux
   rr:
     device: sros
-    license: /Projects/SR_OS_VSR-SIM_license.txt
     bgp.rr: True
     id: 1
   y:
