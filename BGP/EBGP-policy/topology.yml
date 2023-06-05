@@ -1,0 +1,22 @@
+---
+message: |
+  This lab demonstrates the "hairpin leak" through a customer AS and the
+  impact of "default EBGP policy" (RFC 8212) behavior of FRR. We have to
+  use custom config on FRR because the default netlab configuration
+  templates disables RFC 8212 functionality on FRR.
+
+provider: clab
+module: [ bgp ]
+defaults.device: eos
+
+nodes:
+  customer:
+    bgp.as: 65100
+    config: [ "8212-default" ]
+    device: frr
+  isp_a:
+    bgp.as: 65001
+  isp_b:
+    bgp.as: 65002
+
+links: [ customer-isp_a, customer-isp_b ]

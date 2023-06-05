@@ -1,0 +1,14 @@
+frr defaults traditional
+!
+no router bgp {{ bgp.as }}
+!
+router bgp {{ bgp.as }}
+{% for af in ['ipv4'] %}
+{%   for n in bgp.neighbors if n[af] is defined %}
+  neighbor {{ n[af] }} remote-as {{ n.as }}
+  neighbor {{ n[af] }} description {{ n.name }}
+{%   endfor %}
+{%   if loopback[af] is defined and bgp.advertise_loopback %}
+  network {{ loopback[af]|ipaddr(0) }}
+{%   endif %}
+{% endfor %}
