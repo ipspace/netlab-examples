@@ -1,0 +1,104 @@
+---
+message: |
+  This lab demonstrates various BGP route leaks described in RFC 7908
+  (Problem Definition and Classification of BGP Route Leaks)
+
+provider: clab
+module: [ bgp ]
+defaults.device: frr
+defaults.bgp.attributes.link.role: str
+bgp.advertise_loopback: False
+
+groups:
+  isp:
+    members: [ trans_1, trans_2, isp_a, isp_b, isp_c ]
+    config: [ set-pref ]
+
+nodes:
+  trans_1:
+    bgp.as: 65000
+    bgp.originate: [ 172.16.1.0/24 ]
+  trans_2:
+    bgp.as: 65001
+    bgp.originate: [ 172.16.2.0/24 ]
+  isp_a:
+    bgp.as: 65100
+    bgp.originate: [ 172.17.10.0/24, 172.17.11.0/24 ]
+  isp_b:
+    bgp.as: 65101
+    bgp.originate: [ 172.17.20.0/24, 172.17.21.0/24 ]
+  isp_c:
+    bgp.as: 65102
+    bgp.originate: [ 172.17.30.0/24, 172.17.30.128/25 ]
+  cust_a:
+    bgp.as: 65200
+    bgp.originate: [ 172.18.1.0/24, 10.0.0.42/32 ]
+  cust_ab:
+    bgp.as: 65201
+    bgp.originate: [ 172.18.2.0/24, 172.17.11.0/24 ]
+  cust_b:
+    bgp.as: 65202
+    bgp.originate: [ 172.18.3.0/24 ]
+  cust_c:
+    bgp.as: 65203
+    bgp.originate: [ 
+      172.18.4.0/24,
+      172.19.1.0/24, 172.19.2.0/24, 172.19.3.0/24, 172.19.4.0/24, 172.19.5.0/24, 172.19.6.0/24, 172.19.7.0/24 ]
+
+links:
+#
+# Peer links (so we can apply bgp.role to both ends of the link) between transit providers and
+# between some regional providers
+#
+- group: peers
+  bgp.role: peer
+  members:
+  - trans_1 - trans_2
+  - isp_a - isp_b
+  - isp_b - isp_c
+
+#
+# Links between regional providers (role = customer) and transit providers (role = provider)
+#
+- isp_a:
+    bgp.role: customer
+  trans_1:
+    bgp.role: provider
+- isp_b:
+    bgp.role: customer
+  trans_2:
+    bgp.role: provider
+- isp_c:
+    bgp.role: customer
+  trans_2:
+    bgp.role: provider
+
+#
+# Links between end-customers (role = customer) and regional ISPs (role = provider)
+#
+- cust_a:
+    bgp.role: customer
+  isp_a:
+    bgp.role: provider
+- cust_ab:
+    bgp.role: customer
+  isp_a:
+    bgp.role: provider
+#
+# Customers of ISP_B
+#
+- cust_ab:
+    bgp.role: customer
+  isp_b:
+    bgp.role: provider
+- cust_b:
+    bgp.role: customer
+  isp_b:
+    bgp.role: provider
+#
+# Customers of ISP_C
+#
+- cust_c:
+    bgp.role: customer
+  isp_c:
+    bgp.role: provider
