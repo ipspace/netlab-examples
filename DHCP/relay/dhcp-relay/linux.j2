@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+export DEBIAN_FRONTEND=noninteractive
+apt-get install -qq -y isc-dhcp-relay
+dhcrelay -4 {%
+   for intf in interfaces if intf.dhcp.server is defined %}
+{%   if loop.first %}
+{%     set srv = hostvars[intf.dhcp.server] %}
+{%     set ipv4 = srv.loopback.ipv4 if 'loopback' in srv else srv.interfaces[0].ipv4 %}
+{{ ipv4|ipaddr('address') }}
+{%   endif %}
+{% endfor %}

@@ -22,7 +22,8 @@ groups:
   switch:
     members: [ relay ]
     config: [ dhcp-relay ]
-    device: iosv
+    device: linux
+    role: router
 
 nodes: [ srv, relay, user ]
 

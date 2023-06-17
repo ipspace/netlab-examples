@@ -18,7 +18,7 @@ SCRIPT
 #
 {% for intf in interfaces if intf.dhcp.client|default(False) %}
 ip addr flush dev {{ intf.ifname }}
-/sbin/udhcpc -S -i {{ intf.ifname }} &
+/sbin/udhcpc -S -i {{ intf.ifname }} -b &
 {% endfor %}
 
 exit 0
