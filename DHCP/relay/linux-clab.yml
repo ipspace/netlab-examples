@@ -3,27 +3,29 @@ message: |
   It includes a DHCP server (running on Cisco IOSv), DHCP client (also
   on Cisco IOSv) and an intermediate node.
 
+provider: clab
+
 defaults.attributes:
   link.dhcp:
     client: bool
     server: str
 
-defaults.device: iosv
-
 groups:
   dhcp_server:
     members: [ srv ]
-    module: [ ospf ]
-    config: [ dhcp-server ]
-    device: iosv
+    device: linux
+    clab.image: strm/dnsmasq
+    clab.config_templates:
+      "dhcp-server/dnsmasq" : "/etc/dnsmasq.conf"
   dhcp_client:
     members: [ user ]
     config: [ dhcp-client ]
-    device: iosv
+    device: linux
+    clab.image: alpine
   switch:
     members: [ relay ]
-    module: [ ospf ]
     config: [ dhcp-relay ]
+    device: eos
 
 nodes: [ srv, relay, user ]
 

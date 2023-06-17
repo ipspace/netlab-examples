@@ -3,27 +3,26 @@ message: |
   It includes a DHCP server (running on Cisco IOSv), DHCP client (also
   on Cisco IOSv) and an intermediate node.
 
+provider: libvirt
+
 defaults.attributes:
   link.dhcp:
     client: bool
     server: str
 
-defaults.device: iosv
-
 groups:
   dhcp_server:
     members: [ srv ]
-    module: [ ospf ]
+    device: linux
     config: [ dhcp-server ]
-    device: iosv
   dhcp_client:
     members: [ user ]
     config: [ dhcp-client ]
-    device: iosv
+    device: linux
   switch:
     members: [ relay ]
-    module: [ ospf ]
     config: [ dhcp-relay ]
+    device: iosv
 
 nodes: [ srv, relay, user ]
 

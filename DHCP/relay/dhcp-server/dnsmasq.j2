@@ -1,0 +1,35 @@
+log-facility=/var/log/dnsmasq.log
+log-dhcp
+
+# disable DNS
+port=0
+except-interface=eth0
+
+dhcp-authoritative
+
+{% set subnets = {} %}
+{% for h,v in hostvars.items() %}
+{%   for intf in v.interfaces if 'dhcp' in intf and intf.dhcp.server is defined and intf.ipv4 is defined %}
+{%     set _ = subnets.update( { intf.ipv4|ipaddr('network') : {
+                                 'mask': intf.ipv4|ipaddr('netmask'),
+                                 'gw'  : intf.gateway.ipv4|ipaddr('address') if 'gateway' in intf else None,
+                                 'start': intf.ipv4|ipaddr('subnet')|ipaddr(1)|ipaddr('address'),
+                                 'end': intf.ipv4|ipaddr('subnet')|ipaddr(-2)|ipaddr('address')
+                               } } ) %}
+
+# Exclude interface IPs by declaring them as static hosts
+address=/{{h}}-{{intf.ifname}}/{{ intf.ipv4|ipaddr('address') }}
+{%   endfor %}
+{% endfor %}
+
+# Declare relayed subnets; needs subnet mask since they are not directly attached
+# Server picks a pool based on gi-address
+{% for n,s in subnets.items() %}
+dhcp-range={{s.start}},{{s.end}},{{s.mask}},12h
+
+{% if s.gw %}
+dhcp-option=option:router,{{ s.gw }}
+address=/gw/{{ s.gw }}
+{% endif %}
+
+{% endfor %}

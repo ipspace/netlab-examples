@@ -1,0 +1,22 @@
+#
+# Create netplan configuration file for DHCP-enabled interfaces
+#
+{% for intf in interfaces if intf.dhcp.client|default(False) %}
+cat <<SCRIPT > /etc/netplan/03-eth-{{ intf.ifname }}.yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    {{ intf.ifname }}:
+      dhcp4: true
+{% if l.ipv6 is defined %}
+      addresses:
+        - {{ l.ipv6 }}
+{%   endif %}
+{% if l.mtu is defined %}
+      mtu: {{ l.mtu }}
+{% endif %}
+SCRIPT
+{% endfor %}
+netplan generate
+netplan apply

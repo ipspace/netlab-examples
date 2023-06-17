@@ -1,0 +1,4 @@
+#!/bin/bash
+#
+set -e
+{% include "linux-"+(netlab_linux_distro|default("vanilla"))+".j2" %}

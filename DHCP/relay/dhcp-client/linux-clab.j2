@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+set -e
+#
+# Create ifupdown configuration file for DHCP-enabled interfaces
+#
+cat <<SCRIPT >/etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+{% for intf in interfaces if intf.dhcp.client|default(False) %}
+auto {{ intf.ifname }}
+iface {{ intf.ifname }} inet dhcp
+{% endfor %}
+SCRIPT
+#
+# Bounce DHCP-enabled interfaces
+#
+{% for intf in interfaces if intf.dhcp.client|default(False) %}
+ip addr flush dev {{ intf.ifname }}
+/sbin/udhcpc -S -i {{ intf.ifname }} &
+{% endfor %}
+
+exit 0
