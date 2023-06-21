@@ -1,0 +1,16 @@
+updates:
+
+{% for af in ['ipv4','ipv6'] %}
+{%   for n in bgp.neighbors if n[af] is defined %}
+
+- path: network-instance[name=default]/protocols/bgp/group[group-name={{n.role|default('')}}]
+  val:
+   local-preference: {{ 200 if n.role=='customer' else 150 if n.role=='peer' else 100 }}
+   _annotate_local-preference: "due to neighbor role '{{ n.role }}'"
+
+- path: network-instance[name=default]/protocols/bgp/neighbor[peer-address={{n[af]}}]
+  val:
+   peer-group: {{ n.role }}
+
+{%   endfor %}
+{% endfor %}
