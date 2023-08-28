@@ -1,12 +1,21 @@
 ---
-defaults.device: iosv
+defaults.device: eos
+
+groups:
+  hosts:
+    members: [ h1, h2 ]
+    device: linux
+    role: target
 
 nodes:
   h1:
-    device: linux
   h2:
-    device: linux
   rtr:
     id: 1
 
-links: [ h1-rtr, h2-rtr ]
+links:
+- h1:
+  rtr:
+- h2:
+  rtr:
+    ipv4: True

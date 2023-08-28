@@ -1,0 +1,15 @@
+h1 {
+  label: "h1 [linux]\n10.0.0.2/32"
+}
+h2 {
+  label: "h2 [linux]\n10.0.0.3/32"
+}
+rtr {
+  label: "rtr [eos]\n10.0.0.1/32"
+  shape: "hexagon"
+  style.font-size: 20
+}
+h1 -- rtr {
+}
+h2 -- rtr {
+}
