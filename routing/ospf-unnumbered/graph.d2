@@ -1,0 +1,45 @@
+r1 {
+  label: "r1 [eos]\n10.0.0.1/32"
+  shape: "hexagon"
+  style.font-size: 20
+}
+r2 {
+  label: "r2 [eos]\n10.0.0.2/32"
+  shape: "hexagon"
+  style.font-size: 20
+}
+r3 {
+  label: "r3 [eos]\n10.0.0.3/32"
+  shape: "hexagon"
+  style.font-size: 20
+}
+r1 -- r2 {
+}
+r1 -- r3 {
+}
+r2 -- r3 {
+}
+stub_4 {
+  label: 172.16.0.0/24
+  shape: "rectangle"
+  style.border-radius: 8
+  style.font-size: 20
+}
+r1 -> stub_4 {
+}
+stub_5 {
+  label: 172.16.1.0/24
+  shape: "rectangle"
+  style.border-radius: 8
+  style.font-size: 20
+}
+r2 -> stub_5 {
+}
+stub_6 {
+  label: 172.16.2.0/24
+  shape: "rectangle"
+  style.border-radius: 8
+  style.font-size: 20
+}
+r3 -> stub_6 {
+}

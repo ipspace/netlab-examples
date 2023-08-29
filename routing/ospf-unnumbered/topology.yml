@@ -1,0 +1,6 @@
+defaults.device: eos
+addressing.p2p.ipv4: True
+module: [ ospf ]
+
+nodes: [ r1, r2, r3 ]
+links: [ r1-r2, r1-r3, r2-r3, r1, r2, r3 ]
