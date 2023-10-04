@@ -1,0 +1,9 @@
+message: |
+  This topology tests ECMP load balancing across parallel
+  unnumbered links with OSPF as the IGP
+defaults.device: eos
+addressing.p2p.ipv4: True
+module: [ ospf ]
+
+nodes: [ r1, r2 ]
+links: [ r1-r2, r1-r2, r1, r2 ]
