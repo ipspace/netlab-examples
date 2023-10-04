@@ -1,0 +1,21 @@
+#
+# This topology was used to check the impact of MTU component
+# of EIGRP vector metric on EIGRP best path selection.
+#
+# TL&DR: MTU metric is ignored
+#
+# More details @ https://blog.ipspace.net/2010/06/eigrp-mtu-metric.html
+#
+defaults.device: iosv
+
+module: [ eigrp ]
+nodes:
+  r1:
+    config: [ extra ]
+  r2:
+links:
+- r1-r2
+- r1-r2
+- r1:
+  r2:
+  mtu: 512
