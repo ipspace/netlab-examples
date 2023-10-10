@@ -1,0 +1,4 @@
+bgp.attributes.node:
+  anycast:
+    type: ipv4
+    use: prefix
