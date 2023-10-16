@@ -1,0 +1,25 @@
+defaults.device: eos
+
+module: [ bgp ]
+
+plugin: [ nofake ]      # This plugin removes BGP neighbors in AS 65013
+                        # ... making the 'fake' device unknown to 'dut'
+nodes:
+  dut:                  # Device under test, change with 'netlab up -d'
+    bgp.as: 65000
+  peer:                 # A valid peer -- FRR daemon running in a container
+    bgp.as: 65001
+    device: frr
+    provider: clab
+  fake:                 # An intruder -- FRR daemon running in a container
+    bgp.as: 65013
+    device: frr
+    provider: clab
+    id: 13
+
+links:
+- dut:
+  peer:
+- dut:                  # Link type set to LAN on the intruder link to make it easier
+  fake:                 # ... to find the interface to listen to with tcpdump
+  type: lan
