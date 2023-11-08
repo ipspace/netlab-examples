@@ -1,0 +1,18 @@
+provider: libvirt
+
+plugin: [ bgp.session ]
+module: [ bgp ]
+
+nodes:
+  dut:                  # Device under test, change with 'netlab up -d'
+    bgp.as: 65000
+  peer:                 # A valid peer -- FRR daemon running in a container
+    bgp.as: 65001
+    device: frr
+    provider: clab
+
+links:
+- dut:
+    bgp.gtsm: True
+    bgp.passive: True
+  peer:
