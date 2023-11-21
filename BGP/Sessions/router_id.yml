@@ -1,0 +1,14 @@
+module: [ bgp,ospf ]
+
+nodes:
+  xt:
+    bgp.as: 65100
+    bgp.router_id: 10.42.42.42
+  edge:
+    bgp.as: 65200
+    bgp.router_id: 10.42.42.42
+  int:
+    bgp.as: 65200
+    bgp.router_id: 10.42.42.42
+
+links: [ xt-edge, edge-int ]
