@@ -1,0 +1,24 @@
+module: [ bgp, ospf ]
+
+plugin: [ bgp.session ]
+
+nodes:
+  xt:
+    bgp.as: 65100
+    device: frr
+    provider: clab
+  edge:
+    bgp.as: 65200
+    bgp.next_hop_self: False
+    config: [ ospf-default ]
+    device: frr
+    provider: clab
+  int:
+    bgp.as: 65200
+
+links:
+- xt:
+  edge:
+- edge:
+  int:
+  mtu: 1500
