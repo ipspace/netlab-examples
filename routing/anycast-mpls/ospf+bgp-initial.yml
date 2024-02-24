@@ -7,7 +7,7 @@
 
 module: [ ospf, bgp ]
 
-defaults.bgp.extra_attributes.node: [ anycast ]
+defaults.bgp.attributes.node.anycast: { type: ipv4, use: prefix }
 
 defaults:
   device: iosv
@@ -25,9 +25,8 @@ groups:
     config: [ bgp-addpath/ios.j2 ]
   as65101:
     config: [ bgp-anycast/ios.j2 ]
-    node_data:
-      bgp.anycast: 10.42.42.42/32
-      bgp.advertise_loopback: False
+    bgp.anycast: 10.42.42.42/32
+    bgp.advertise_loopback: False
 
 nodes: 
   [ l1, l2, l3, s1, a1, a2, a3 ]

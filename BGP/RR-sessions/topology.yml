@@ -15,8 +15,7 @@ bgp.as_list:
 
 groups:
   as65000:
-    node_data:
-      bgp.advertise_loopback: false
+    bgp.advertise_loopback: false
 
 nodes: [ rr1, rr2, pe1, pe2, x1 ]
 

@@ -28,8 +28,7 @@ groups:
     config: [ bgp-addpath.j2 ]
   as65101:
     config: [ bgp-anycast-loopback.j2 ]
-    node_data:
-      bgp.anycast: 10.42.42.42/32
+    bgp.anycast: 10.42.42.42/32
 
 nodes: 
   [ l1, l2, l3, s1, a1, a2, a3 ]
