@@ -28,5 +28,5 @@ The lab is started only with the `topology.yml` file and with **Netlab** feature
 - `playbooks/security-playbook.yml` - contains playbooks to add security features to the lab (Policies, NAT, IPSec, etc.)
 
 ## Cyber Crane Topology
-![Cyber Crane Topology](img/cyber-crane-mesh.svg)
+![Cyber Crane Topology](img/cyber-crane-mesh.png)
 
