@@ -1,5 +1,5 @@
 # General lab description
-We really needed to create a lab to test some features and to have a playground for new ideas. Netsim provided an excellent platform to create a lab with a variety of devices and topologies programmatically. 
+We really needed to create a lab to test some features and to have a playground for new ideas. Netlab provided an excellent platform to create a lab with a variety of devices and topologies programmatically. 
 The topology looks like an enormous robotic crane with a lot of moving parts - hence the name **Cyber Crane Mesh**.
 
 This lab creates a network with:
