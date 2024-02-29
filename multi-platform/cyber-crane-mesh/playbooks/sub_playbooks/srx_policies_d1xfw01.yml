@@ -1,0 +1,56 @@
+---
+- name: Configure address-book entries and policies on Juniper SRXs
+  hosts: d1xfw01
+  gather_facts: false
+
+  vars:
+    sites:
+      - { site_id: "1", site_name: "SITE1"}
+      - { site_id: "2", site_name: "SITE2"}
+      - { site_id: "3", site_name: "SITE3"}
+      - { site_id: "4", site_name: "SITE4"}
+
+  tasks:
+    - name: Configure address-book entries
+      junos_config:
+        commands:
+          - "set security address-book global address {{ item.site_name }}_172_16_{{ item.site_id }}1_0 172.16.{{ item.site_id }}1.0/24"
+          - "set security address-book global address {{ item.site_name }}_172_16_{{ item.site_id }}2_0 172.16.{{ item.site_id }}2.0/24"
+          - "set security address-book global address {{ item.site_name }}_172_16_{{ item.site_id }}3_0 172.16.{{ item.site_id }}3.0/24"
+          - "set security address-book global address {{ item.site_name }}_172_16_{{ item.site_id }}4_0 172.16.{{ item.site_id }}4.0/24"
+          - "set security address-book global address-set {{ item.site_name }}-All-Subnets address {{ item.site_name }}_172_16_{{ item.site_id }}1_0"
+          - "set security address-book global address-set {{ item.site_name }}-All-Subnets address {{ item.site_name }}_172_16_{{ item.site_id }}2_0"
+          - "set security address-book global address-set {{ item.site_name }}-All-Subnets address {{ item.site_name }}_172_16_{{ item.site_id }}3_0"
+          - "set security address-book global address-set {{ item.site_name }}-All-Subnets address {{ item.site_name }}_172_16_{{ item.site_id }}4_0"
+      loop: "{{ sites }}"
+
+    - name: Configure security zones for d1xfw01 and enable OSPF communication
+      junos_config:
+        lines:
+          - "set security zones security-zone CORE interfaces ge-0/0/0.0"
+          - "set security zones security-zone CORE interfaces ge-0/0/1.0"
+          - "set security zones security-zone SITE1 interfaces ge-0/0/2.0"
+          - "set security zones security-zone SITE1 interfaces ge-0/0/3.0"
+
+    - name: Configure security policies from zone CORE to zone SITE1 for d1xfw01
+      junos_config:
+        lines:
+          - "set security policies from-zone CORE to-zone SITE1 policy core-to-site1 match source-address SITE2-All-Subnets"
+          - "set security policies from-zone CORE to-zone SITE1 policy core-to-site1 match source-address SITE3-All-Subnets"
+          - "set security policies from-zone CORE to-zone SITE1 policy core-to-site1 match source-address SITE4-All-Subnets"
+          - "set security policies from-zone CORE to-zone SITE1 policy core-to-site1 match destination-address SITE1-All-Subnets"
+          - "set security policies from-zone CORE to-zone SITE1 policy core-to-site1 match application any"
+          - "set security policies from-zone CORE to-zone SITE1 policy core-to-site1 then permit"
+
+    - name: Configure security policies from SITE1_172_16_11_0 to SITE2_172_16_21_0 for d1xfw01
+      junos_config:
+        lines:
+          - "set security policies from-zone SITE1 to-zone CORE policy site1-to-site2 match source-address SITE1_172_16_11_0"
+          - "set security policies from-zone SITE1 to-zone CORE policy site1-to-site2 match destination-address SITE2_172_16_21_0"
+          - "set security policies from-zone SITE1 to-zone CORE policy site1-to-site2 match application junos-http"
+          - "set security policies from-zone SITE1 to-zone CORE policy site1-to-site2 match application junos-https"
+          - "set security policies from-zone SITE1 to-zone CORE policy site1-to-site2 match application junos-icmp-all"
+          - "set security policies from-zone SITE1 to-zone CORE policy site1-to-site2 match application junos-ssh"
+          - "set security policies from-zone SITE1 to-zone CORE policy site1-to-site2 match application junos-ftp"
+          - "set security policies from-zone SITE1 to-zone CORE policy site1-to-site2 then permit"
+

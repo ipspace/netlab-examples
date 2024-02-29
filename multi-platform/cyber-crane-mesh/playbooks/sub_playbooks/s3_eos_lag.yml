@@ -1,0 +1,35 @@
+---
+- name: Configure LAG interfaces on Arista EOS devices
+  hosts: eos
+  gather_facts: no
+
+  tasks:
+    - name: Updating LAGs on {{ inventory_hostname }}
+      arista.eos.eos_lag_interfaces:
+        config:
+          - name: 3
+            members:
+              - member: Ethernet3
+                mode: on
+              - member: Ethernet4
+                mode: on
+          - name: 5
+            members:
+              - member: Ethernet5
+                mode: on
+              - member: Ethernet6
+                mode: on
+        state: merged
+      when: inventory_hostname in ['s3xdsw01', 's3xdsw02']
+
+    - name: Updating LAGs on {{ inventory_hostname }}
+      arista.eos.eos_lag_interfaces:
+        config:
+          - name: 5
+            members:
+              - member: Ethernet1
+                mode: on
+              - member: Ethernet2
+                mode: on
+        state: merged
+      when: inventory_hostname in ['s3xdsw03', 's3xdsw04']

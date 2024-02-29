@@ -1,0 +1,17 @@
+---
+- name: Save configuration changes for Cisco IOS devices
+  hosts: iosv
+  gather_facts: no
+  tasks:
+
+    - name: Save configuration changes
+      ios_command:
+        commands: "write memory"
+
+- name: Save configuration changes for Arista EOS devices
+  hosts: eos
+  gather_facts: no
+  tasks:
+    - name: Save configuration changes
+      eos_command:
+        commands: "write memory"

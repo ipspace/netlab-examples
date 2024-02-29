@@ -1,0 +1,47 @@
+# This is not a good practise to setup route leaks out of VXLANs and back in - but I had not time to fix it
+---
+- name: Check and Configure routing in VRF `s4tenant` for Arista EOS devices in SITE 4
+  hosts: eos
+  gather_facts: no  # Disable fact gathering for network devices
+
+  vars:
+    vrf_to_configure: "s4tenant"  # Define the VRF to configure
+
+    vrf_s4tenant_routes:
+      - { network: "10.0.0.0/8", egress_vrf: "default", next_hop: "172.16.21.10" }
+      - { network: "172.16.0.0/12", egress_vrf: "default", next_hop: "172.16.21.10" }
+    vrf_default_routes:
+      - { network: "172.16.41.0/24", egress_vrf: "s4tenant", next_hop: "172.16.41.1" }
+      - { network: "172.16.42.0/24", egress_vrf: "s4tenant", next_hop: "172.16.42.1" }
+      - { network: "172.16.43.0/24", egress_vrf: "s4tenant", next_hop: "172.16.43.1" }
+      - { network: "172.16.44.0/24", egress_vrf: "s4tenant", next_hop: "172.16.44.1" }
+
+  tasks:
+    - name: Configure routing from VRF s4tenant to default VRF
+      eos_config:
+        commands:
+          - "ip route vrf s4tenant {{ item.network }} egress-vrf {{ item.egress_vrf }} {{ item.next_hop }}"
+      loop: "{{ vrf_s4tenant_routes }}"
+      when:
+        - "'s4' in inventory_hostname"
+
+    - name: Configure routing from default to VRF s4tenant
+      eos_config:
+        commands:
+          - "ip route vrf default {{ item.network }} egress-vrf {{ item.egress_vrf }} {{ item.next_hop }}"
+      loop: "{{ vrf_default_routes }}"
+      when:
+        - "'s4' in inventory_hostname"
+
+    - name: Redistribute static router to OSPF 1 on s4xsw01
+      arista.eos.eos_config:
+        lines:
+          - "redistribute static"
+        parents: "router ospf 1"
+      when:
+          - "'s4xsw01' in inventory_hostname"
+
+    - name: Save configuration for all devices
+      eos_command:
+        commands:
+          - write memory

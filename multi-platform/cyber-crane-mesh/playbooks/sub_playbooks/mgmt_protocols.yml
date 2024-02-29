@@ -1,0 +1,143 @@
+---
+- name: Configure Syslog, NTP, SNMP and TACACS+ on Cisco IOS
+  hosts: iosv
+  gather_facts: no
+
+  vars:
+    MGMT_SERVER_IP: "172.16.21.20" # IP address of the first server in SITE2
+    NTP_SERVER_IP: "192.168.1.1"
+    tacacs_key: "071B204F4F0A0A0E120B"
+    tacacs_group: "TACACS_GROUP01"
+
+  tasks:
+    - block:
+      - name: Configure Syslog on Cisco IOS Devices
+        cisco.ios.ios_config:
+          lines:
+            - "logging host {{ MGMT_SERVER_IP }}"
+
+      - name: Configure NTP on Cisco IOS Devices
+        cisco.ios.ios_config:
+          lines:
+            - "ntp server {{ NTP_SERVER_IP }}"
+
+      - name: Configure SNMP on Cisco IOS Devices
+        cisco.ios.ios_config:
+          lines:
+            - "snmp-server community ipfabric ro"
+            - "snmp-server contact +420 888-999-111"
+            - "snmp-server location IP Fabric, PRAGUE, DC01"
+            - "snmp-server source-interface traps Loopback0"
+            - "snmp-server host {{ MGMT_SERVER_IP }} traps version 2c ipfabric"
+
+      - name: Configure TACACS+ on Cisco IOS Devices
+        cisco.ios.ios_config:
+          lines:
+            - "tacacs server SERVER01"
+            - "address ipv4 {{ MGMT_SERVER_IP }}"
+            - "key 7 {{ tacacs_key }}"
+            - "port 449"
+            - "timeout 10"
+            - "exit"
+            - "aaa authentication login default local"
+            - "aaa authorization exec default local"
+
+      ignore_errors: yes
+
+- name: Configure Syslog, NTP, SNMP and TACACS+ on Arista EOS
+  hosts: eos
+  gather_facts: no
+
+  vars:
+    MGMT_SERVER_IP: "172.16.21.20" # IP address of the first server in SITE2
+    NTP_SERVER_IP: "192.168.1.1"
+    tacacs_key: "071B204F4F0A0A0E120B"
+    tacacs_group: "TACACS_GROUP01"
+
+  tasks:
+    - block:
+      - name: Configure Syslog on Arista EOS Devices
+        arista.eos.eos_config:
+          lines:
+            - "logging host {{ MGMT_SERVER_IP }}"
+
+      - name: Configure NTP on Arista EOS Devices
+        arista.eos.eos_config:
+          lines:
+            - "ntp server {{ NTP_SERVER_IP }}"
+
+
+      - name: Configure SNMP on Arista EOS Devices
+        arista.eos.eos_config:
+          lines:
+            - "snmp-server community ipfabric ro"
+            - "snmp-server contact +420 888-999-111"
+            - "snmp-server location IP Fabric, PRAGUE, DC01"
+            - "snmp-server source-interface Loopback0"
+            - "snmp-server host {{ MGMT_SERVER_IP }} traps version 2c ipfabric"
+
+      - name: Configure TACACS+ on Arista EOS Devices
+        arista.eos.eos_config:
+          lines:
+            - "tacacs-server host {{ MGMT_SERVER_IP }} key 7 {{ tacacs_key }}"
+            - "tacacs-server timeout 10"
+            - "aaa group server tacacs+ SERVER-GROUP01"
+            - "server {{ MGMT_SERVER_IP }}"
+            - "exit"
+            - "aaa authentication login default local"
+            - "aaa authorization exec default local"
+
+      - name: Configure sFlow on Arista Gateways
+        arista.eos.eos_config:
+          lines:
+            - "sflow destination {{ MGMT_SERVER_IP }} 6343"
+            - "sflow polling-interval 3600"
+            - "sflow sample 2048"
+            - "sflow source-interface Loopback0"
+            - "sflow run"
+
+      ignore_errors: yes
+
+- name: Configure Syslog, NTP, SNMP and TACACS+ on Juniper SRX
+  hosts: vsrx
+  gather_facts: no
+
+  vars:
+    MGMT_SERVER_IP: "172.16.21.20" # IP address of the first server in SITE2
+    NTP_SERVER_IP: "192.168.1.1"
+    tacacs_key: "071B204F4F0A0A0E120B"
+    tacacs_group: "TACACS_GROUP01"
+
+  tasks:
+    - block:
+      - name: Configure TACACS+
+        junos_config:
+          lines:
+            - "set system tacplus-server {{ MGMT_SERVER_IP }}"
+
+      - name: Configure Syslog
+        junos_config:
+          lines:
+            - "set system syslog host {{ MGMT_SERVER_IP }} any info"
+
+      - name: Configure NTP on Juniper SRX Devices
+        junos_config:
+          lines:
+            - "set system ntp server {{ NTP_SERVER_IP }}"
+
+      - name: Configure SNMP on Juniper SRX Devices
+        junos_config:
+          lines:
+            - "set snmp trap-group group1 targets {{ MGMT_SERVER_IP }}"
+            - "set snmp location \"IP Fabric, PRAGUE, DC01\""
+            - "set snmp contact \"IP Fabric, +420 888-999-111\""
+            - "set snmp community ipfabric authorization read-only"
+            - "set snmp interface lo0.0"
+
+      - name: Configure TACACS+
+        junos_config:
+          lines:
+            - "set system tacplus-server {{ MGMT_SERVER_IP }}"
+
+      ignore_errors: yes
+

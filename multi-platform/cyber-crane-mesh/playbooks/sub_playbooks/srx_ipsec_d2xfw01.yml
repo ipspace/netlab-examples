@@ -1,0 +1,51 @@
+---
+- name: Extract IP address from YAML file
+  hosts: localhost:d2xfw01  # You can run this on localhost to process the YAML file
+  gather_facts: no
+
+  tasks:
+    - name: Include the YAML file
+      ansible.builtin.include_vars:
+        file: ../host_vars/d1xfw01/topology.yml  # Adjust the path accordingly
+      register: d1xfw01_data
+
+    - name: Extract IP address
+      set_fact:
+        d1xfw01_ip: "{{ d1xfw01_data.ansible_facts['interfaces'] | selectattr('ifname', 'equalto', 'ge-0/0/1.0') | map(attribute='ipv4') | first | regex_replace('/30', '') }}"
+      when: d1xfw01_data.ansible_facts['interfaces'] is defined
+
+    - name: Display extracted IP address
+      debug:
+        var: d1xfw01_ip
+
+    - name: Configure IPSec on d2xfw01
+      junipernetworks.junos.junos_config:
+        lines:
+        - set security ike proposal IKE-PROPOSAL authentication-method pre-shared-keys
+        - set security ike proposal IKE-PROPOSAL dh-group group5
+        - set security ike proposal IKE-PROPOSAL authentication-algorithm sha-256
+        - set security ike proposal IKE-PROPOSAL encryption-algorithm 3des-cbc
+        - set security ike proposal IKE-PROPOSAL lifetime-seconds 86400
+        - set security ike policy IKE-POLICY mode main
+        - set security ike policy IKE-POLICY proposals IKE-PROPOSAL
+        - set security ike policy IKE-POLICY pre-shared-key ascii-text "letsconfig3"
+        - set security ike gateway IKE-GATEWAY ike-policy IKE-POLICY
+        - set security ike gateway IKE-GATEWAY address {{ d1xfw01_ip }}
+        - set security ike gateway IKE-GATEWAY dead-peer-detection interval 20
+        - set security ike gateway IKE-GATEWAY dead-peer-detection threshold 5
+        - set security ike gateway IKE-GATEWAY external-interface ge-0/0/1.0
+        - set security ipsec proposal IPSEC-PROPOSAL protocol esp
+        - set security ipsec proposal IPSEC-PROPOSAL authentication-algorithm hmac-sha1-96
+        - set security ipsec proposal IPSEC-PROPOSAL encryption-algorithm 3des-cbc
+        - set security ipsec proposal IPSEC-PROPOSAL lifetime-seconds 28800
+        - set security ipsec policy IPSEC-POLICY proposals IPSEC-PROPOSAL
+        - set security ipsec vpn VPN bind-interface st0.0
+        - set security ipsec vpn VPN ike gateway IKE-GATEWAY
+        - set security ipsec vpn VPN ike ipsec-policy IPSEC-POLICY
+        - set security ipsec vpn VPN establish-tunnels immediately
+        - set interfaces st0.0 family inet address 100.0.0.2/30
+        - set security zones security-zone CORE interfaces st0.0
+        - set security zones security-zone CORE host-inbound-traffic protocols all
+        - set security zones security-zone CORE host-inbound-traffic system-services all
+        - set routing-options static route 172.16.11.0/24 next-hop 100.0.0.1
+      when: inventory_hostname in [ 'd2xfw01' ]

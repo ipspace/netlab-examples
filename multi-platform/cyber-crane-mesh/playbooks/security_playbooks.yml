@@ -1,0 +1,7 @@
+---
+- import_playbook: sub_playbooks/srx_firewall.yml
+- import_playbook: sub_playbooks/srx_ipsec_d1xfw01.yml
+- import_playbook: sub_playbooks/srx_ipsec_d2xfw01.yml
+- import_playbook: sub_playbooks/srx_policies_d1xfw01.yml
+- import_playbook: sub_playbooks/srx_policies_d2xfw01.yml
+- import_playbook: sub_playbooks/srx_nat_d1xfw01.yml

@@ -1,0 +1,676 @@
+---
+plugin: [ multilab ]
+defaults.multilab.id: 1
+provider: libvirt
+
+# Starting virtual machines in batches of x with x seconds interval
+defaults.providers.libvirt.batch_size: 8
+defaults.providers.libvirt.batch_interval: 60 # between 1 and 1000 seconds
+defaults.devices.linux.group_vars.netlab_lldp_enable: False
+
+groups:
+  # CORE routers
+  vsrxcore:
+    device: vsrx
+    module: [ vrf, isis, bgp, mpls, ospf ]
+    members: [ c1xr01, c1xr02, c1xr03, c1xr04, c1xr05, c1xr06 ]
+    bgp.as: 65056
+    mpls.ldp: True
+    mpls.vpn: True
+    vrfs:
+      ipfabric_vpn:
+        isis: False
+
+  # Distribution routers
+  distro:
+    device: iosv
+    module: [ ospf]
+    members: [ d1xr01, d1xr02, d3xr01, d3xr02, d4xr01, d4xr02 ]
+  # Distribution firewalls
+  distfw:
+    device: vsrx
+    module: [ ospf ]
+    members: [ d1xfw01, d2xfw01 ]
+
+  # SITE 1 Groups
+  s1gws:
+    device: eos
+    module: [ vlan, vrf, gateway, ospf ]
+    members: [ s1xgw1, s1xgw2 ]
+  s1switches:
+    device: eos
+    module: [ vlan ]
+    members: [ s1xsw01, s1xsw02, s1xsw03, s1xsw04, s1xsw05, s1xsw06 ]
+  s1hosts:
+    device: linux
+    role: host
+    members: [ s1xh01, s1xh02 ]
+
+  # SITE 2 Groups
+  s2gws:
+    device: eos
+    module: [vlan, gateway, ospf]
+    members: [ s2xgw1 ]
+  s2switches:
+    device: eos
+    module: [ vlan ]
+    members: [ s2xsw01 ]
+  s2hosts:
+    device: linux
+    role: host
+    members: [ s2xh01 ]
+
+  # SITE 3 Groups
+  s3gws:
+    device: eos
+    module: [vlan, gateway, ospf]
+    members: [ s3xgw1, s3xgw2 ]
+  s3switches:
+    device: eos
+    module: [vlan]
+    members: [ s3xdsw01, s3xdsw02, s3xdsw03, s3xdsw04, s3xasw01, s3xasw02, s3xasw03, s3xasw04 ]
+  s3hosts:
+    device: linux
+    role: host
+    members: [ s3xh01, s3xh02 ]
+
+  # SITE 4 Groups
+  s4nodes:
+    device: eos
+    module: [ vlan, vxlan, ospf, bgp, evpn, vrf ]
+    members: [ s4xsw01, s4xsw02, s4xsw03, s4xsw04, s4xsw05, s4xsw06, s4xsw07]
+    bgp.as: 65530
+    memory: 3072
+    vrfs:
+      s4tenant:
+        ospf: False
+    vlans:
+      s4xanadu:
+      s4gamboge:
+      s4smaragdine:
+      s4fulvous:
+
+  s4hosts:
+    device: linux
+    role: host
+    members: [ s4xh01, s4xh02 ]
+
+  # SITE 5 Groups
+  s5distro:
+    device: iosv
+    module: [ ospf, eigrp ]
+    members: [ s5xr01 ]
+  s5nodes:
+    device: iosv
+    module: [ eigrp ]
+    members: [ s5xr02, s5xr03, s5xr04, s5xr05, s5xr06, s5xr07, s5xr08 ]
+  s5hosts:
+    device: linux
+    role: host
+    members: [ s5xh01 ]
+
+vlans:
+  # SITE 1 VLANs
+  s1zaffre:
+    id: 1011
+    prefix: 172.16.11.0/24
+  s1wenge:
+    id: 1012
+    prefix: 172.16.12.0/24
+  s1xanadu:
+    id: 1013
+    prefix: 172.16.13.0/24
+  s1gamboge:
+    id: 1014
+    prefix: 172.16.14.0/24
+
+  # SITE 2 VLANs
+  s2control:
+    id: 2021
+    prefix: 172.16.21.0/24
+  s2management:
+    id: 2022
+    prefix: 172.16.22.0/24
+  s2monitor:
+    id: 2023
+    prefix: 172.16.23.0/24
+
+  # SITE 3 VLANs
+  s3blue:
+    id: 3031
+    prefix: 172.16.31.0/24
+  s3black:
+    id: 3032
+    prefix: 172.16.32.0/24
+  s3orange:
+    id: 3033
+    prefix: 172.16.33.0/24
+  s3purple:
+    id: 3034
+    prefix: 172.16.34.0/24
+
+  # SITE 4 VLANs
+  s4xanadu:
+    id: 4041
+    vrf: s4tenant
+    prefix: 172.16.41.0/24
+  s4gamboge:
+    id: 4042
+    vrf: s4tenant
+    prefix: 172.16.42.0/24
+  s4smaragdine:
+    id: 4043
+    vrf: s4tenant
+    prefix: 172.16.43.0/24
+  s4fulvous:
+    id: 4044
+    vrf: s4tenant
+    prefix: 172.16.44.0/24
+nodes:
+  # CORE routers 1
+  c1xr01:
+  c1xr02:
+  c1xr03:
+
+  # Core-Distribution routers and firewalls
+  d1xr01:
+  d1xr02:
+  d1xfw01:
+  d2xfw01:
+  d3xr01:
+  d3xr02:
+  d4xr01:
+  d4xr02:
+
+  # CORE routers 2 - The core is split due to decreased load during the boot process
+  c1xr04:
+  c1xr05:
+  c1xr06:
+
+  # SITE 1 nodes
+  s1xgw1:
+  s1xgw2:
+  s1xsw01:
+  s1xsw02:
+  s1xsw03:
+  s1xsw04:
+  s1xsw05:
+  s1xsw06:
+  s1xh01:
+  s1xh02:
+
+  # SITE 2 nodes and hosts
+  s2xgw1:
+  s2xsw01:
+  s2xh01:
+
+  # SITE 3 nodes and hosts
+  s3xgw1:
+  s3xgw2:
+  s3xdsw01:
+  s3xdsw02:
+  s3xdsw03:
+  s3xdsw04:
+  s3xasw01:
+  s3xasw02:
+  s3xasw03:
+  s3xasw04:
+  s3xh01:
+  s3xh02:
+
+  # SITE 4 nodes and hosts
+  s4xsw01:
+  s4xsw02:
+  s4xsw03:
+  s4xsw04:
+  s4xsw05:
+  s4xsw06:
+  s4xsw07:
+  s4xh01:
+  s4xh02:
+
+  # SITE 5 nodes and hosts
+  s5xr01:
+  s5xr02:
+  s5xr03:
+  s5xr04:
+  s5xr05:
+  s5xr06:
+  s5xr07:
+  s5xr08:
+  s5xh01:
+
+links:
+# MPLS CORE interconnect hexad links
+  - c1xr01:
+    c1xr02:
+      ospf: False
+  - c1xr02:
+    c1xr03:
+      ospf: False
+  - c1xr03:
+    c1xr04:
+      ospf: False
+  - c1xr04:
+    c1xr05:
+      ospf: False
+  - c1xr05:
+    c1xr06:
+      ospf: False
+  - c1xr06:
+    c1xr01:
+      ospf: False
+
+# Connecting Core to Distribution to SITEs
+  # Connecting Core to distro SITE 1
+  - c1xr02: { vrf: ipfabric_vpn }
+    d1xr01:
+  - c1xr03: { vrf: ipfabric_vpn }
+    d1xr02:
+  # Connecting Core to distro SITE 2
+  - c1xr01: { vrf: ipfabric_vpn }
+    d2xfw01:
+  - c1xr06: { vrf: ipfabric_vpn }
+    d2xfw01:
+  # Connecting Core to distro SITE 3
+  - c1xr03: { vrf: ipfabric_vpn }
+    d3xr01:
+  - c1xr04: { vrf: ipfabric_vpn }
+    d3xr02:
+  # Connecting Core to distro SITE 4
+  - c1xr05: { vrf: ipfabric_vpn }
+    d4xr01:
+  - c1xr04: { vrf: ipfabric_vpn }
+    d4xr02:
+  - c1xr06: { vrf: ipfabric_vpn }
+    s5xr01:
+      eigrp: False
+  # Connecting Distribution router to Firewalls
+  - d1xfw01-d1xr01
+  - d1xfw01-d1xr02
+  # Connecting Distribution firewall to SITE 1
+  - d1xfw01-s1xgw1
+  - d1xfw01-s1xgw2
+  # Connecting Distribution firewall to SITE 2
+  - d2xfw01-s2xgw1
+  # Connecting Distribution router to SITE 3
+  - d3xr01-s3xgw1
+  - d3xr02-s3xgw2
+  # Connecting Distribution router to SITE 4
+  - d4xr01-s4xsw01
+  - d4xr02-s4xsw02
+
+# SITE 1 internal links
+  # Gateway 1 vlan interfaces
+  - s1xgw1:
+      ipv4: 1
+    gateway.protocol: vrrp
+    gateway.vrrp.priority: 120
+    vlan.access: s1zaffre
+  - s1xgw1:
+      ipv4: 1
+    gateway.protocol: vrrp
+    gateway.vrrp.priority: 120
+    vlan.access: s1wenge
+  - s1xgw1:
+      ipv4: 1
+    vlan.access: s1xanadu
+  - s1xgw1:
+      ipv4: 1
+    vlan.access: s1gamboge
+  # Gateway 2 vlan interfaces
+  - s1xgw2:
+    gateway.protocol: vrrp
+    vlan.access: s1zaffre
+  - s1xgw2:
+    gateway.protocol: vrrp
+    vlan.access: s1wenge
+  # Gateway 1 to switches
+  - s1xgw1:
+    s1xsw01:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xgw1:
+    s1xsw02:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  # Gateway 2 to switches
+  - s1xgw2:
+    s1xsw01:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xgw2:
+    s1xsw02:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  # Switches to switches
+  - s1xsw01:
+      mtu: 1500 # Creating inconsistent MTUs
+    s1xsw02:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw01:
+    s1xsw03:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw01:
+    s1xsw04:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw02:
+    s1xsw01:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw02:
+    s1xsw03:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw02:
+    s1xsw04:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw03:
+    s1xsw01:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw03:
+    s1xsw02:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw03:
+    s1xsw04:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw04:
+    s1xsw01:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw04:
+    s1xsw02:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw04:
+    s1xsw03:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  # Connecting distro to access switches
+  - s1xsw03:
+    s1xsw05:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw03:
+    s1xsw06:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw04:
+    s1xsw05:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  - s1xsw04:
+    s1xsw06:
+    vlan.trunk: [ s1zaffre, s1wenge, s1xanadu, s1gamboge ]
+  # Connecting hosts to cumulus access switches
+  - s1xh01:
+      ipv4: 60
+    s1xsw05:
+      vlan.access: s1zaffre
+  - s1xh01:
+      ipv4: 60
+    s1xsw05:
+      vlan.access: s1wenge
+  - s1xh01:
+      ipv4: 60
+    s1xsw05:
+      vlan.access: s1xanadu
+  - s1xh01:
+      ipv4: 60
+    s1xsw05:
+      vlan.access: s1gamboge
+  - s1xh02:
+      ipv4: 61
+    s1xsw06:
+      vlan.access: s1zaffre
+  - s1xh02:
+      ipv4: 61
+    s1xsw06:
+      vlan.access: s1wenge
+  - s1xh02:
+      ipv4: 61
+    s1xsw06:
+      vlan.access: s1xanadu
+  - s1xh02:
+      ipv4: 61
+    s1xsw06:
+      vlan.access: s1gamboge
+
+# SITE 2 Links
+  # Gateway 1 vlan interfaces
+  - s2xgw1:
+      ipv4: 1
+    vlan.access: s2control
+  - s2xgw1:
+      ipv4: 1
+    vlan.access: s2management
+  - s2xgw1:
+      ipv4: 1
+    vlan.access: s2monitor
+  # Main trunk link
+  - s2xgw1:
+    s2xsw01:
+    vlan.trunk: [ s2control, s2management, s2monitor ]
+  # Connecting hosts to access switch
+  - s2xh01:
+      ipv4: 20
+    s2xsw01:
+      vlan.access: s2control
+  - s2xh01:
+      ipv4: 20
+    s2xsw01:
+      vlan.access: s2management
+  - s2xh01:
+      ipv4: 20
+    s2xsw01:
+      vlan.access: s2monitor
+
+# SITE 3 Links
+  # Gateway 1 vlan interfaces
+  - s3xgw1:
+      ipv4: 1
+    gateway.protocol: vrrp
+    gateway.vrrp.priority: 120
+    vlan.access: s3blue
+  - s3xgw1:
+      ipv4: 1
+    gateway.protocol: vrrp
+    gateway.vrrp.priority: 120
+    vlan.access: s3black
+  - s3xgw1:
+      ipv4: 1
+    gateway.protocol: vrrp
+    gateway.vrrp.priority: 120
+    vlan.access: s3orange
+  - s3xgw1:
+      ipv4: 1
+    gateway.protocol: vrrp
+    gateway.vrrp.priority: 120
+    vlan.access: s3purple
+  # Gateway 2 vlan interfaces
+  - s3xgw2:
+    gateway.protocol: vrrp
+    vlan.access: s3blue
+  - s3xgw2:
+    gateway.protocol: vrrp
+    vlan.access: s3black
+  - s3xgw2:
+    gateway.protocol: vrrp
+    vlan.access: s3orange
+  - s3xgw2:
+    gateway.protocol: vrrp
+    vlan.access: s3purple
+  # Gateway 1 to Gateway 2
+  - s3xgw1:
+    s3xgw2:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  # Gateway 1 to distribution switches
+  - s3xgw1:
+    s3xdsw01:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xgw1:
+    s3xdsw02:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  # Gateway 2 to distribution switches
+  - s3xgw2:
+    s3xdsw01:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xgw2:
+    s3xdsw02:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  # Distribution interconnects
+  - s3xdsw01:
+    s3xdsw02:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw01:
+    s3xdsw02:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw01:
+    s3xdsw03:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw01:
+    s3xdsw03:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw02:
+    s3xdsw04:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw02:
+    s3xdsw04:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw03:
+    s3xdsw04:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  # Distribution 1 to access switches
+  - s3xdsw03:
+    s3xasw01:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw03:
+    s3xasw02:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw03:
+    s3xasw03:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw03:
+    s3xasw04:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  # Distribution 2 to access switches
+  - s3xdsw04:
+    s3xasw01:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw04:
+    s3xasw02:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw04:
+    s3xasw03:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  - s3xdsw04:
+    s3xasw04:
+    vlan.trunk: [ s3blue, s3black, s3orange, s3purple ]
+  # Access switches to hosts
+  - s3xh01:
+      ipv4: 60
+    s3xasw01:
+      vlan.access: s3blue
+  - s3xh01:
+      ipv4: 60
+    s3xasw02:
+      vlan.access: s3black
+  - s3xh01:
+      ipv4: 60
+    s3xasw03:
+    vlan.access: s3orange
+  - s3xh01:
+      ipv4: 60
+    s3xasw04:
+      vlan.access: s3purple
+  - s3xh02:
+      ipv4: 61
+    s3xasw01:
+      vlan.access: s3blue
+  - s3xh02:
+      ipv4: 61
+    s3xasw02:
+      vlan.access: s3black
+  - s3xh02:
+      ipv4: 61
+    s3xasw03:
+      vlan.access: s3orange
+  - s3xh02:
+      ipv4: 61
+    s3xasw04:
+      vlan.access: s3purple
+
+# SITE4 - VXLAN Links
+  # VXLAN Core and access switches
+  - s4xsw01-s4xsw03
+  - s4xsw01-s4xsw04
+  - s4xsw02-s4xsw03
+  - s4xsw02-s4xsw04
+  - s4xsw03-s4xsw05
+  - s4xsw03-s4xsw06
+  - s4xsw04-s4xsw06
+  - s4xsw04-s4xsw07
+  # Connecting hosts to VXLAN switches
+  - s4xh01:
+      ipv4: 60
+    s4xsw05:
+      ipv4: 1
+      vlan.access: s4xanadu
+  - s4xh01:
+      ipv4: 60
+    s4xsw05:
+      ipv4: 1
+      vlan.access: s4gamboge
+  - s4xh01:
+      ipv4: 60
+    s4xsw05:
+      ipv4: 1
+      vlan.access: s4smaragdine
+  - s4xh01:
+      ipv4: 60
+    s4xsw05:
+      ipv4: 1
+      vlan.access: s4fulvous
+  - s4xh02:
+      ipv4: 61
+    s4xsw07:
+      vlan.access: s4xanadu
+  - s4xh02:
+      ipv4: 61
+    s4xsw07:
+      vlan.access: s4gamboge
+  - s4xh02:
+      ipv4: 61
+    s4xsw07:
+      vlan.access: s4smaragdine
+  - s4xh02:
+      ipv4: 61
+    s4xsw07:
+      vlan.access: s4fulvous
+
+  # SITE 5 Links
+  - s5xr01:
+      ipv6: True
+    s5xr02:
+      ipv6: True
+  - s5xr02:
+      ipv6: True
+    s5xr04:
+      ipv6: True
+  - s5xr02:
+      ipv6: True
+    s5xr05:
+      ipv6: True
+  - s5xr01:
+      ipv6: True
+    s5xr03:
+      ipv6: True
+  - s5xr03:
+      ipv6: True
+    s5xr06:
+      ipv6: True
+  - s5xr06:
+      ipv6: True
+    s5xr07:
+      ipv6: True
+  - s5xr06:
+      ipv6: True
+    s5xr08:
+      ipv6: True
+  # Site 5 hosts
+  - s5xh01:
+    s5xr01:
+  - s5xh01:
+    s5xr04:
+  - s5xh01:
+    s5xr05:
+  - s5xh01:
+    s5xr06:
