@@ -1,0 +1,61 @@
+---
+- name: Identify PIM interfaces on Arista EOS switches
+  hosts: iosv
+  gather_facts: no
+
+  # To generate multicast - iperf -c 239.10.20.30 -B 172.16.3.8 -u -T 3 -t 20 -i 1 -b 10M
+
+  tasks:
+    - name: Initialize pim_interfaces variable for all hosts
+      set_fact:
+        pim_interfaces: []
+      run_once: true
+
+    - name: Collect LLDP neighbor information
+      ios_command:
+        commands:
+          - show lldp neighbors
+      register: lldp_output
+      when: "'s5x' in inventory_hostname"
+
+    - name: Print raw LLDP output lines
+      debug:
+        msg: "{{ lldp_output.stdout_lines }}"
+      when: "'s5x' in inventory_hostname"
+
+    - name: Filter interfaces with 's5' neighbors
+      set_fact:
+        pim_interfaces: "{{ pim_interfaces + [ (item | regex_search('(Gi\\d\/\\d)', '\\1')) ] }}"
+      loop: "{{ lldp_output.stdout_lines[0] }}"
+      when:
+        - "'s5x' in inventory_hostname"
+        - (item | regex_search('(Gi\\d\/\\d)', '\\1')) is not none
+
+    - name: Flatten the list of interfaces
+      set_fact:
+        pim_interfaces: "{{ pim_interfaces | flatten }}"
+
+    - name: Print filtered interfaces
+      debug:
+        msg: "Interfaces to configure PIM: {{ pim_interfaces }}"
+      when: "'s5x' in inventory_hostname"
+
+    - name: Configure PIM on filtered interfaces
+      ios_config:
+        lines:
+          - ip pim sparse-mode
+        parents: "interface {{ item }}"
+      loop: "{{ pim_interfaces }}"
+      when: pim_interfaces | length > 0 and "'s5x' in inventory_hostname"
+
+    - name: Configure IP Multicast routing
+      ios_config:
+        lines:
+          - ip multicast-routing
+      when: pim_interfaces | length > 0 and "'s5x' in inventory_hostname"
+
+# ip pim ssm default
+# then for interfaces:
+# ip igmp static-group 232.10.20.30 source 172.16.0.2
+# ip igmp static-group 232.10.20.40 source 172.16.0.2
+# ip igmp static-group 232.10.20.50 source 172.16.0.2

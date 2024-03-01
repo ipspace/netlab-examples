@@ -1,0 +1,26 @@
+---
+- name: Disable packet mode on Juniper SRX devices
+  hosts: vsrx
+  gather_facts: no
+  tasks:
+    - name: Remove packet-based from security forwarding-options
+      junos_config:
+        lines:
+          - "delete security forwarding-options family inet6 mode packet-based"
+          - "delete security forwarding-options family mpls mode packet-based"
+      when: "'fw' in inventory_hostname"
+
+- name: Allow private subnets to access FXP0 interface
+  hosts: vsrx
+  gather_facts: no
+  tasks:
+    - name: Configure fxp0-src-filter
+      junos_config:
+        lines:
+          - "set firewall family inet filter fxp0-src-filter term allow-private-subnets from source-address 10.0.0.0/8"
+          - "set firewall family inet filter fxp0-src-filter term allow-private-subnets from source-address 172.16.0.0/12"
+          - "set firewall family inet filter fxp0-src-filter term allow-private-subnets from source-address 192.168.0.0/16"
+          - "set firewall family inet filter fxp0-src-filter term allow-private-subnets then accept"
+          - "set firewall family inet filter fxp0-src-filter term deny-all then reject"
+          - "set interfaces fxp0 unit 0 family inet filter input fxp0-src-filter"
+      when: "'fw' in inventory_hostname"

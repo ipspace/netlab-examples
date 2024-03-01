@@ -1,0 +1,25 @@
+# This is not needed for certain Arista images - but I had to do it for mine
+---
+- name: Execute command on Arista devices with 'vx' in their hostname
+  hosts: eos
+  gather_facts: no
+
+  tasks:
+    - name: Run command on specific hosts
+      arista.eos.eos_config:
+        commands:
+          - "service routing protocols model multi-agent"
+      when: "'s4x' in inventory_hostname"
+
+    - name: Save configuration
+      arista.eos.eos_command:
+        commands:
+          - "write memory"
+      when: "'s4x' in inventory_hostname"
+
+    - name: Reboot the switch
+      arista.eos.eos_command:
+        commands:
+          - "reload now"
+      when: "'s4x' in inventory_hostname"
+      ignore_errors: yes

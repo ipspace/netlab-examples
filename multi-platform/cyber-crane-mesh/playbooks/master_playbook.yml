@@ -1,0 +1,10 @@
+---
+- import_playbook: sub_playbooks/disable_lldp.yml
+- import_playbook: sub_playbooks/mgmt_protocols.yml
+- import_playbook: sub_playbooks/no_ip_host.yml
+- import_playbook: sub_playbooks/s3_eos_lag.yml
+- import_playbook: sub_playbooks/s4_vrf_tenant_routes.yml
+- import_playbook: sub_playbooks/s5_igmp_groups.yml
+- import_playbook: sub_playbooks/s5_pim_interfaces.yml
+- import_playbook: sub_playbooks/save_config_changes.yml
+- import_playbook: sub_playbooks/s4_model_multiagent.yml # This playbook should be last - requires reload

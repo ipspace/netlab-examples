@@ -1,0 +1,68 @@
+---
+- name: Remove IP Hosts from the Arista EOS configuration
+  hosts: eos
+  gather_facts: no
+
+  tasks:
+    - name: Executing `no ip host` command
+      arista.eos.eos_config:
+        lines:
+          - "no ip host"
+      when: "'eos' in group_names"
+
+- name: Remove static host mapping for Juniper devices
+  hosts: vsrx
+  gather_facts: no
+
+  tasks:
+    - name: Remove static host mapping
+      junos_config:
+          lines:
+          - "delete system static-host-mapping"
+      when: "'vsrx' in group_names"
+
+- name: Remove IP Host Configurations for Cisco IOS devices
+  hosts: iosv  # Replace with the appropriate group for your devices
+  gather_facts: no
+  tasks:
+    - name: Gather current configurations
+      ios_command:
+        commands:
+          - show running-config | include ^ip host
+      register: current_config
+      ignore_errors: yes
+
+    - name: Parse host names from configurations
+      set_fact:
+        host_names: "{{ host_names | default([]) + [item | regex_search('^ip host\\s+([^\\s]+)', '\\1')] }}"
+      loop: "{{ current_config.stdout[0].splitlines() }}"
+      when: current_config.stdout[0] is defined
+
+    - name: Remove None entries from list
+      set_fact:
+        host_names: "{{ host_names | select('defined') | list }}"
+      when: host_names is defined
+
+    - name: Debug host names list length
+      debug:
+        msg: "Length of host_names list: {{ host_names | length }}"
+      when: host_names is defined
+
+    - name: Generate 'no ip host' commands
+      set_fact:
+        no_ip_host_commands: "{{ host_names | default([]) | map('join', '') | map('regex_replace', '^(.+)$', 'no ip host \\1') | list }}"
+
+    - name: Remove IP Host Configurations
+      ios_config:
+        lines: "{{ item }}"
+      loop: "{{ no_ip_host_commands }}"
+      when: no_ip_host_commands | length > 0
+
+    - name: Save configuration for all devices
+      ios_command:
+        commands:
+          - write memory
+      when: "'iosv' in group_names or 'eos' in group_names"
+
+
+

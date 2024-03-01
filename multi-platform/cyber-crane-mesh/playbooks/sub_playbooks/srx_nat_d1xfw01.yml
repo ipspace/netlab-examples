@@ -1,0 +1,81 @@
+---
+- name: Add NAT rules on d1xfw01
+  hosts: d1xfw01
+  gather_facts: no
+
+  tasks:
+    - name: Configure NAT on d1xfw01
+      junipernetworks.junos.junos_config:
+        lines:
+          - set security address-book global address SITE3-WEB-Server 172.16.31.60/32
+          - set security nat destination pool PAT-HTTP-to-HTTPS address 172.16.31.60/32 port 443
+          - set security address-book global address SITE3-RDP-Server 172.16.32.60/32
+          - set security nat destination pool DNAT-to-SITE3-RDP address 172.16.32.60/32 port 3389
+          - set security address-book global address SITE3-EMAIL-Server01 172.16.33.60/32
+          - set security address-book global address SITE3-EMAIL-Server02 172.16.33.61/32
+          - set security nat destination pool DNAT-to-SITE3-EMAIL-IMAP address 172.16.33.61/32 port 993
+          - set security address-book global address SITE3-LDAP-Server01 172.16.34.60/32
+          - set security address-book global address SITE3-LDAP-Server02 172.16.34.61/32
+          - set security nat destination pool DNAT-to-SITE3-LDAP address 172.16.34.61/32
+          - set security nat destination rule-set PAT-DNAT from zone SITE1
+          - set security nat destination rule-set PAT-DNAT rule PAT-SITE1-to-SITE3 match destination-address 172.16.31.60/32
+          - set security nat destination rule-set PAT-DNAT rule PAT-SITE1-to-SITE3 match destination-port 80
+          - set security nat destination rule-set PAT-DNAT rule PAT-SITE1-to-SITE3 then destination-nat pool PAT-HTTP-to-HTTPS
+          - set security nat destination rule-set PAT-DNAT rule DNAT-SITE1-to-SITE3-RDP match destination-address 172.16.32.60/32
+          - set security nat destination rule-set PAT-DNAT rule DNAT-SITE1-to-SITE3-RDP match destination-port 389
+          - set security nat destination rule-set PAT-DNAT rule DNAT-SITE1-to-SITE3-RDP then destination-nat pool DNAT-to-SITE3-RDP
+          - set security nat destination rule-set PAT-DNAT rule DNAT-SITE1-to-SITE3-EMAIL-IMAP match destination-address 172.16.33.60/32
+          - set security nat destination rule-set PAT-DNAT rule DNAT-SITE1-to-SITE3-EMAIL-IMAP match destination-port 143
+          - set security nat destination rule-set PAT-DNAT rule DNAT-SITE1-to-SITE3-EMAIL-IMAP then destination-nat pool DNAT-to-SITE3-EMAIL-IMAP
+          - set security nat destination rule-set PAT-DNAT rule DNAT-SITE1-to-SITE3-LDAP match destination-address 172.16.34.60/32
+          - set security nat destination rule-set PAT-DNAT rule DNAT-SITE1-to-SITE3-LDAP match destination-port 389
+          - set security nat destination rule-set PAT-DNAT rule DNAT-SITE1-to-SITE3-LDAP match destination-port 636
+          - set security nat destination rule-set PAT-DNAT rule DNAT-SITE1-to-SITE3-LDAP then destination-nat pool DNAT-to-SITE3-LDAP
+
+    - name: Configure NAT Policies on d1xfw01
+      junipernetworks.junos.junos_config:
+        lines:
+          - set security address-book global address SITE1-User-1 172.16.11.60/32
+          - set security address-book global address SITE1-User-2 172.16.11.61/32
+          - set security address-book global address SITE1-User-3 172.16.12.60/32
+          - set security address-book global address SITE1-User-4 172.16.12.61/32
+          - set security address-book global address SITE1-User-5 172.16.13.60/32
+          - set security address-book global address SITE1-User-6 172.16.13.61/32
+          - set security address-book global address SITE1-User-7 172.16.14.60/32
+          - set security address-book global address SITE1-User-8 172.16.14.61/32
+          - set security address-book global address-set SITE1-Odd-Users address SITE1-User-1
+          - set security address-book global address-set SITE1-Odd-Users address SITE1-User-3
+          - set security address-book global address-set SITE1-Odd-Users address SITE1-User-5
+          - set security address-book global address-set SITE1-Odd-Users address SITE1-User-7
+          - set security address-book global address-set SITE1-Even-Users address SITE1-User-2
+          - set security address-book global address-set SITE1-Even-Users address SITE1-User-4
+          - set security address-book global address-set SITE1-Even-Users address SITE1-User-6
+          - set security address-book global address-set SITE1-Even-Users address SITE1-User-8
+          - set security address-book global address-set SITE1-All-Users address-set SITE1-Odd-Users
+          - set security address-book global address-set SITE1-All-Users address-set SITE1-Even-Users
+          - set security policies from-zone SITE1 to-zone CORE policy WEB-SITE1-to-SITE3 match source-address SITE1-All-Users
+          - set security policies from-zone SITE1 to-zone CORE policy WEB-SITE1-to-SITE3 match destination-address SITE3-WEB-Server
+          - set security policies from-zone SITE1 to-zone CORE policy WEB-SITE1-to-SITE3 match application junos-http
+          - set security policies from-zone SITE1 to-zone CORE policy WEB-SITE1-to-SITE3 match application junos-https
+          - set security policies from-zone SITE1 to-zone CORE policy WEB-SITE1-to-SITE3 then permit
+          - set security policies from-zone SITE1 to-zone CORE policy RDP-SITE1-to-SITE3 match source-address SITE1-All-Users
+          - set security policies from-zone SITE1 to-zone CORE policy RDP-SITE1-to-SITE3 match destination-address SITE3-RDP-Server
+          - set security policies from-zone SITE1 to-zone CORE policy RDP-SITE1-to-SITE3 match application junos-rdp
+          - set security policies from-zone SITE1 to-zone CORE policy RDP-SITE1-to-SITE3 then permit
+          - set security policies from-zone SITE1 to-zone CORE policy EMAIL-SITE1-to-SITE3 match source-address SITE1-All-Users
+          - set security policies from-zone SITE1 to-zone CORE policy EMAIL-SITE1-to-SITE3 match destination-address SITE3-EMAIL-Server01
+          - set security policies from-zone SITE1 to-zone CORE policy EMAIL-SITE1-to-SITE3 match destination-address SITE3-EMAIL-Server02
+          - set security policies from-zone SITE1 to-zone CORE policy EMAIL-SITE1-to-SITE3 match application junos-smtp
+          - set security policies from-zone SITE1 to-zone CORE policy EMAIL-SITE1-to-SITE3 match application junos-imap
+          - set security policies from-zone SITE1 to-zone CORE policy EMAIL-SITE1-to-SITE3 then permit
+          - set security policies from-zone SITE1 to-zone CORE policy LDAP-SITE1-to-SITE3 match source-address SITE1-All-Users
+          - set security policies from-zone SITE1 to-zone CORE policy LDAP-SITE1-to-SITE3 match destination-address SITE3-LDAP-Server01
+          - set security policies from-zone SITE1 to-zone CORE policy LDAP-SITE1-to-SITE3 match destination-address SITE3-LDAP-Server02
+          - set security policies from-zone SITE1 to-zone CORE policy LDAP-SITE1-to-SITE3 match application junos-ldap
+          - set security policies from-zone SITE1 to-zone CORE policy LDAP-SITE1-to-SITE3 then permit
+          - set security policies from-zone SITE1 to-zone CORE policy LAST-DENY-ANY match source-address any
+          - set security policies from-zone SITE1 to-zone CORE policy LAST-DENY-ANY match destination-address any
+          - set security policies from-zone SITE1 to-zone CORE policy LAST-DENY-ANY match application any
+          - set security policies from-zone SITE1 to-zone CORE policy LAST-DENY-ANY then deny
+          - set security policies from-zone SITE1 to-zone CORE policy LAST-DENY-ANY then log session-init
+

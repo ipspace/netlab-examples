@@ -1,0 +1,42 @@
+---
+- name: Configure address-book entries and policies on Juniper SRXs
+  hosts: d2xfw01
+  gather_facts: false
+
+  vars:
+    sites:
+      - { site_id: "1", site_name: "SITE1"}
+      - { site_id: "2", site_name: "SITE2"}
+      - { site_id: "3", site_name: "SITE3"}
+      - { site_id: "4", site_name: "SITE4"}
+
+  tasks:
+    - name: Configure address-book entries
+      junos_config:
+        commands:
+          - "set security address-book global address {{ item.site_name }}_172_16_{{ item.site_id }}1_0 172.16.{{ item.site_id }}1.0/24"
+          - "set security address-book global address {{ item.site_name }}_172_16_{{ item.site_id }}2_0 172.16.{{ item.site_id }}2.0/24"
+          - "set security address-book global address {{ item.site_name }}_172_16_{{ item.site_id }}3_0 172.16.{{ item.site_id }}3.0/24"
+          - "set security address-book global address {{ item.site_name }}_172_16_{{ item.site_id }}4_0 172.16.{{ item.site_id }}4.0/24"
+          - "set security address-book global address-set {{ item.site_name }}-All-Subnets address {{ item.site_name }}_172_16_{{ item.site_id }}1_0"
+          - "set security address-book global address-set {{ item.site_name }}-All-Subnets address {{ item.site_name }}_172_16_{{ item.site_id }}2_0"
+          - "set security address-book global address-set {{ item.site_name }}-All-Subnets address {{ item.site_name }}_172_16_{{ item.site_id }}3_0"
+          - "set security address-book global address-set {{ item.site_name }}-All-Subnets address {{ item.site_name }}_172_16_{{ item.site_id }}4_0"
+      loop: "{{ sites }}"
+
+    - name: Configure security zones for d2xfw01
+      junos_config:
+        lines:
+          - "set security zones security-zone CORE interfaces ge-0/0/0.0"
+          - "set security zones security-zone CORE interfaces ge-0/0/1.0"
+          - "set security zones security-zone SITE2 interfaces ge-0/0/2.0"
+
+    - name: Configure security policies from zone SITE2 to zone CORE for d2xfw01 - permit any
+      junos_config:
+        lines:
+          - "set security policies from-zone SITE2 to-zone CORE policy site2-to-core match destination-address SITE1-All-Subnets"
+          - "set security policies from-zone SITE2 to-zone CORE policy site2-to-core match destination-address SITE3-All-Subnets"
+          - "set security policies from-zone SITE2 to-zone CORE policy site2-to-core match destination-address SITE4-All-Subnets"
+          - "set security policies from-zone SITE2 to-zone CORE policy site2-to-core match source-address SITE2-All-Subnets"
+          - "set security policies from-zone SITE2 to-zone CORE policy site2-to-core match application any"
+          - "set security policies from-zone SITE2 to-zone CORE policy site2-to-core then permit"

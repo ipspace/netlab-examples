@@ -1,0 +1,27 @@
+---
+- name: Disable CDP/LLDP on interface GigabitEthernet 0/0 on IOS routers
+  hosts: iosv
+  gather_facts: no
+  tasks:
+    - name: Configure GigabitEthernet 0/0 interface
+      cisco.ios.ios_config:
+        lines:
+          - "interface GigabitEthernet 0/0"
+          - "no lldp transmit"
+          - "no lldp receive"
+          - "no cdp enable"
+      register: config_result
+      when: "'iosv' in group_names"
+
+- name: Disable LLDP on interface fxp0 on Juniper routers
+  hosts: vsrx
+  gather_facts: no
+  tasks:
+    - name: Configure GigabitEthernet 0/0 interface
+      junos_config:
+        lines:
+          - "set protocols lldp interface all"
+          - "set protocols lldp interface fxp0 disable"
+      register: config_result
+      when: "'srxv' in group_names"
+
