@@ -1,0 +1,20 @@
+provider: clab
+defaults.device: linux
+defaults.devices.linux.image: ghcr.io/hellt/network-multitool
+defaults.devices.linux.group_vars.docker_shell: bash -il
+
+nodes:
+  h1:
+  h2:
+  wanem:
+    image: ghcr.io/wemulate/wemulate-container
+
+links:
+- h1:
+  wanem:
+    ipv4: False
+  prefix.ipv4: 192.168.33.0/24
+- h2:
+  wanem:
+    ipv4: False
+  prefix.ipv4: 192.168.33.0/24
