@@ -16,3 +16,7 @@ links:
 - r1:
   r2:
   unnumbered: True
+
+message:
+  The "EBGP Unnumbered" lab is ready. Use "netlab connect" to connect to the lab
+  devices and "netlab status" if you forgot their names.
