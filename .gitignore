@@ -10,6 +10,8 @@ hosts.yml
 Vagrantfile
 ansible.cfg
 
+# Ignore other Git repositories
+cicd/
 # Ignore text files
 !requirements.txt
 *.txt
