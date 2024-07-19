@@ -5,6 +5,9 @@ message: |
 
 provider: clab
 module: [ bgp ]
+plugin: [ bgp.policy ]
+version: 1.8.0
+
 defaults.device: frr
 defaults.bgp.attributes.link.role: str
 bgp.advertise_loopback: False
@@ -12,7 +15,6 @@ bgp.advertise_loopback: False
 groups:
   isp:
     members: [ trans_1, trans_2, isp_a, isp_b, isp_c ]
-    config: [ set-pref ]
 
 nodes:
   trans_1:
@@ -54,8 +56,12 @@ links:
   bgp.role: peer
   members:
   - trans_1 - trans_2
-  - isp_a - isp_b
-  - isp_b - isp_c
+  - isp_a:
+    isp_b:
+    bgp.locpref: 150
+  - isp_b:
+    isp_c:
+    bgp.locpref: 150
 
 #
 # Links between regional providers (role = customer) and transit providers (role = provider)
@@ -64,14 +70,17 @@ links:
     bgp.role: customer
   trans_1:
     bgp.role: provider
+    bgp.locpref: 200
 - isp_b:
     bgp.role: customer
   trans_2:
     bgp.role: provider
+    bgp.locpref: 200
 - isp_c:
     bgp.role: customer
   trans_2:
     bgp.role: provider
+    bgp.locpref: 200
 
 #
 # Links between end-customers (role = customer) and regional ISPs (role = provider)
@@ -80,9 +89,11 @@ links:
     bgp.role: customer
   isp_a:
     bgp.role: provider
+    bgp.locpref: 200
 - cust_ab:
     bgp.role: customer
   isp_a:
+    bgp.locpref: 200
     bgp.role: provider
 #
 # Customers of ISP_B
@@ -91,10 +102,12 @@ links:
     bgp.role: customer
   isp_b:
     bgp.role: provider
+    bgp.locpref: 200
 - cust_b:
     bgp.role: customer
   isp_b:
     bgp.role: provider
+    bgp.locpref: 200
 #
 # Customers of ISP_C
 #
@@ -102,3 +115,4 @@ links:
     bgp.role: customer
   isp_c:
     bgp.role: provider
+    bgp.locpref: 200
