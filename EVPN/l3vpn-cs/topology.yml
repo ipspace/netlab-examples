@@ -1,0 +1,49 @@
+message: |
+  The lab contains three layer-3 VXLAN/EVPN implementing a common services VRF design.
+
+defaults.device: eos
+provider: clab
+
+module: [ ospf, bgp, vrf, vlan, vxlan, evpn ]
+bgp.as: 65000
+
+groups:
+  _auto_create: True
+  switches:
+    members: [ s1, s2, s3 ]
+  hosts:
+    device: linux
+    members: [ h1, h2, cs ]
+
+vrfs:
+  spoke:
+    links: [ h1-s1, h2-s2 ]
+    evpn.transit_vni: True
+    export: spoke
+    import: hub
+  hub:
+    links: [ cs-s3 ]
+    evpn.transit_vni: True
+    export: hub
+    import: [ hub, spoke ]
+
+links:
+- s1:
+  s2:
+  mtu: 1600
+- s1:
+  s3:
+  mtu: 1600
+- s2:
+  s3:
+  mtu: 1600
+
+validate:
+  ping_sh:
+    description: Spoke-to-hub ping-based reachability test
+    nodes: [ h1, h2 ]
+    plugin: ping('cs')
+  ping_ss:
+    description: Spoke-to-spoke ping-based reachability test
+    nodes: [ h1 ]
+    plugin: ping('h2',expect='fail')

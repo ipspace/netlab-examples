@@ -1,6 +1,6 @@
 message: |
-  The lab contains two layer-3 VXLAN/EVPN switches with four hosts (two per VRF)
-  connected to them. There are no VLANs; all links are layer-3 links.
+  The lab contains three layer-3 VXLAN/EVPN switches using unique EVPN transit
+  VNI in the same VRF.
 
   Once OSPF and BGP adjacency are established, the hosts should be able to ping
   each other.
