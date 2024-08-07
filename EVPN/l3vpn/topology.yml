@@ -1,0 +1,33 @@
+message: |
+  The lab contains two layer-3 VXLAN/EVPN switches with four hosts (two per VRF)
+  connected to them. There are no VLANs; all links are layer-3 links.
+
+  Once OSPF and BGP adjacency are established, the hosts should be able to ping
+  each other.
+
+defaults.device: eos
+provider: clab
+
+module: [ ospf, bgp, vrf, vlan, vxlan, evpn ]
+bgp.as: 65000
+
+groups:
+  _auto_create: True
+  switches:
+    members: [ s1, s2 ]
+  hosts:
+    device: linux
+    members: [ h1, h2, h3, h4 ]
+
+vrfs:
+  red:
+    links: [ h1-s1, h2-s2 ]
+    evpn.transit_vni: True
+  blue:
+    links: [ h3-s1, h4-s2 ]
+    evpn.transit_vni: True
+
+links:
+- s1:
+  s2:
+  mtu: 1600
