@@ -1,0 +1,31 @@
+# Configure a BGP session with a Linux host on which we'll run bgpipe
+
+# Make BGP a valid node attribute so we can configure bgp.as on the node not running BGP
+defaults.attributes.node.bgp:
+
+provider: clab
+defaults.devices.linux.group_vars.docker_shell: bash
+defaults.device: frr
+
+nodes:
+  rtr:
+    module: [ bgp ]
+    bgp.as: 65000
+  probe:
+    device: linux
+    provider: clab
+    image: netlab/bgpipe:latest
+    bgp.as: 65100
+
+links:
+- rtr:
+  probe:
+
+message: |
+  The bgpipe lab is waiting for you ;) Connect to 'probe' with 'netlab connect
+  'probe'. The remote router is reachable at 172.16.0.1 and your ASN should be
+  65100, for example:
+
+  bgpipe -o speaker --asn 65100 172.16.0.1
+
+  Good luck!
