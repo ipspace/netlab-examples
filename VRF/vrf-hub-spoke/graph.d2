@@ -1,0 +1,40 @@
+AS_65000 {
+  label: AS 65000
+  pe {
+    label: "pe [eos]\n10.0.0.1/32"
+    shape: "hexagon"
+    style.font-size: 20
+  }
+}
+AS_65100 {
+  label: AS 65100
+  ce_hub {
+    label: "ce_hub [frr]\n10.0.0.2/32"
+    shape: "oval"
+    style.font-size: 20
+  }
+}
+AS_65101 {
+  label: AS 65101
+  ce_s1 {
+    label: "ce_s1 [frr]\n10.0.0.3/32"
+    shape: "oval"
+    style.font-size: 20
+  }
+}
+AS_65102 {
+  label: AS 65102
+  ce_s2 {
+    label: "ce_s2 [frr]\n10.0.0.4/32"
+    shape: "oval"
+    style.font-size: 20
+  }
+}
+AS_65000.pe -- AS_65101.ce_s1 {
+}
+AS_65000.pe -- AS_65102.ce_s2 {
+}
+AS_65000.pe -- AS_65100.ce_hub {
+}
+AS_65000.pe -- AS_65100.ce_hub {
+}

@@ -1,0 +1,43 @@
+message: |
+  The lab contains a PE-router with three CE-routers attached to it. The
+  PE-router implements a hub-and-spoke VRF with HUB_EGRESS and HUB_INGRESS
+  VRFs
+
+defaults.device: eos
+provider: clab
+
+module: [ bgp ]
+plugin: [ bgp.session ]
+
+groups:
+  ce:
+    device: frr
+    members: [ ce_s1, ce_s2, ce_hub ]
+
+vrfs:
+  s_1:
+    links: [ pe-ce_s1 ]
+    export: [ hub_egress ]
+    import: [ hub_ingress ]
+  s_2:
+    links: [ pe-ce_s2 ]
+    export: [ hub_egress ]
+    import: [ hub_ingress ]
+  hub_ingress:
+    links:
+    - pe:
+      ce_hub:
+        bgp.as_override: True
+  hub_egress:
+    links: [ pe-ce_hub ]
+
+nodes:
+  pe:
+    module: [ bgp, vrf ]
+    bgp.as: 65000
+  ce_hub:
+    bgp.as: 65100
+  ce_s1:
+    bgp.as: 65101
+  ce_s2:
+    bgp.as: 65102
