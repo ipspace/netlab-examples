@@ -1,0 +1,10 @@
+{# description: VRF parameters #}
+| VRF | RD | Export RT | Import RT | EVPN VNI |
+|-----|---:|-----------|-----------|---------:|
+{% for vname,vdata in vrfs.items() %}
+| {{ vname }} | {{ 
+     vdata.rd|default('') }} | {{ 
+     vdata.export|default([])|join('<br>') }} | {{
+     vdata.import|default([])|join('<br>') }} | {{
+     vdata.evpn.transit_vni|default('') }} |
+{% endfor %}
