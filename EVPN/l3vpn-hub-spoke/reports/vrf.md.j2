@@ -6,5 +6,5 @@
      vdata.rd|default('') }} | {{ 
      vdata.export|default([])|join('<br>') }} | {{
      vdata.import|default([])|join('<br>') }} | {{
-     vdata.evpn.transit_vni|default('') }} |
+     vdata.evpn.transit_vni|default('') if vdata.evpn is defined else '' }} |
 {% endfor %}
