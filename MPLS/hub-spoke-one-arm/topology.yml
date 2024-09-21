@@ -1,0 +1,55 @@
+message: |
+  The lab contains three MPLS/VPN PE-devices with three CE-routers attached to them.
+  The PE-devices implement a one-arm hub-and-spoke VRF: the hub VRF receives all the
+  CE-routes (for hub-to-spoke forwarding) and a default route (for spoke-to-hub
+  forwarding)
+
+defaults.device: iosv
+
+module: [ bgp ]
+plugin: [ bgp.session ]
+
+groups:
+  ce:
+    device: frr
+    provider: clab
+    members: [ ce_s1, ce_s2, ce_hub ]
+  pe:
+    members: [ pe_a, pe_b, pe_h ]
+    module: [ ospf, bgp, vrf, mpls ]
+    bgp.as: 65000
+    mpls.vpn: True
+
+mpls.ldp: True
+
+vrfs:
+  s_1:
+    links: [ pe_a-ce_s1 ]
+    export: [ 65000:100 ]
+    import: [ 65000:101 ]
+  s_2:
+    links: [ pe_b-ce_s2 ]
+    export: [ 65000:100 ]
+    import: [ 65000:101 ]
+  hub:
+    import: [ 65000:100 ]
+    export: [ 65000:101 ]
+    links:
+    - pe_h:
+      ce_hub:
+        bgp.default_originate: True
+
+nodes:
+  pe_a:
+  pe_b:
+  pe_h:
+  p:
+    module: [ mpls, ospf ]
+  ce_hub:
+    bgp.as: 65100
+  ce_s1:
+    bgp.as: 65101
+  ce_s2:
+    bgp.as: 65102
+
+links: [ pe_a-p, pe_b-p, pe_h-p ]
