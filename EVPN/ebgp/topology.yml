@@ -5,8 +5,9 @@ plugin: [ fabric ]
 
 addressing.p2p.ipv4: True
 evpn.as: 65000
-evpn.session: [ ebgp ]
-bgp.community.ebgp: [ standard, extended ]
+evpn.session: [ ebgp ]                          # Activate EVPN on EBGP sessions
+bgp.community.ebgp: [ standard, extended ]      # Propagate extended community over EBGP
+bgp.sessions.ipv4: [ ebgp ]                     # ... and activate IPv4 AF only on EBGP sessions
 
 fabric:
   spines: 2
