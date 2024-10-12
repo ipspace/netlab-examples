@@ -1,7 +1,7 @@
 defaults.device: eos
 provider: clab
 
-plugin: [ fabric ]
+plugin: [ fabric, check.config ]
 
 addressing.p2p.ipv4: True
 evpn.as: 65000
@@ -19,6 +19,7 @@ groups:
   _auto_create: True
   leafs:
     module: [ bgp, vlan, vxlan, evpn ]
+    config: [ ebgp.ecmp ]
   spines:
     module: [ bgp, evpn ]
   hosts:
