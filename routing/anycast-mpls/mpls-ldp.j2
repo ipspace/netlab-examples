@@ -1,7 +1,0 @@
-mpls ldp router-id Loopback 0
-mpls ldp explicit-null
-{% for l in links %}
-!
-interface {{ l.ifname }}
- mpls ip
-{% endfor %}
