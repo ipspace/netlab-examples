@@ -1,7 +1,7 @@
-# EVPN Designs: EBGP Everywhere
+# EVPN Designs: EBGP-over-EBGP
 
 This directory contains the lab topology described in the [EVPN Designs:
-EBGP-over-EBGP ](https://blog.ipspace.net/2024/10/evpn-designs-ebgp-ebgp/) blog
+EBGP-over-EBGP](https://blog.ipspace.net/2024/10/evpn-designs-ebgp-ebgp/) blog
 post. The switches run EBGP (IPv4 AF) on physical interfaces and EBGP (EVPN AF)
 between lopback interfaces advertised via EBGP IIPv4 AF.
 
