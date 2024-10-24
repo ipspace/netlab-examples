@@ -1,0 +1,101 @@
+AS_65001 {
+  label: AS 65001
+  L1 {
+    label: "L1 [eos]\n10.0.0.1/32"
+    shape: "hexagon"
+    style.font-size: 20
+  }
+}
+AS_65002 {
+  label: AS 65002
+  L2 {
+    label: "L2 [eos]\n10.0.0.2/32"
+    shape: "hexagon"
+    style.font-size: 20
+  }
+}
+AS_65003 {
+  label: AS 65003
+  L3 {
+    label: "L3 [eos]\n10.0.0.3/32"
+    shape: "hexagon"
+    style.font-size: 20
+  }
+}
+AS_65004 {
+  label: AS 65004
+  L4 {
+    label: "L4 [eos]\n10.0.0.4/32"
+    shape: "hexagon"
+    style.font-size: 20
+  }
+}
+AS_65100 {
+  label: AS 65100
+  S1 {
+    label: "S1 [eos]\n10.0.0.5/32"
+    shape: "hexagon"
+    style.font-size: 20
+  }
+  S2 {
+    label: "S2 [eos]\n10.0.0.6/32"
+    shape: "hexagon"
+    style.font-size: 20
+  }
+}
+AS_65001.L1 -- AS_65100.S1 {
+}
+AS_65001.L1 -- AS_65100.S2 {
+}
+AS_65002.L2 -- AS_65100.S1 {
+}
+AS_65002.L2 -- AS_65100.S2 {
+}
+AS_65003.L3 -- AS_65100.S1 {
+}
+AS_65003.L3 -- AS_65100.S2 {
+}
+AS_65004.L4 -- AS_65100.S1 {
+}
+AS_65004.L4 -- AS_65100.S2 {
+}
+lan_9 {
+  label: 172.16.0.0/24
+  shape: "rectangle"
+  style.border-radius: 8
+  style.font-size: 20
+}
+H1 -> lan_9 {
+}
+AS_65001.L1 -> lan_9 {
+}
+lan_10 {
+  label: 172.16.0.0/24
+  shape: "rectangle"
+  style.border-radius: 8
+  style.font-size: 20
+}
+H2 -> lan_10 {
+}
+AS_65003.L3 -> lan_10 {
+}
+lan_11 {
+  label: 172.16.1.0/24
+  shape: "rectangle"
+  style.border-radius: 8
+  style.font-size: 20
+}
+H3 -> lan_11 {
+}
+AS_65002.L2 -> lan_11 {
+}
+lan_12 {
+  label: 172.16.1.0/24
+  shape: "rectangle"
+  style.border-radius: 8
+  style.font-size: 20
+}
+H4 -> lan_12 {
+}
+AS_65004.L4 -> lan_12 {
+}
