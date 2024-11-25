@@ -1,0 +1,65 @@
+defaults.device: eos
+provider: clab
+
+plugin: [ fabric ]
+
+bgp.as: 65000
+bgp.activate.ipv4: [ ebgp ]                     # Activate IPv4 only on EBGP sessions
+defaults.bgp.warnings.missing_igp: False        # Skip the "you probably need an IGP" warnings
+
+groups:
+  _auto_create: True
+  leafs:
+    members: [ L1, L2, L3, L4 ]
+    module: [ bgp, vlan, vxlan, evpn ]
+  spines:
+    members: [ S1, S2 ]
+    module: [ bgp, evpn ]
+    bgp.rr: True
+  hosts:
+    members: [ H1, H2, H3, H4 ]
+    device: linux
+
+vlan.mode: bridge
+vlans:
+  orange:
+    links: [ H1-L1, H2-L3 ]
+  blue:
+    links: [ H3-L2, H4-L4 ]
+
+links:
+- L1:
+    bgp.local_as: 65101
+  S1:
+    bgp.local_as: 65200
+- L1:
+    bgp.local_as: 65101
+  S2:
+    bgp.local_as: 65200
+- L2:
+    bgp.local_as: 65102
+  S1:
+    bgp.local_as: 65200
+- L2:
+    bgp.local_as: 65102
+  S2:
+    bgp.local_as: 65200
+- L3:
+    bgp.local_as: 65103
+  S1:
+    bgp.local_as: 65200
+- L3:
+    bgp.local_as: 65103
+  S2:
+    bgp.local_as: 65200
+- L4:
+    bgp.local_as: 65104
+  S1:
+    bgp.local_as: 65200
+- L4:
+    bgp.local_as: 65104
+  S2:
+    bgp.local_as: 65200
+
+tools:
+  graphite:
