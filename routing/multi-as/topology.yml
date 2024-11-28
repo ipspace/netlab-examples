@@ -1,0 +1,37 @@
+defaults.device: frr
+provider: clab
+
+groups:
+  _auto_create: True
+  c_65000:
+    module: [ bgp ]
+    members: [ r01 ]
+    bgp.as: 65000
+  p_65100:
+    module: [ ospf, bgp ]
+    members: [ r02, r03, r04, r05 ]
+    bgp.as: 65100
+  p_65200:
+    module: [ isis, bgp ]
+    members: [ r06, r07, r08, r09 ]
+    bgp.as: 65200
+  c_65002:
+    module: [ bgp ]
+    members: [ r10 ]
+    bgp.as: 65002
+
+links:
+- group: p_65100
+  prefix.ipv4: True
+  members: [ 
+    r02-r03, r02-r03, r02-r04, r02-r04, 
+    r03-r05, r03-r05, r04-r05, r04-r05 ]
+- group: p_65200
+  prefix.ipv4: True
+  members: [
+    r06-r07, r06-r08, r07-r09, r08-r09 ]
+- group: interas
+  members: [
+    r01-r02, r01-r03,
+    r04-r06, r05-r07, 
+    r08-r10, r09-r10 ]
