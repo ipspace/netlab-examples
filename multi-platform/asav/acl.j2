@@ -1,0 +1,13 @@
+!
+interface GigabitEthernet0/0
+ security-level 100
+!
+access-list ALLOW_INTERNAL extended permit ip 172.16.0.0 255.255.0.0 any log 
+!
+logging monitor debugging
+!
+access-group ALLOW_INTERNAL in interface GigabitEthernet0/0
+!
+policy-map global_policy
+ class inspection_default
+  inspect icmp 

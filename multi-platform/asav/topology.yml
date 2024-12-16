@@ -1,4 +1,4 @@
-message: >
+message: |
   This topology contains a simple ASAv deployment scenario. ASAv is a WAN
   edge firewall. The wan edge router router is advertising the default BGP route
   that ASAv should propagate to the inside routers.
@@ -21,6 +21,7 @@ nodes:
   fw:
     device: asav
     bgp.as: 65000
+    config: [ acl ]
   int:
     bgp.as: 65001
   ext:
