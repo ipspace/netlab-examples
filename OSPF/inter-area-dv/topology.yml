@@ -1,0 +1,31 @@
+message:
+  This lab illustrates the distance vector behavior of inter-area OSPF.
+
+module: [ ospf ]
+defaults.device: frr
+
+nodes:
+  a1:
+    ospf.area: 0
+  a2:
+    ospf.area: 0
+  s1:
+    ospf.area: 1
+  s2:
+    ospf.area: 1
+
+links:
+- a1-a2
+- a1:
+  s1:
+  ospf.area: 1
+- a1:
+  s2:
+  ospf.area: 1
+- a2:
+  s1:
+  ospf.area: 1
+- a2:
+  s2:
+  ospf.area: 1
+- s1-s2
