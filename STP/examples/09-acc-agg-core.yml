@@ -1,0 +1,301 @@
+---
+# Classic Access-Agg architecture without mlag
+
+plugin: [ multilab ]
+defaults.multilab.id: 10
+defaults.devices.nxos.image: cisco/nxosv
+
+gateway.protocol: vrrp
+
+nodes:
+  sf-l1:
+    module: [vlan, stp]
+  sf-l2:
+    module: [vlan, stp]
+  sf-l3:
+    module: [vlan]
+  sf-l4:
+    module: [vlan]
+  sf-s1:
+    module: [vlan, stp, gateway, ospf]
+    vlans:
+      support:
+        ipv4: 172.16.1.1/24
+        stp.priority: 4096
+        vlan.mode: route
+        gateway:
+          vrrp.priority: 200
+        ospf:
+          area: 0.0.0.1
+      engg:
+        ipv4: 172.16.2.2/24
+        stp.priority: 8192
+        vlan.mode: route
+        gateway:
+          vrrp.priority: 100
+        ospf:
+          area: 0.0.0.1
+  sf-s2:
+    module: [vlan, stp, gateway, ospf]
+    vlans:
+      support:
+        ipv4: 172.16.1.2/24
+        stp.priority: 8192
+        vlan.mode: route
+        gateway:
+          vrrp.priority: 100
+        ospf:
+          area: 0.0.0.1
+      engg:
+        ipv4: 172.16.2.1/24
+        stp.priority: 4096
+        vlan.mode: route
+        gateway:
+          vrrp.priority: 200
+        ospf:
+          area: 0.0.0.1
+  sf-s3:
+    module: [vlan, gateway, ospf]
+    vlans:
+      sales:
+        ipv4: 172.16.3.1/24
+        stp.priority: 4096
+        vlan.mode: route
+        gateway:
+          vrrp.priority: 200          
+        ospf:
+          area: 0.0.0.2
+      mktg:
+        ipv4: 172.16.4.2/24
+        stp.priority: 8192
+        vlan.mode: route
+        gateway:
+          vrrp.priority: 100          
+        ospf:
+          area: 0.0.0.2
+
+  sf-s4:
+    module: [vlan, gateway, ospf]
+    vlans:
+      sales:
+        ipv4: 172.16.3.2/24
+        stp.priority: 8192
+        vlan.mode: route
+        gateway:
+          vrrp.priority: 100          
+        ospf:
+          area: 0.0.0.2
+      mktg:
+        ipv4: 172.16.4.1/24
+        stp.priority: 4096
+        vlan.mode: route
+        gateway:
+          vrrp.priority: 200          
+        ospf:
+          area: 0.0.0.2
+
+  sf-c1:
+    module: [ospf, bfd]
+  sf-c2:
+    module: [ospf, bfd]
+  sf-c3:
+    module: [ospf, bfd]
+  sf-c4:
+    module: [ospf, bfd]
+  sf-h1:
+  sf-h2:
+  sf-h3:
+  sf-h4:
+  sf-h5:
+  sf-h6:
+
+groups:
+  hosts:
+    members: [ sf-h1, sf-h2, sf-h3, sf-h4, sf-h5, sf-h6 ]
+    device: linux
+
+  c1-acc-switches:
+    members: [ sf-l1, sf-l2 ]
+    device: eos
+    config: [ templates/bpduguard/acc-custom ]
+
+  c1-agg-switches:
+    members: [ sf-s1, sf-s2 ]
+    device: eos
+    config: [ templates/bpduguard/agg-custom ]
+
+  c2-acc-switches:
+    members: [ sf-l3, sf-l4 ]
+    device: nxos
+    config: [ templates/bpduguard/acc-custom ]
+
+  c2-agg-switches:
+    members: [ sf-s3, sf-s4 ]
+    device: nxos
+    config: [ templates/bpduguard/agg-custom ]
+
+  core-rtrs-csr:
+    members: [ sf-c1, sf-c3 ]
+    module: [ospf]
+    device: csr
+
+  core-rtrs-cls:
+    members: [ sf-c2, sf-c4 ]
+    module: [ospf]
+    device: cumulus
+
+vlans:
+  support:
+    id: 100
+    mode: bridge
+    prefix: 172.16.1.0/24
+  engg:
+    id: 200
+    mode: bridge
+    prefix: 172.16.2.0/24
+  sales:
+    id: 201
+    mode: bridge
+    prefix: 172.16.3.0/24
+  mktg:
+    id: 300
+    mode: bridge
+    prefix: 172.16.4.0/24
+
+stp:
+  protocol: pvrst
+
+links:
+- sf-l1:
+  sf-s1:
+  vlan.trunk: [support, engg ]
+  prefix: False
+- sf-l1:
+  sf-s2:
+  vlan.trunk: [support, engg ]
+  prefix: False
+- sf-l2:
+  sf-s1:
+  vlan.trunk: [support, engg ]
+  prefix: False
+- sf-l2:
+  sf-s2:
+  vlan.trunk: [support, engg ]
+  prefix: False
+- sf-s1:
+  sf-s2:
+  vlan.trunk: [support, engg ]
+- sf-l3:
+  sf-s3:
+  vlan.trunk: [ sales, mktg]
+  prefix: False
+- sf-l3:
+  sf-s4:
+  vlan.trunk: [ sales, mktg]
+  prefix: False
+- sf-l4:
+  sf-s3:
+  vlan.trunk: [ sales, mktg]
+  prefix: False
+- sf-l4:
+  sf-s4:
+  vlan.trunk: [ sales, mktg]
+  prefix: False
+- sf-s3:
+  sf-s4:
+  vlan.trunk: [sales, mktg ]
+# agg-to-core links
+- sf-s1:
+  sf-c1:
+  ospf:
+    area: 0.0.0.1
+- sf-s1:
+  sf-c2:
+  ospf:
+    area: 0.0.0.1
+- sf-s2:
+  sf-c1:
+  ospf:
+    area: 0.0.0.1
+- sf-s2:
+  sf-c2:
+  ospf:
+    area: 0.0.0.1
+- sf-s3:
+  sf-c1:
+  ospf:
+    area: 0.0.0.2
+- sf-s3:
+  sf-c2:
+  ospf:
+    area: 0.0.0.2
+# Core links
+- sf-s4:
+  sf-c1:
+  ospf:
+    area: 0.0.0.2    
+- sf-s4:
+  sf-c2:
+  ospf:
+    area: 0.0.0.2
+- sf-c3:
+  sf-c1:
+  ospf:
+    area: 0.0.0.0
+    bfd: True
+- sf-c3:
+  sf-c2:
+  ospf:
+    area: 0.0.0.0
+    bfd: True    
+- sf-c4:
+  sf-c1:
+  ospf:
+    area: 0.0.0.0
+    bfd: True
+- sf-c4:
+  sf-c2:
+  ospf:
+    area: 0.0.0.0
+    bfd: True
+# Access links
+- sf-l1:
+  sf-h1:
+  vlan.access: support
+  prefix: False
+- sf-l1:
+  sf-h2:
+  vlan.access: engg
+  prefix: False
+- sf-l2:
+  sf-h3:
+  vlan.access: support
+  prefix: False
+- sf-l3:
+  sf-h4:
+  vlan.access: sales
+  prefix: False
+- sf-l3:
+  sf-h5:
+  vlan.access: mktg
+  prefix: False
+- sf-l4:
+  sf-h6:
+  vlan.access: mktg
+  prefix: False
+
+validate:
+  ping_from_h1:
+    nodes: [sf-h1]
+    plugin: ping('sf-h2 sf-h3 sf-h4 sf-h5 sf-h6')
+#    plugin: ping('sf-h2'])
+  ping_from_h3:
+    nodes: [sf-h3]
+    plugin: ping(['sf-h1', 'sf-h2','sf-h4', 'sf-h5', 'sf-h6'])
+  ping_from_h4:
+    nodes: [sf-h4]
+    plugin: ping(['sf-h1', 'sf-h2','sf-h3', 'sf-h5', 'sf-h6'])
+  ping_from_h6:
+    nodes: [sf-h6]
+    plugin: ping(['sf-h1', 'sf-h2','sf-h3', 'sf-h4', 'sf-h5'])
+
