@@ -1,0 +1,12 @@
+interface Ethernet1/3-4
+   spanning-tree bpduguard disable
+{% if inventory_hostname == "sf-l3" %}
+   spanning-tree vlan 201 root primary
+   spanning-tree vlan 300 root secondary
+{% elif inventory_hostname == "sf-l4" %}
+   spanning-tree vlan 201 root secondary
+   spanning-tree vlan 300 root primary
+{% endif %}
+   
+
+
