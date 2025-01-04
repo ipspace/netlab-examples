@@ -1,0 +1,9 @@
+{% if inventory_hostname == "sf-l1" %}
+interface Ethernet3-4
+   spanning-tree portfast edge
+{% elif inventory_hostname == "sf-l2" %}
+interface Ethernet3
+   spanning-tree bpduguard disable
+   spanning-tree portfast edge
+{% endif %}
+ip route vrf management 192.168.50.250/32 192.168.10.1
