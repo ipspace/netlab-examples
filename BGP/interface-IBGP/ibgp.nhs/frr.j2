@@ -1,0 +1,9 @@
+router bgp {{ bgp.as }}
+{% for af in ['ipv4','ipv6'] %}
+{%   for ngb in bgp.neighbors|default([]) if ngb.type == 'localas_ibgp' and af in ngb.activate %}
+{%     if loop.first %}
+ address-family {{ af }}
+{%     endif %}
+  neighbor {{ ngb[af] }} next-hop-self force
+{%   endfor %}
+{% endfor %}

@@ -1,0 +1,31 @@
+defaults.device: eos
+provider: clab
+
+plugin: [ fabric, ibgp.interface ]
+fabric.spines: 2
+fabric.leafs: 2
+
+fabric.leaf.name: leaf-{count}
+fabric.spine.name: spine-{count}
+
+module: [ bgp ]
+bgp.as: 65000
+
+groups:
+  spines:
+    bgp.rr: True
+    config: [ ibgp.nhs ]
+  leafs:
+    config: [ ibgp.nhs ]
+
+nodes:
+  host-1:
+    device: linux
+  host-2:
+    device: linux
+
+links:
+- host-1:
+  leaf-1:
+- host-2:
+  leaf-2:
