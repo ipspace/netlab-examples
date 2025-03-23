@@ -1,0 +1,15 @@
+- set_fact: bash_script=/tmp/{{ inventory_hostname }}-bash_script.sh
+- template:
+    src: "{{ config_template }}"
+    dest: "{{ bash_script }}"
+
+- local_action:
+    module: command
+    # yamllint disable-line rule:line-length
+    cmd: >-
+      scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+          -i {{ lookup('env', 'HOME') }}/.vagrant.d/insecure_private_key
+          {{ bash_script }} {{ ansible_user }}@{{ ansible_host }}:/mnt/flash/bash_script.sh
+
+- eos_command:
+    commands: bash bash /mnt/flash/bash_script.sh

@@ -1,0 +1,13 @@
+- template:
+    src: "{{ config_template }}"
+    dest: /tmp/bash_script.sh
+  vars:
+    ansible_user: root
+    ansible_connection: docker
+
+- name: "run /tmp/bash_script.sh to deploy {{ netsim_action }} config from {{ config_template }}"
+  command: bash /tmp/bash_script.sh
+  when: not ansible_check_mode
+  vars:
+    ansible_user: root
+    ansible_connection: docker

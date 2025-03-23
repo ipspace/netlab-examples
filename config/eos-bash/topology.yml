@@ -1,0 +1,11 @@
+defaults.device: eos
+
+nodes:
+  r1:
+    provider: clab
+    config: [ run-script ]
+  r2:
+    provider: libvirt
+    config: [ run-script ]
+
+links: [ r1 ]
