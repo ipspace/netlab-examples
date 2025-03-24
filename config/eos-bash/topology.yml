@@ -8,4 +8,4 @@ nodes:
     provider: libvirt
     config: [ run-script ]
 
-links: [ r1 ]
+links: [ r1-r2 ]
