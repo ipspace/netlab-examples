@@ -1,0 +1,71 @@
+---
+message: |
+  This topology illustrates a particularly nasty interoperability problem
+  between two EVPN layer-3 switches running a combination of VXLAN bridging
+  and symmetric IRB.
+
+  All hosts should be able to ping each other, but that won't work until
+  you ping the default gateway.
+
+provider: clab
+module: [ vlan, vxlan, vrf, ospf, bgp, evpn, gateway ]
+
+groups:
+  _auto_create: True
+  hosts:
+    members: [ h1, h2, h3, h4 ]
+    device: linux
+    provider: clab
+  switches:
+    members: [ s1, s2 ]
+
+bgp.as: 65000
+gateway.protocol: anycast
+
+vrfs:
+  customer:
+    evpn.transit_vni: 5042
+    ospf: False
+
+nodes:
+  s1:
+    device: srlinux
+  s2:
+    device: frr
+  probe:
+    device: frr
+
+vlans:
+  red:
+    links: [ s1-h1, s2-h2 ]
+    vrf: customer
+    gateway: True
+  blue:
+    links: [ s1-h3 ]
+    vrf: customer
+    gateway: True
+  green:
+    links: [ s2-h4 ]
+    vrf: customer
+    gateway: True
+
+links:
+- s1:
+  s2:
+  mtu: 1600
+- s1-probe
+- s2-probe
+
+validate:
+  ping_vlan:
+    description: Intra-VLAN ping-based reachability test
+    wait: 50
+    nodes: [ h1 ]
+    plugin: ping('h2')
+
+  ping_irb_h3:
+    description: IRB ping-based reachability test (VLAN Blue)
+    wait_msg: Waiting for OSFP and STP to wake up
+    wait: 20
+    nodes: [ h1, h2, h4 ]
+    plugin: ping('h3')
