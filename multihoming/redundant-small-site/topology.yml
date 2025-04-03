@@ -1,0 +1,49 @@
+---
+message:
+  This topology was used to create the printouts in the
+  Basic Small Site Multi-Homing ipSpace.net article
+
+  https://blog.ipspace.net/kb/Internet/MH_Redundancy/
+
+provider: clab                          # Remove if you don't use containerlab
+
+addressing.lan.ipv4: 172.18.0.0/16      # Move the LAN pool to prevent overlap with static prefixes
+
+groups:
+  _auto_create: True
+  customer:
+    members: [ gw_a, gw_b ]
+    device: iol                         # Replace with 'iosv' or 'csr' if needed
+#    provider: libvirt                  # Uncomment if you're running IOSv or CSR as a virtual machine
+  isp:
+    members: [ pe_a, pe_b ]
+    device: frr
+    module: [ ospf ]
+  clients:
+    members: [ h1, h2 ]                 # Inside hosts
+    device: linux
+  servers:
+    members: [ s1, s2 ]
+    device: linux
+  hosts:
+    members: [ h1, h2, s1, s2 ]
+    module: [ routing ]
+    routing.static:                     # No MGMT VRF on Linux devices ==> We can't use default routing
+    - ipv4: 172.16.0.0/12               # ... so we need a supernet route to cover all ISP address space
+      nexthop.gateway: True
+
+links:
+- interfaces: [ h1, h2, gw_a, gw_b ]
+  prefix.ipv4: 192.168.0.0/24           # Static prefixes used to match the old version of the article
+- interfaces: [ gw_a, pe_a ]
+  prefix.ipv4: 172.16.1.0/30
+- interfaces: [ gw_b, pe_b ]
+  prefix.ipv4: 172.17.3.0/30            # This prefix overlaps the docker0 prefix.
+                                        # Change it to 172.16.3.0/30 if the GW - PE-B ping doesn't work
+- pe_a-pe_b
+- pe_a:
+    ipv4: 2
+  s1:
+    ipv4: 1                             # Force the server IP address to match the diagrams
+  prefix.ipv4: 172.29.0.0/24
+- pe_b-s2
