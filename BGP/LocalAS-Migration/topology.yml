@@ -1,0 +1,26 @@
+defaults.device: iol                    # Change to your IOS device (ex: iosv, csr, cat8000v)
+provider: clab                          # Change to 'libvirt' if needed
+
+module: [ bgp ]
+bgp.advertise_loopback: False
+
+groups:
+  isp_b:
+    members: [ r1, r2 ]
+    module: [ bgp, ospf ]
+    bgp.as: 64510
+
+nodes:
+  ispa:
+    bgp.as: 64500
+    bgp.originate: 10.6.6.0/24
+  r1:
+  r2:
+  custa:
+    bgp.as: 65000
+    bgp.originate: 10.8.8.0/24
+  custb:
+    bgp.as: 65100
+    bgp.originate: 10.9.9.0/24
+
+links: [ ispa-r1, r1-r2, r1-custa, r2-custb ]
