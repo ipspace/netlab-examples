@@ -1,0 +1,34 @@
+module: [ ospf ]
+provider: clab
+defaults.device: frr
+addressing.p2p.ipv4: True
+
+nodes:
+  s1:
+    ospf.area: 1
+    loopback.ipv4: 192.168.0.1/32
+  s2:
+    ospf.area: 1
+    loopback.ipv4: 192.168.0.2/32
+  a1:
+    ospf.area: 0
+  a2:
+    ospf.area: 0
+  r2:
+    ospf.area: 2
+  r3:
+    ospf.area: 3
+
+links:
+- group: backbone
+  ospf.area: 0
+  members: [ a1-a2 ]
+- group: area_1
+  ospf.area: 1
+  members: [ s1-a1, s2-a2, s1-s2 ]
+- group: area_2
+  ospf.area: 2
+  members: [ r2-a1 ]
+- group: area_3
+  ospf.area: 3
+  members: [ r3-a2 ]
