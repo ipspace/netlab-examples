@@ -1,3 +1,8 @@
+message: |
+  The "OSPF Summary LSA Loop Prevention" lab is started and configured. Use
+  "netlab status" to display the devices in the lab and "netlab connect" to
+  connect to them.
+
 module: [ ospf ]
 provider: clab
 defaults.device: frr
