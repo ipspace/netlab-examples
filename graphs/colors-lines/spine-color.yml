@@ -1,0 +1,14 @@
+---
+message: |
+  In this topology, the spine nodes have darker background color.
+
+defaults.device: frr
+provider: clab
+
+groups:
+  spines:
+    members: [ s1, s2 ]
+    graph.fill: '#d26400'
+
+nodes: [ s1, s2, l1, l2 ]
+links: [ s1-l1, s1-l2, s2-l1, s2-l2 ]

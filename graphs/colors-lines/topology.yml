@@ -1,0 +1,10 @@
+---
+message: |
+  This is the baseline topology for the "pimp my leaf-and-spine graph"
+  blog post.
+
+defaults.device: frr
+provider: clab
+
+nodes: [ s1, s2, l1, l2 ]
+links: [ s1-l1, s1-l2, s2-l1, s2-l2 ]

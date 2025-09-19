@@ -1,0 +1,25 @@
+---
+message: |
+  In this topology, the primary links are more pronounced
+
+defaults.outputs.graph.attributes.node.textcolor: str
+defaults.outputs.graph.style_map.textcolor: fontcolor
+
+defaults.device: frr
+provider: clab
+
+groups:
+  spines:
+    members: [ s1, s2 ]
+    graph.fill: '#d26400'
+    graph.textcolor: white
+
+nodes: [ s1, s2, l1, l2 ]
+
+links:
+- group: primary
+  members: [ s1-l1, s1-l2 ]
+  graph.width: 2
+- group: backup
+  members: [ s2-l1, s2-l2 ]
+  graph.width: 1
