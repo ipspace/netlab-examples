@@ -1,8 +1,13 @@
 # Exercise: Fix BGP Route Leaks
 
-This directory contains *netlab* topology file that you can use to practice BGP security tools. For more details, see blog.ipspace.net.
+This directory contains the [*netlab* topology file](topology.yml) that you can use to practice BGP security tools. For more details, see blog.ipspace.net.
 
 ![Lab topology](leak-practice-lab.png)
+
+The directory contains two other topology files you can use to explore how netlab-generated graphs work:
+
+* [nice-graph.yml](nice-graph.yml) changes the order of node-to-link attachments to ensure the nodes higher up in the AS hierarchy are always listed first, resulting in a graph that better reflects the roles of autonomous systems
+* [graph-rank.yml](graph-rank.yml) uses new **graph.rank** node attribute (available in _netlab_ release 25.10 and later) to generate an almost-perfect graph (the above diagram).
 
 ## Changing Device Types
 
