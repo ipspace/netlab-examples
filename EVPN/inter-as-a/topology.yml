@@ -2,18 +2,25 @@ module: [ ospf, bgp, vxlan, vlan, vrf, evpn ]
 
 provider: clab
 defaults.device: frr
+defaults.outputs.graph.attributes.node.rank: int
 
 groups:
   _auto_create: True
   site_a:                     # Site A - core, leaf, wan edge
-    members: [ ca, la, wa ]
+    members: [ la, ca, wa ]
     bgp.as: 65001
   site_b:
-    members: [ cb, lb, wb ]   # Site B - core, leaf, wan edge
+    members: [ wb, cb, lb ]   # Site B - core, leaf, wan edge
     bgp.as: 65002
   hosts:
     members: [ ha, hb ]       # Hosts attached to leaf-A and leaf-B
     device: linux
+  spines:
+    members: [ ca, cb ]
+    graph.rank: 1
+  leafs:
+    members: [ la, wa, lb, wb ]
+    graph.rank: 2
 
 vrfs:
   tenant:
