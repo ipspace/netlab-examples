@@ -1,0 +1,15 @@
+defaults.device: eos
+provider: clab
+plugin: [ files ]
+
+module: [ bgp, ospf ]
+bgp.as: 65000
+
+nodes:
+  edge:
+    config.inline: |
+      router bgp 65000
+        neighbor 10.0.0.2 default-originate always
+  core:
+
+links: [ edge-core ]
