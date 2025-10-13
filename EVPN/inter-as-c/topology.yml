@@ -1,0 +1,57 @@
+---
+provider: clab
+defaults.device: eos
+
+module: [ bgp, ospf, evpn ]
+evpn.session: [ ibgp ]
+bgp.community.ebgp: [ standard, extended ]
+plugin: [ ebgp.multihop ]
+
+bgp.multihop:
+  sessions: [ ca-cb ]
+  activate.ipv4: evpn
+
+groups:
+  _auto_create: True
+  site_a:                     # Site A - core, leaf, wan edge
+    members: [ la, ca, wa ]
+    bgp.as: 65001
+  site_b:
+    members: [ wb, cb, lb ]   # Site B - core, leaf, wan edge
+    bgp.as: 65002
+  hosts:
+    members: [ ha, hb ]       # Hosts attached to leaf-A and leaf-B
+    device: linux
+  spines:
+    members: [ ca, cb ]
+    module: [ ospf, bgp, evpn ]
+    bgp.rr: True
+    graph.rank: 1
+  leafs:
+    members: [ la, lb ]
+    module: [ ospf, bgp, vxlan, vlan, vrf, evpn ]
+    graph.rank: 2
+  wan:
+    members: [ wa, wb ]
+    module: [ ospf, bgp ]
+    graph.rank: 2
+
+vrfs:
+  tenant:
+    evpn.transit_vni: True    # Symmetric IRB in Site-A and Site-B
+
+vlans:
+  tenant_a:                   # VLAN in Site A
+    vrf: tenant               # ... part of tenant VRF
+    links: [ la-ha ]          # ... with HA being part of the VLAN
+  tenant_b:                   # VLAN in site B
+    vrf: tenant               # ... part of tenant VRF
+    links: [ lb-hb ]          # ... with HB being part of the VLAN
+
+links:
+- group: site_a               # Site A (core-to-leaf, core-to-WAN edge)
+  members: [ ca-la, ca-wa ]
+- group: site_b               # Site B (core-to-leaf, core-to-WAN edge)
+  members: [ cb-lb, cb-wb ]
+- group: wan
+  members: [ wa-wb ]
