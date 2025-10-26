@@ -1,0 +1,32 @@
+message: |
+  This lab topology starts a simple lab with two OSPF routers and a syslog
+  server. We hope the syslog server will receive the "neighbor up" messages
+  and log them to a local file.
+
+provider: clab
+defaults.device: eos
+
+groups:
+  routers:
+    members: [ r1, r2 ]
+    module: [ ospf ]
+    config: [ syslog ]
+
+nodes:
+  r1:
+  r2:
+  syslog:
+    device: linux
+    provider: clab
+    image: rsyslog/rsyslog-collector
+
+links: [ r1-r2, r2-syslog ]
+
+plugin: [ files ]
+
+configlets:
+  syslog:
+    eos: |
+      logging host {{ hosts.syslog.ipv4[0] }} protocol tcp
+    ios:
+      logging host syslog transport tcp port 514
