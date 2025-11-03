@@ -5,9 +5,10 @@ message: |
   forwarding)
 
 defaults.device: iosv
+version: 25.09
 
 module: [ bgp ]
-plugin: [ bgp.session ]
+plugin: [ bgp.session, files ]
 
 groups:
   ce:
@@ -53,3 +54,14 @@ nodes:
     bgp.as: 65102
 
 links: [ pe_a-p, pe_b-p, pe_h-p ]
+
+configlets:
+  deflabel:
+    eos: |
+      router bgp 65000
+        vrf hub
+          route-target export vpn-ipv4 label allocation nexthop default-route
+    frr: |
+      router bgp 65000 vrf hub
+        address-family ipv4
+          label vpn export allocation-mode per-nexthop
