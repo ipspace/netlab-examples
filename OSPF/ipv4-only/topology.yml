@@ -1,0 +1,12 @@
+addressing:
+  loopback.ipv6: 2001:db8:cafe::/48    # Routers are always debating stuff
+  p2p.ipv6: True                       # Use LLA-only P2P links
+  lan.ipv6: 3fff:1::/48                # Hey, we got RFC 9637
+
+defaults.device: eos
+provider: clab
+module: [ ospf ]
+ospf.af: [ ipv4 ]
+
+nodes: [ r1, r2 ]
+links: [ r1, r1-r2, r2 ]

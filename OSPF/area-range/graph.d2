@@ -1,0 +1,54 @@
+s1 {
+  label: "s1 [frr]\n192.168.0.1/32"
+  shape: "oval"
+  style.font-size: 20
+}
+s2 {
+  label: "s2 [frr]\n192.168.0.2/32"
+  shape: "oval"
+  style.font-size: 20
+}
+a1 {
+  label: "a1 [frr]\n10.0.0.3/32"
+  shape: "oval"
+  style.font-size: 20
+}
+a2 {
+  label: "a2 [frr]\n10.0.0.4/32"
+  shape: "oval"
+  style.font-size: 20
+}
+r2 {
+  label: "r2 [frr]\n10.0.0.5/32"
+  shape: "oval"
+  style.font-size: 20
+}
+r3 {
+  label: "r3 [frr]\n10.0.0.6/32"
+  shape: "oval"
+  style.font-size: 20
+}
+r2 -- a1 {
+  style.stroke: blue;
+  style.stroke-width: 4;
+}
+a1 -- a2 {
+  style.stroke: black;
+  style.stroke-width: 4;
+}
+s1 -- a1 {
+  style.stroke: green;
+  style.stroke-width: 4;
+}
+s2 -- a2 {
+  style.stroke: green;
+  style.stroke-width: 4;
+}
+s1 -- s2 {
+  style.stroke: green;
+  style.stroke-width: 4;
+}
+r3 -- a2 {
+  style.stroke: red;
+  style.stroke-width: 4;
+}
