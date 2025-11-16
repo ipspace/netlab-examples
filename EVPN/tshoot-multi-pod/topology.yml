@@ -1,0 +1,65 @@
+---
+provider: clab
+defaults.device: eos
+plugin: [ files ]
+version: 25.10
+
+evpn.session: [ ibgp, ebgp ]
+module: [ bgp ]
+evpn.as: 65000
+
+vlans:
+  tenant:                     # Stretched VLAN
+    links: [ la-ha, lb-hb ]
+    mode: bridge
+
+groups:
+  _auto_create: True
+  spines:
+    members: [ ca, cb ]
+    module: [ ospf, bgp, evpn ]
+    bgp.rr: True
+    graph.rank: 1
+  leafs:
+    members: [ la, lb ]
+    module: [ ospf, bgp, vxlan, vlan, evpn ]
+  site_a:                     # Site A - core, leaf, wan edge
+    members: [ ca, la ]
+    bgp.as: 65001
+  site_b:
+    members: [ cb, lb ]   # Site B - core, leaf, wan edge
+    bgp.as: 65002
+  hosts:
+    members: [ ha, hb ]       # Hosts attached to leaf-A and leaf-B
+    device: linux
+
+nodes:
+  ca:
+  la:
+    vlans.tenant.evpn.import: "65001:1000"
+    vlans.tenant.evpn.export: "65001:1000"
+  cb:
+    device: frr
+    config: [ nhs ]
+  lb:
+    vlans.tenant.evpn.import: "65002:1000"
+    vlans.tenant.evpn.export: "65002:1000"
+
+links:
+- group: wan
+  members: [ ca-cb ]
+- group: site_a               # Site A (core-to-leaf, core-to-WAN edge)
+  members: [ ca-la ]
+- group: site_b               # Site B (core-to-leaf, core-to-WAN edge)
+  members: [ cb-lb ]
+
+configlets:
+  nhs:
+    frr: |
+      {% for ngb in bgp.neighbors if ngb.type == 'ebgp' and 'evpn' in ngb %}
+      {%   if loop.first %}
+      router bgp {{ bgp.as }}
+       address-family l2vpn evpn
+      {%   endif %}
+        neighbor {{ ngb.ipv4 }} next-hop-self
+      {% endfor %}
