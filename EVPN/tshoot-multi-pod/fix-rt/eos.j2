@@ -1,0 +1,6 @@
+router bgp {{ bgp.as }}
+{% for vdata in vlans.values() %}
+  vlan {{ vdata.id }}
+    no route-target all
+    route-target both 65000:{{ vdata.id }}
+{% endfor %}

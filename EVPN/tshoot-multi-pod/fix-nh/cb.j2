@@ -1,0 +1,7 @@
+{% for ngb in bgp.neighbors if ngb.type == 'ebgp' and 'evpn' in ngb %}
+{%   if loop.first %}
+router bgp {{ bgp.as }}
+  address-family l2vpn evpn
+{%   endif %}
+  no neighbor {{ ngb.ipv4 }} next-hop-self
+{% endfor %}
