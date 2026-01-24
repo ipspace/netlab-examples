@@ -1,0 +1,13 @@
+!
+! Activate EVPN AF for IPv6 iBGP neighbors on EOS
+!
+{% if bgp is defined and bgp.neighbors is defined %}
+router bgp {{ bgp.as }}
+{%   for n in bgp.neighbors if n.type == 'ibgp' and n.ipv6 is defined %}
+   address-family evpn
+      neighbor {{ n.ipv6 }} activate
+{%   endfor %}
+int Vxlan 1
+    vxlan encapsulation ipv6
+exit
+{% endif %}

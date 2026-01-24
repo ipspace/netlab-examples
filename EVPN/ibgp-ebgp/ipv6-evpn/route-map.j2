@@ -1,0 +1,43 @@
+! IPv6 prefix-list - match prefixes /64 or shorter (less specific)
+ipv6 prefix-list IPV6-LEAK-FILTER
+  seq 10 permit ::/0 le 64
+exit
+
+! IPv4 prefix-list - match prefixes /24 or shorter (less specific)
+ip prefix-list IPV4-LEAK-FILTER
+  seq 10 permit 0.0.0.0/0 le 24
+exit
+
+! Route-map to apply both filters
+route-map LEAK-BY-PREFIX-LENGTH permit 10
+   match ip address prefix-list IPV4-LEAK-FILTER
+!
+route-map LEAK-BY-PREFIX-LENGTH permit 20
+   match ipv6 address prefix-list IPV6-LEAK-FILTER
+!
+route-map LEAK-BY-PREFIX-LENGTH deny 30
+route-map ACCEPT_INTERNET_ROUTES permit 10
+! For some reason, netlab makes tenant vrf as not routed on exits
+ipv6 unicast-routing vrf tenant
+
+{% if bgp is defined and bgp.neighbors is defined %}
+router bgp {{ bgp.as }}
+  vrf tenant
+     address-family ipv4 
+       redistribute bgp leaked
+     address-family ipv6
+       redistribute connected
+       redistribute bgp leaked
+  vrf internet
+     address-family ipv4
+       redistribute connected  
+       redistribute bgp leaked
+     address-family ipv6
+       redistribute connected  
+       redistribute bgp leaked
+{% endif %}
+router general
+  vrf tenant
+     leak routes source-vrf internet subscribe-policy ACCEPT_INTERNET_ROUTES
+  vrf internet
+     leak routes source-vrf tenant subscribe-policy LEAK-BY-PREFIX-LENGTH
