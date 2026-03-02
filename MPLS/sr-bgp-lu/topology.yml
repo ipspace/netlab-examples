@@ -1,25 +1,26 @@
 module: [ isis, sr, mpls, bgp ]
 
 defaults.device: eos
+provider: clab
 
 bgp.as: 65000
 mpls.bgp:
   ipv4: True
   explicit_null: True
+mpls.ldp: False
 
 nodes:
   pe1:
   pe2:
   p:
     module: [ isis, sr ]
-    mpls.bgp: False
-    bgp.as: 65000
   rr:
     bgp.rr: True
   ce1:
+    module: [ bgp ]
     bgp.as: 65101
-    mpls.bgp: False
   ce2:
+    module: [ bgp, mpls ]
     bgp.as: 65102
 
 links:
