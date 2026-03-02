@@ -1,0 +1,49 @@
+graph {
+  bgcolor="transparent"
+  nodesep="0.5"
+  ranksep="1"
+  node [bgcolor="#ff9f01" fillcolor="#ff9f01" margin="0.3,0.1" shape="box" style="rounded,filled" fontname="Verdana" fontsize="11"]
+  edge [fontname="Verdana" labelfontsize="8" labeldistance="1.5"]
+  newrank=true;
+  { rank=same; "pe1"; "pe2"; "p1"; "p2"; }
+  { rank=same; "h1"; "h2"; "h3"; "h4"; }
+  "h1" [
+    fontcolor="#FFF"
+    label="h1 [linux]\n172.16.0.1/24"
+    fillcolor="#9D8F7E"
+  ]
+  "h2" [
+    fontcolor="#FFF"
+    label="h2 [linux]\n172.16.1.2/24"
+    fillcolor="#9D8F7E"
+  ]
+  "h3" [
+    fontcolor="#FFF"
+    label="h3 [linux]\n172.16.2.3/24"
+    fillcolor="#9B652F"
+  ]
+  "h4" [
+    fontcolor="#FFF"
+    label="h4 [linux]\n172.16.3.4/24"
+    fillcolor="#9B652F"
+  ]
+  "pe1" [
+    label="pe1 [eos]\n10.0.0.5/32"
+  ]
+  "pe2" [
+    label="pe2 [eos]\n10.0.0.6/32"
+  ]
+  "p1" [
+    label="p1 [frr]\n10.0.0.7/32"
+  ]
+  "p2" [
+    label="p2 [frr]\n10.0.0.8/32"
+  ]
+ "pe1" -- "p1"
+ "p1" -- "p2"
+ "p2" -- "pe2"
+ "pe1" -- "h1"
+ "pe2" -- "h2"
+ "pe1" -- "h3"
+ "pe2" -- "h4"
+}

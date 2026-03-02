@@ -1,0 +1,43 @@
+defaults.device: eos
+provider: clab
+
+mpls.ldp: False
+
+groups:
+  _auto_create: True
+  hosts:
+    members: [ h1, h2, h3, h4 ]
+    device: linux
+  pe:
+    members: [ pe1, pe2 ]
+    module: [ isis, bgp, mpls, vrf, sr ]
+    mpls.vpn: True
+    bgp.as: 65001
+  p:
+    members: [ p1, p2 ]
+    module: [ isis, sr ]
+    device: frr
+    provider: clab
+  gr_core:
+    members: [ p1, p2, pe1, pe2 ]
+    graph.rank: 1
+  gr_t1:
+    members: [ h1, h2 ]
+    graph.fill: "#9D8F7E"
+    graph.format.fontcolor: "#FFF"
+    graph.rank: 2
+  gr_t2:
+    members: [ h3, h4 ]
+    graph.fill: "#9B652F"
+    graph.format.fontcolor: "#FFF"
+    graph.rank: 2
+
+vrfs:
+  t1:
+    links: [ h1-pe1, h2-pe2 ]
+  t2:
+    links: [ h3-pe1, h4-pe2 ]
+
+links: [ pe1-p1, p1-p2, p2-pe2 ]
+
+defaults.outputs.graph.as_clusters: False
