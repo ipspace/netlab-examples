@@ -1,0 +1,40 @@
+---
+message: |
+  This topology builds a simple network using MPLS with LDP to implement a
+  BGP-free core.
+
+bgp.advertise_loopback: false
+isis.instance: Mordor
+provider: clab
+defaults:
+  device: eos
+  outputs.graph.as_clusters: False
+
+groups:
+  _auto_create: True
+  pe:
+    members: [ pe1, pe2 ]
+    module: [ isis, bgp, mpls ]
+    bgp.as: 65001
+  core:
+    members: [ p1, p2 ]
+    module: [ isis, mpls ]
+    graph.fill: "#d1bfab"
+  hosts:
+    members: [ h1, h2 ]
+    device: linux
+    provider: clab
+    graph.fill: "#e3e3e3"
+  all:
+    graph.rank: 1
+
+links:
+- h1:
+  pe1:
+  isis: false
+- pe1-p1
+- p1-p2
+- p2-pe2
+- pe2:
+  h2:
+  isis: false
