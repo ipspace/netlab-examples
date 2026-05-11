@@ -11,7 +11,7 @@ for dut in $@; do
   echo "Device: $dut"
   netlab create -d $dut >/dev/null 2>/dev/null
   echo -n "Starting the lab: "
-  /usr/bin/time -f "%E" bash -c 'netlab up --snapshot --no-config >/dev/null 2>/dev/null || echo "netlab up failed"'
+  /usr/bin/time -f "%E" bash -c '(netlab up --snapshot --no-config && netlab initial --ready) >/dev/null 2>/dev/null || echo "netlab up failed"'
   echo -n "Device configuration: "
   /usr/bin/time -f "%E" bash -c 'netlab initial >/dev/null 2>/dev/null || echo "netlab up failed"'
   netlab down --cleanup >/dev/null 2>/dev/null

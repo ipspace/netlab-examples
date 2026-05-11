@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>ivan pepelnjak</Author>
+  <LastAuthor>ivan pepelnjak</LastAuthor>
+  <Created>2026-05-11T15:03:47Z</Created>
+  <LastSaved>2026-05-11T15:32:38Z</LastSaved>
+  <Version>16.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>16940</WindowHeight>
+  <WindowWidth>28040</WindowWidth>
+  <WindowTopX>380</WindowTopX>
+  <WindowTopY>500</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="12"
+    ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s62">
+   <NumberFormat ss:Format="mm:ss.0"/>
+  </Style>
+  <Style ss:ID="s63">
+   <NumberFormat ss:Format="mm:ss.0;@"/>
+  </Style>
+  <Style ss:ID="s68">
+   <NumberFormat ss:Format="0"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="32" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="65" ss:DefaultRowHeight="16">
+   <Column ss:AutoFitWidth="0" ss:Width="151"/>
+   <Column ss:Index="3" ss:StyleID="s63" ss:AutoFitWidth="0"/>
+   <Column ss:StyleID="s68" ss:AutoFitWidth="0"/>
+   <Row>
+    <Cell><Data ss:Type="String">Device</Data></Cell>
+    <Cell><Data ss:Type="String">Image</Data></Cell>
+    <Cell><Data ss:Type="String">Boot time</Data></Cell>
+    <Cell><Data ss:Type="String">Index</Data></Cell>
+    <Cell><Data ss:Type="String">Min boot=</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=+MIN(R[1]C[-3]:R[7]C[-3])"><Data
+      ss:Type="DateTime">1899-12-31T00:00:54.480</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cisco IOSv</Data></Cell>
+    <Cell><Data ss:Type="String">15.9(3)</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:54.480</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R1C6*100"><Data ss:Type="Number">100</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Arista vEOS</Data></Cell>
+    <Cell><Data ss:Type="String">4.34.2F</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:01:17.320</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R1C6*100"><Data ss:Type="Number">141.92364170337737</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">vJunos-switch (QFX)</Data></Cell>
+    <Cell><Data ss:Type="String">23.4R2-S2.1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:01:39.280</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R1C6*100"><Data ss:Type="Number">182.23201174743025</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">vJunos-router (MX)</Data></Cell>
+    <Cell><Data ss:Type="String">23.4R2-S2.1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:01:39.680</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R1C6*100"><Data ss:Type="Number">182.96622613803234</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cisco Catalyst 8000v</Data></Cell>
+    <Cell><Data ss:Type="String">17.16.01a</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:01:49.590</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R1C6*100"><Data ss:Type="Number">201.15638766519822</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cisco 8000v</Data></Cell>
+    <Cell><Data ss:Type="String">24.4.1</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:02:48.070</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R1C6*100"><Data ss:Type="Number">308.49853157121873</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cisco Nexus OS</Data></Cell>
+    <Cell><Data ss:Type="String">9.3.10</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:03:21.700</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R1C6*100"><Data ss:Type="Number">370.22760646108662</Data></Cell>
+   </Row>
+   <Row ss:Index="13">
+    <Cell><Data ss:Type="String">Device</Data></Cell>
+    <Cell><Data ss:Type="String">Image</Data></Cell>
+    <Cell><Data ss:Type="String">Config time</Data></Cell>
+    <Cell><Data ss:Type="String">Index</Data></Cell>
+    <Cell><Data ss:Type="String">Min boot=</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=+MIN(R[1]C[-3]:R[7]C[-3])"><Data
+      ss:Type="DateTime">1899-12-31T00:00:04.910</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cisco IOSv</Data></Cell>
+    <Cell><Data ss:Type="String">15.9(3)</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:04.910</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R13C6*100"><Data ss:Type="Number">100</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cisco Catalyst 8000v</Data></Cell>
+    <Cell><Data ss:Type="String">17.16.01a</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:05.200</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R13C6*100"><Data ss:Type="Number">105.90631364562117</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cisco 8000v</Data></Cell>
+    <Cell><Data ss:Type="String">24.4.1</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:07.580</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R13C6*100"><Data ss:Type="Number">154.37881873727088</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">vJunos-switch (QFX)</Data></Cell>
+    <Cell><Data ss:Type="String">23.4R2-S2.1</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:07.770</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R13C6*100"><Data ss:Type="Number">158.24847250509166</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Arista vEOS</Data></Cell>
+    <Cell><Data ss:Type="String">4.34.2F</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:08.030</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R13C6*100"><Data ss:Type="Number">163.54378818737268</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">vJunos-router (MX)</Data></Cell>
+    <Cell><Data ss:Type="String">23.4R2-S2.1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:00:08.250</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R13C6*100"><Data ss:Type="Number">168.02443991853363</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cisco Nexus OS</Data></Cell>
+    <Cell><Data ss:Type="String">9.3.10</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:10.570</Data></Cell>
+    <Cell ss:Formula="=+RC[-1]/R13C6*100"><Data ss:Type="Number">215.27494908350303</Data></Cell>
+   </Row>
+   <Row ss:Index="25">
+    <Cell><Data ss:Type="String">Device</Data></Cell>
+    <Cell><Data ss:Type="String">Image</Data></Cell>
+    <Cell><Data ss:Type="String">Boot time</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">Config</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s63"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">FRRouting</Data></Cell>
+    <Cell><Data ss:Type="String">10.6.1</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:01.980</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:00:00.260</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Juniper cRPD</Data></Cell>
+    <Cell><Data ss:Type="String">24.4R1.9</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:07.360</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:00:01.660</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Nokia SR Linux</Data></Cell>
+    <Cell><Data ss:Type="String">26.3.2</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:00:11.600</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:00:01.450</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Arista cEOS</Data></Cell>
+    <Cell><Data ss:Type="String">4.35.2F</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:20.890</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:00:02.180</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Nokia SR-SIM (SR-OS)</Data></Cell>
+    <Cell><Data ss:Type="String">25.7.R1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:00:23.150</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:00:03.940</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cisco IOL</Data></Cell>
+    <Cell><Data ss:Type="String">17.16.01a</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:29.290</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:00:07.100</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cisco IOS XRd</Data></Cell>
+    <Cell><Data ss:Type="String">25.2.1</Data></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T00:00:34.580</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="DateTime">1899-12-31T00:00:06.050</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>25</ActiveRow>
+     <RangeSelection>R26C1:R32C4</RangeSelection>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>
