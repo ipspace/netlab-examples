@@ -1,0 +1,53 @@
+---
+message: |
+  This topology creates an EVPN fabric with asymmetric IRB without the anycast
+  gateway. Each host is using the closest PE-device as the first-hop gateway.
+
+module: [ vlan, vxlan, vrf, ospf, bgp, evpn ]
+
+provider: clab
+defaults.device: eos
+
+bgp.as: 65000
+
+vrfs:
+  tenant:
+
+vlans:
+  red:
+    vrf: tenant
+    links:
+    - interfaces: [ l2, hr1 ]
+  blue:
+    vrf: tenant
+    links:
+    - interfaces: [ l1, hb1 ]
+
+groups:
+  hosts:
+    members: [ hb1, hr1 ]
+    device: linux
+    module: [ routing ]
+  pe:
+    members: [ l1, l2 ]
+    vlans:
+      red:
+      blue:
+
+nodes:
+  l1:
+  l2:
+  spine:
+    module: [ ospf ]
+  hb1:
+    routing.static:
+    - pool: lan
+      nexthop.node: l1
+  hr1:
+    routing.static:
+    - pool: lan
+      nexthop.node: l2
+
+links:
+- group: core
+  members: [ spine-l1, spine-l2 ]
