@@ -1,0 +1,44 @@
+message: |
+  This topology creates an EVPN fabric with centralized routing
+  on the spine switch.
+
+defaults.device: eos
+provider: clab
+
+module: [ ospf, bgp, vlan, vxlan, evpn ]
+bgp.as: 65000
+
+vlans:
+  red:
+    links: [ l1-hr1 ]
+    mode: bridge
+    vrf: tenant
+  blue:
+    links: [ l2-hb1 ]
+    mode: bridge
+    vrf: tenant
+
+vrfs:
+  tenant:
+
+groups:
+  hosts:
+    members: [ hb1, hr1 ]
+    device: linux
+
+nodes:
+  spine:
+    module: [ ospf, bgp, vlan, vrf, vxlan, evpn ]
+    vrfs:
+      tenant:
+    vlans:
+      red.mode: irb
+      blue.mode: irb
+  l1:
+  l2:
+  hb1:
+  hr1:
+
+links:
+- group: core
+  members: [ spine-l1, spine-l2 ]
