@@ -1,0 +1,83 @@
+---
+message: |
+  This topology creates an EVPN fabric with asymmetric IRB and an
+  anycast gateway. The anycast gateways are configured with the
+  custom configuration templates to have multiple configuration
+  options (anycast + unicast or anycast-only)
+
+plugin: [ files ]
+module: [ vlan, vxlan, vrf, ospf, bgp, evpn ]
+
+provider: clab
+defaults.device: eos
+
+bgp.as: 65000
+
+vrfs:
+  tenant:
+    ospf: False
+
+vlans:
+  blue:
+    vrf: tenant
+    links:
+    - interfaces: [ l1, hb1 ]
+      prefix.ipv4: 172.16.0.0/24
+  red:
+    vrf: tenant
+    links:
+    - interfaces: [ l2, hr1 ]
+      prefix.ipv4: 172.16.1.0/24
+
+groups:
+  hosts:
+    members: [ hb1, hr1 ]
+    device: linux
+    module: [ routing ]
+  pe:
+    members: [ l1, l2 ]
+    vlans:
+      red:
+      blue:
+
+nodes:
+  l1:
+    id: 2
+  l2:
+    id: 3
+  spine:
+    module: [ ospf ]
+    id: 4
+  hb1:
+    id: 10
+    routing.static:
+    - ipv4: 172.16.0.0/16
+      nexthop.ipv4: 172.16.0.1
+  hr1:
+    id: 11
+    routing.static:
+    - ipv4: 172.16.0.0/16
+      nexthop.ipv4: 172.16.1.1
+
+links:
+- group: core
+  members: [ spine-l1, spine-l2 ]
+
+configlets:
+  add_anycast:
+    eos: |
+      ip virtual-router mac-address cafe.0000.0001
+      !
+      {% for intf in interfaces if intf.type == 'svi' %}
+      interface {{ intf.ifname }}
+        ip virtual-router address {{ intf.ipv4|ipaddr(1) }}
+      {% endfor %}
+  anycast_only:
+    eos: |
+      ip virtual-router mac-address cafe.0000.0001
+      !
+      {% for intf in interfaces if intf.type == 'svi' %}
+      interface {{ intf.ifname }}
+        no ip address
+        ip address virtual {{ intf.ipv4|ipaddr(1) }}
+      {% endfor %}
