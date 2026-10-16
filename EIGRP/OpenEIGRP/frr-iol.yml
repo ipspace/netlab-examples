@@ -1,0 +1,14 @@
+provider: clab
+
+defaults:
+  devices.frr.clab.image: ghcr.io/diivious/openeigrp-frr:0.2.0
+
+nodes:
+  r1:
+    frr.daemons: [ eigrpd ]
+    device: frr
+  r2:
+    device: iol
+    module: [ eigrp ]
+
+links: [ r1-r2 ]
