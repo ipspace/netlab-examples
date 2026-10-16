@@ -2,7 +2,9 @@
 
 This repository contains dozens of _netlab_ examples, many of them [explained in ipSpace.net blog posts](https://blog.ipspace.net/tag/netlab.html). You can [install *netlab*](https://netlab.tools/install/) and run them locally (even on [Apple silicon](https://blog.ipspace.net/2024/03/netlab-bgp-apple-silicon.html)),  or [explore them in a (free) GitHub codespace](https://github.com/codespaces/new/ipspace/netlab-examples) (see [BGP labs](https://bgplabs.net/4-codespaces/) for more details).
 
-The networking technologies examples include:
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/ipspace/netlab-examples)
+
+The networking technology examples include:
 
 * An interesting [Ansible](Ansible) example
 * Over a dozen [BGP](BGP) examples
