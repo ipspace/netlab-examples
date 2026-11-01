@@ -1,7 +1,7 @@
 provider: clab
 
 defaults:
-  devices.frr.clab.image: ghcr.io/diivious/openeigrp-frr:0.2.0
+  devices.frr.clab.image: ghcr.io/diivious/openeigrp-frr:0.5.0
 
 nodes:
   r1:
